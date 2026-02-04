@@ -24,6 +24,7 @@ routes.get('/api/companies', companyController.list);
 routes.post('/api/companies', companyController.create);
 
 // Application routes
+routes.get('/api/applications', applicationController.list);
 routes.post('/api/applications', applicationController.create);
 
 export default routes;
