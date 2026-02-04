@@ -27,14 +27,14 @@ export type AggregateUser_company_access = {
 export type User_company_accessMinAggregateOutputType = {
   user_id: string | null
   company_id: string | null
-  role: $Enums.user_role_type | null
+  role: string | null
   created_at: Date | null
 }
 
 export type User_company_accessMaxAggregateOutputType = {
   user_id: string | null
   company_id: string | null
-  role: $Enums.user_role_type | null
+  role: string | null
   created_at: Date | null
 }
 
@@ -144,7 +144,7 @@ export type user_company_accessGroupByArgs<ExtArgs extends runtime.Types.Extensi
 export type User_company_accessGroupByOutputType = {
   user_id: string
   company_id: string
-  role: $Enums.user_role_type
+  role: string
   created_at: Date | null
   _count: User_company_accessCountAggregateOutputType | null
   _min: User_company_accessMinAggregateOutputType | null
@@ -172,7 +172,7 @@ export type user_company_accessWhereInput = {
   NOT?: Prisma.user_company_accessWhereInput | Prisma.user_company_accessWhereInput[]
   user_id?: Prisma.UuidFilter<"user_company_access"> | string
   company_id?: Prisma.UuidFilter<"user_company_access"> | string
-  role?: Prisma.Enumuser_role_typeFilter<"user_company_access"> | $Enums.user_role_type
+  role?: Prisma.StringFilter<"user_company_access"> | string
   created_at?: Prisma.DateTimeNullableFilter<"user_company_access"> | Date | string | null
   companies?: Prisma.XOR<Prisma.CompaniesScalarRelationFilter, Prisma.companiesWhereInput>
   users?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>
@@ -194,7 +194,7 @@ export type user_company_accessWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.user_company_accessWhereInput | Prisma.user_company_accessWhereInput[]
   user_id?: Prisma.UuidFilter<"user_company_access"> | string
   company_id?: Prisma.UuidFilter<"user_company_access"> | string
-  role?: Prisma.Enumuser_role_typeFilter<"user_company_access"> | $Enums.user_role_type
+  role?: Prisma.StringFilter<"user_company_access"> | string
   created_at?: Prisma.DateTimeNullableFilter<"user_company_access"> | Date | string | null
   companies?: Prisma.XOR<Prisma.CompaniesScalarRelationFilter, Prisma.companiesWhereInput>
   users?: Prisma.XOR<Prisma.UsersScalarRelationFilter, Prisma.usersWhereInput>
@@ -216,12 +216,12 @@ export type user_company_accessScalarWhereWithAggregatesInput = {
   NOT?: Prisma.user_company_accessScalarWhereWithAggregatesInput | Prisma.user_company_accessScalarWhereWithAggregatesInput[]
   user_id?: Prisma.UuidWithAggregatesFilter<"user_company_access"> | string
   company_id?: Prisma.UuidWithAggregatesFilter<"user_company_access"> | string
-  role?: Prisma.Enumuser_role_typeWithAggregatesFilter<"user_company_access"> | $Enums.user_role_type
+  role?: Prisma.StringWithAggregatesFilter<"user_company_access"> | string
   created_at?: Prisma.DateTimeNullableWithAggregatesFilter<"user_company_access"> | Date | string | null
 }
 
 export type user_company_accessCreateInput = {
-  role?: $Enums.user_role_type
+  role?: string
   created_at?: Date | string | null
   companies: Prisma.companiesCreateNestedOneWithoutUser_company_accessInput
   users: Prisma.usersCreateNestedOneWithoutUser_company_accessInput
@@ -230,12 +230,12 @@ export type user_company_accessCreateInput = {
 export type user_company_accessUncheckedCreateInput = {
   user_id: string
   company_id: string
-  role?: $Enums.user_role_type
+  role?: string
   created_at?: Date | string | null
 }
 
 export type user_company_accessUpdateInput = {
-  role?: Prisma.Enumuser_role_typeFieldUpdateOperationsInput | $Enums.user_role_type
+  role?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   companies?: Prisma.companiesUpdateOneRequiredWithoutUser_company_accessNestedInput
   users?: Prisma.usersUpdateOneRequiredWithoutUser_company_accessNestedInput
@@ -244,26 +244,26 @@ export type user_company_accessUpdateInput = {
 export type user_company_accessUncheckedUpdateInput = {
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
   company_id?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.Enumuser_role_typeFieldUpdateOperationsInput | $Enums.user_role_type
+  role?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type user_company_accessCreateManyInput = {
   user_id: string
   company_id: string
-  role?: $Enums.user_role_type
+  role?: string
   created_at?: Date | string | null
 }
 
 export type user_company_accessUpdateManyMutationInput = {
-  role?: Prisma.Enumuser_role_typeFieldUpdateOperationsInput | $Enums.user_role_type
+  role?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type user_company_accessUncheckedUpdateManyInput = {
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
   company_id?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.Enumuser_role_typeFieldUpdateOperationsInput | $Enums.user_role_type
+  role?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
@@ -345,10 +345,6 @@ export type user_company_accessUncheckedUpdateManyWithoutCompaniesNestedInput = 
   deleteMany?: Prisma.user_company_accessScalarWhereInput | Prisma.user_company_accessScalarWhereInput[]
 }
 
-export type Enumuser_role_typeFieldUpdateOperationsInput = {
-  set?: $Enums.user_role_type
-}
-
 export type user_company_accessCreateNestedManyWithoutUsersInput = {
   create?: Prisma.XOR<Prisma.user_company_accessCreateWithoutUsersInput, Prisma.user_company_accessUncheckedCreateWithoutUsersInput> | Prisma.user_company_accessCreateWithoutUsersInput[] | Prisma.user_company_accessUncheckedCreateWithoutUsersInput[]
   connectOrCreate?: Prisma.user_company_accessCreateOrConnectWithoutUsersInput | Prisma.user_company_accessCreateOrConnectWithoutUsersInput[]
@@ -392,14 +388,14 @@ export type user_company_accessUncheckedUpdateManyWithoutUsersNestedInput = {
 }
 
 export type user_company_accessCreateWithoutCompaniesInput = {
-  role?: $Enums.user_role_type
+  role?: string
   created_at?: Date | string | null
   users: Prisma.usersCreateNestedOneWithoutUser_company_accessInput
 }
 
 export type user_company_accessUncheckedCreateWithoutCompaniesInput = {
   user_id: string
-  role?: $Enums.user_role_type
+  role?: string
   created_at?: Date | string | null
 }
 
@@ -435,19 +431,19 @@ export type user_company_accessScalarWhereInput = {
   NOT?: Prisma.user_company_accessScalarWhereInput | Prisma.user_company_accessScalarWhereInput[]
   user_id?: Prisma.UuidFilter<"user_company_access"> | string
   company_id?: Prisma.UuidFilter<"user_company_access"> | string
-  role?: Prisma.Enumuser_role_typeFilter<"user_company_access"> | $Enums.user_role_type
+  role?: Prisma.StringFilter<"user_company_access"> | string
   created_at?: Prisma.DateTimeNullableFilter<"user_company_access"> | Date | string | null
 }
 
 export type user_company_accessCreateWithoutUsersInput = {
-  role?: $Enums.user_role_type
+  role?: string
   created_at?: Date | string | null
   companies: Prisma.companiesCreateNestedOneWithoutUser_company_accessInput
 }
 
 export type user_company_accessUncheckedCreateWithoutUsersInput = {
   company_id: string
-  role?: $Enums.user_role_type
+  role?: string
   created_at?: Date | string | null
 }
 
@@ -479,49 +475,49 @@ export type user_company_accessUpdateManyWithWhereWithoutUsersInput = {
 
 export type user_company_accessCreateManyCompaniesInput = {
   user_id: string
-  role?: $Enums.user_role_type
+  role?: string
   created_at?: Date | string | null
 }
 
 export type user_company_accessUpdateWithoutCompaniesInput = {
-  role?: Prisma.Enumuser_role_typeFieldUpdateOperationsInput | $Enums.user_role_type
+  role?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   users?: Prisma.usersUpdateOneRequiredWithoutUser_company_accessNestedInput
 }
 
 export type user_company_accessUncheckedUpdateWithoutCompaniesInput = {
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.Enumuser_role_typeFieldUpdateOperationsInput | $Enums.user_role_type
+  role?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type user_company_accessUncheckedUpdateManyWithoutCompaniesInput = {
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.Enumuser_role_typeFieldUpdateOperationsInput | $Enums.user_role_type
+  role?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type user_company_accessCreateManyUsersInput = {
   company_id: string
-  role?: $Enums.user_role_type
+  role?: string
   created_at?: Date | string | null
 }
 
 export type user_company_accessUpdateWithoutUsersInput = {
-  role?: Prisma.Enumuser_role_typeFieldUpdateOperationsInput | $Enums.user_role_type
+  role?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   companies?: Prisma.companiesUpdateOneRequiredWithoutUser_company_accessNestedInput
 }
 
 export type user_company_accessUncheckedUpdateWithoutUsersInput = {
   company_id?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.Enumuser_role_typeFieldUpdateOperationsInput | $Enums.user_role_type
+  role?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type user_company_accessUncheckedUpdateManyWithoutUsersInput = {
   company_id?: Prisma.StringFieldUpdateOperationsInput | string
-  role?: Prisma.Enumuser_role_typeFieldUpdateOperationsInput | $Enums.user_role_type
+  role?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
@@ -584,7 +580,7 @@ export type $user_company_accessPayload<ExtArgs extends runtime.Types.Extensions
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     user_id: string
     company_id: string
-    role: $Enums.user_role_type
+    role: string
     created_at: Date | null
   }, ExtArgs["result"]["user_company_access"]>
   composites: {}
@@ -1013,7 +1009,7 @@ export interface Prisma__user_company_accessClient<T, Null = never, ExtArgs exte
 export interface user_company_accessFieldRefs {
   readonly user_id: Prisma.FieldRef<"user_company_access", 'String'>
   readonly company_id: Prisma.FieldRef<"user_company_access", 'String'>
-  readonly role: Prisma.FieldRef<"user_company_access", 'user_role_type'>
+  readonly role: Prisma.FieldRef<"user_company_access", 'String'>
   readonly created_at: Prisma.FieldRef<"user_company_access", 'DateTime'>
 }
     

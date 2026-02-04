@@ -326,23 +326,6 @@ export type Enumuser_role_typeNullableWithAggregatesFilter<$PrismaModel = never>
   _max?: Prisma.NestedEnumuser_role_typeNullableFilter<$PrismaModel>
 }
 
-export type Enumuser_role_typeFilter<$PrismaModel = never> = {
-  equals?: $Enums.user_role_type | Prisma.Enumuser_role_typeFieldRefInput<$PrismaModel>
-  in?: $Enums.user_role_type[] | Prisma.ListEnumuser_role_typeFieldRefInput<$PrismaModel>
-  notIn?: $Enums.user_role_type[] | Prisma.ListEnumuser_role_typeFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumuser_role_typeFilter<$PrismaModel> | $Enums.user_role_type
-}
-
-export type Enumuser_role_typeWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.user_role_type | Prisma.Enumuser_role_typeFieldRefInput<$PrismaModel>
-  in?: $Enums.user_role_type[] | Prisma.ListEnumuser_role_typeFieldRefInput<$PrismaModel>
-  notIn?: $Enums.user_role_type[] | Prisma.ListEnumuser_role_typeFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumuser_role_typeWithAggregatesFilter<$PrismaModel> | $Enums.user_role_type
-  _count?: Prisma.NestedIntFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumuser_role_typeFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumuser_role_typeFilter<$PrismaModel>
-}
-
 export type NestedUuidFilter<$PrismaModel = never> = {
   equals?: string | Prisma.StringFieldRefInput<$PrismaModel>
   in?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
@@ -662,23 +645,6 @@ export type NestedEnumuser_role_typeNullableWithAggregatesFilter<$PrismaModel = 
   _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
   _min?: Prisma.NestedEnumuser_role_typeNullableFilter<$PrismaModel>
   _max?: Prisma.NestedEnumuser_role_typeNullableFilter<$PrismaModel>
-}
-
-export type NestedEnumuser_role_typeFilter<$PrismaModel = never> = {
-  equals?: $Enums.user_role_type | Prisma.Enumuser_role_typeFieldRefInput<$PrismaModel>
-  in?: $Enums.user_role_type[] | Prisma.ListEnumuser_role_typeFieldRefInput<$PrismaModel>
-  notIn?: $Enums.user_role_type[] | Prisma.ListEnumuser_role_typeFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumuser_role_typeFilter<$PrismaModel> | $Enums.user_role_type
-}
-
-export type NestedEnumuser_role_typeWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.user_role_type | Prisma.Enumuser_role_typeFieldRefInput<$PrismaModel>
-  in?: $Enums.user_role_type[] | Prisma.ListEnumuser_role_typeFieldRefInput<$PrismaModel>
-  notIn?: $Enums.user_role_type[] | Prisma.ListEnumuser_role_typeFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumuser_role_typeWithAggregatesFilter<$PrismaModel> | $Enums.user_role_type
-  _count?: Prisma.NestedIntFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumuser_role_typeFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumuser_role_typeFilter<$PrismaModel>
 }
 
 
