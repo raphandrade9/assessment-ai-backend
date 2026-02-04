@@ -53,6 +53,11 @@ export type assessment_templates = Prisma.assessment_templatesModel
  */
 export type assessments = Prisma.assessmentsModel
 /**
+ * Model assessment_diagnosis
+ * 
+ */
+export type assessment_diagnosis = Prisma.assessment_diagnosisModel
+/**
  * Model business_areas
  * 
  */

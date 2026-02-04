@@ -92,7 +92,7 @@ export class AssessmentController {
         }
     }
 
-    // Novo método para buscar assessment por ID (incluindo respostas)
+    // Novo método para buscar assessment por ID (incluindo respostas e diagnóstico)
     async getById(req: Request, res: Response) {
         try {
             const { id } = req.params;
@@ -102,6 +102,7 @@ export class AssessmentController {
                 where: { id: id as string },
                 include: {
                     assessment_answers: true,
+                    assessment_diagnosis: true,
                     applications: {
                         include: {
                             companies: {
@@ -154,6 +155,15 @@ export class AssessmentController {
                 return res.status(400).json({ error: 'Invalid question_id or selected_option_id format' });
             }
 
+            // Snapshot de pontuação: Buscamos o valor da opção antes de salvar
+            const option = await prisma.question_options.findUnique({
+                where: { id: optId }
+            });
+
+            if (!option) {
+                return res.status(404).json({ error: 'Option not found' });
+            }
+
             // Upsert resposta utilizando a chave composta gerada pelo Prisma
             await prisma.assessment_answers.upsert({
                 where: {
@@ -164,11 +174,13 @@ export class AssessmentController {
                 },
                 update: {
                     selected_option_id: optId,
+                    score_awarded: option.score_value || 0
                 },
                 create: {
                     assessment_id: assessmentId,
                     question_id: qId,
                     selected_option_id: optId,
+                    score_awarded: option.score_value || 0
                 },
             });
 
@@ -199,6 +211,10 @@ export class AssessmentController {
                         const optId = Number(ans.selected_option_id);
 
                         if (!isNaN(qId) && !isNaN(optId)) {
+                            const option = await tx.question_options.findUnique({
+                                where: { id: optId }
+                            });
+
                             await tx.assessment_answers.upsert({
                                 where: {
                                     assessment_id_question_id: {
@@ -208,11 +224,13 @@ export class AssessmentController {
                                 },
                                 update: {
                                     selected_option_id: optId,
+                                    score_awarded: option?.score_value || 0
                                 },
                                 create: {
                                     assessment_id: assessmentId,
                                     question_id: qId,
                                     selected_option_id: optId,
+                                    score_awarded: option?.score_value || 0
                                 },
                             });
                         }
@@ -220,25 +238,90 @@ export class AssessmentController {
                 }
 
                 // b) Calcular Score total buscando dados reais do banco
-                const allAnswers = await tx.assessment_answers.findMany({
+                const allAnswersWithSections = await tx.assessment_answers.findMany({
                     where: { assessment_id: assessmentId },
                     include: {
-                        question_options: {
-                            select: { score_value: true }
-                        },
+                        questions: {
+                            select: {
+                                section_id: true,
+                                assessment_sections: {
+                                    select: { title: true }
+                                }
+                            }
+                        }
                     },
                 });
 
-                let totalScore = 0;
-                for (const ans of allAnswers) {
-                    totalScore += (ans as any).question_options?.score_value || 0;
+                if (allAnswersWithSections.length === 0) {
+                    throw new Error('No answers found to finalize assessment');
                 }
+
+                // 1. Cálculo do Score Global (Média Aritmética)
+                const totalSum = allAnswersWithSections.reduce((acc, curr) => acc + (curr.score_awarded || 0), 0);
+                const globalScore = Number((totalSum / allAnswersWithSections.length).toFixed(2));
+
+                // 2. Cálculo por Eixo (Média por Section)
+                const axisMap: Record<number, { title: string, sum: number, count: number }> = {};
+                allAnswersWithSections.forEach(ans => {
+                    const sectionId = ans.questions?.section_id;
+                    if (sectionId) {
+                        if (!axisMap[sectionId]) {
+                            axisMap[sectionId] = {
+                                title: (ans.questions as any).assessment_sections?.title || `Eixo ${sectionId}`,
+                                sum: 0,
+                                count: 0
+                            };
+                        }
+                        axisMap[sectionId].sum += (ans.score_awarded || 0);
+                        axisMap[sectionId].count += 1;
+                    }
+                });
+
+                const axisAnalysis = Object.keys(axisMap).map(key => {
+                    const id = Number(key);
+                    const data = axisMap[id];
+                    return {
+                        section_id: id,
+                        title: data.title,
+                        score: Number((data.sum / data.count).toFixed(2))
+                    };
+                });
+
+                // 3. Determinação de Level e Risco
+                let maturity_level = "Iniciante";
+                let risk_label = "Crítico";
+
+                if (globalScore >= 70) {
+                    maturity_level = "Avançado";
+                    risk_label = "Baixo";
+                } else if (globalScore >= 40) {
+                    maturity_level = "Intermediário";
+                    risk_label = "Moderado";
+                }
+
+                // 4. Salvar Diagnóstico
+                const diagnosis = await tx.assessment_diagnosis.upsert({
+                    where: { assessment_id: assessmentId },
+                    update: {
+                        maturity_level,
+                        risk_label,
+                        axis_analysis: axisAnalysis as any,
+                        action_plan: {} // MVP Placeholder
+                    },
+                    create: {
+                        assessment_id: assessmentId,
+                        maturity_level,
+                        risk_label,
+                        axis_analysis: axisAnalysis as any,
+                        action_plan: {} // MVP Placeholder
+                    }
+                });
 
                 // c) Atualizar assessment para COMPLETED e salvar score calculado
                 const updatedAssessment = await tx.assessments.update({
                     where: { id: assessmentId },
                     data: {
-                        calculated_score: totalScore,
+                        calculated_score: globalScore,
                         status: assessment_status_enum.COMPLETED,
                         finished_at: new Date(),
                     },
@@ -246,8 +329,10 @@ export class AssessmentController {
 
                 return {
                     id: updatedAssessment.id,
-                    calculated_score: totalScore,
-                    status: updatedAssessment.status
+                    score: globalScore,
+                    maturity_level,
+                    risk_label,
+                    axis_analysis: axisAnalysis
                 };
             });
 

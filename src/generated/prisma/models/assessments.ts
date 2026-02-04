@@ -247,6 +247,7 @@ export type assessmentsWhereInput = {
   assessment_answers?: Prisma.Assessment_answersListRelationFilter
   assessment_attachments?: Prisma.Assessment_attachmentsListRelationFilter
   assessment_results?: Prisma.Assessment_resultsListRelationFilter
+  assessment_diagnosis?: Prisma.XOR<Prisma.Assessment_diagnosisNullableScalarRelationFilter, Prisma.assessment_diagnosisWhereInput> | null
   applications?: Prisma.XOR<Prisma.ApplicationsNullableScalarRelationFilter, Prisma.applicationsWhereInput> | null
   people?: Prisma.XOR<Prisma.PeopleNullableScalarRelationFilter, Prisma.peopleWhereInput> | null
   assessment_templates?: Prisma.XOR<Prisma.Assessment_templatesNullableScalarRelationFilter, Prisma.assessment_templatesWhereInput> | null
@@ -264,6 +265,7 @@ export type assessmentsOrderByWithRelationInput = {
   assessment_answers?: Prisma.assessment_answersOrderByRelationAggregateInput
   assessment_attachments?: Prisma.assessment_attachmentsOrderByRelationAggregateInput
   assessment_results?: Prisma.assessment_resultsOrderByRelationAggregateInput
+  assessment_diagnosis?: Prisma.assessment_diagnosisOrderByWithRelationInput
   applications?: Prisma.applicationsOrderByWithRelationInput
   people?: Prisma.peopleOrderByWithRelationInput
   assessment_templates?: Prisma.assessment_templatesOrderByWithRelationInput
@@ -284,6 +286,7 @@ export type assessmentsWhereUniqueInput = Prisma.AtLeast<{
   assessment_answers?: Prisma.Assessment_answersListRelationFilter
   assessment_attachments?: Prisma.Assessment_attachmentsListRelationFilter
   assessment_results?: Prisma.Assessment_resultsListRelationFilter
+  assessment_diagnosis?: Prisma.XOR<Prisma.Assessment_diagnosisNullableScalarRelationFilter, Prisma.assessment_diagnosisWhereInput> | null
   applications?: Prisma.XOR<Prisma.ApplicationsNullableScalarRelationFilter, Prisma.applicationsWhereInput> | null
   people?: Prisma.XOR<Prisma.PeopleNullableScalarRelationFilter, Prisma.peopleWhereInput> | null
   assessment_templates?: Prisma.XOR<Prisma.Assessment_templatesNullableScalarRelationFilter, Prisma.assessment_templatesWhereInput> | null
@@ -328,6 +331,7 @@ export type assessmentsCreateInput = {
   assessment_answers?: Prisma.assessment_answersCreateNestedManyWithoutAssessmentsInput
   assessment_attachments?: Prisma.assessment_attachmentsCreateNestedManyWithoutAssessmentsInput
   assessment_results?: Prisma.assessment_resultsCreateNestedManyWithoutAssessmentsInput
+  assessment_diagnosis?: Prisma.assessment_diagnosisCreateNestedOneWithoutAssessmentsInput
   applications?: Prisma.applicationsCreateNestedOneWithoutAssessmentsInput
   people?: Prisma.peopleCreateNestedOneWithoutAssessmentsInput
   assessment_templates?: Prisma.assessment_templatesCreateNestedOneWithoutAssessmentsInput
@@ -345,6 +349,7 @@ export type assessmentsUncheckedCreateInput = {
   assessment_answers?: Prisma.assessment_answersUncheckedCreateNestedManyWithoutAssessmentsInput
   assessment_attachments?: Prisma.assessment_attachmentsUncheckedCreateNestedManyWithoutAssessmentsInput
   assessment_results?: Prisma.assessment_resultsUncheckedCreateNestedManyWithoutAssessmentsInput
+  assessment_diagnosis?: Prisma.assessment_diagnosisUncheckedCreateNestedOneWithoutAssessmentsInput
 }
 
 export type assessmentsUpdateInput = {
@@ -356,6 +361,7 @@ export type assessmentsUpdateInput = {
   assessment_answers?: Prisma.assessment_answersUpdateManyWithoutAssessmentsNestedInput
   assessment_attachments?: Prisma.assessment_attachmentsUpdateManyWithoutAssessmentsNestedInput
   assessment_results?: Prisma.assessment_resultsUpdateManyWithoutAssessmentsNestedInput
+  assessment_diagnosis?: Prisma.assessment_diagnosisUpdateOneWithoutAssessmentsNestedInput
   applications?: Prisma.applicationsUpdateOneWithoutAssessmentsNestedInput
   people?: Prisma.peopleUpdateOneWithoutAssessmentsNestedInput
   assessment_templates?: Prisma.assessment_templatesUpdateOneWithoutAssessmentsNestedInput
@@ -373,6 +379,7 @@ export type assessmentsUncheckedUpdateInput = {
   assessment_answers?: Prisma.assessment_answersUncheckedUpdateManyWithoutAssessmentsNestedInput
   assessment_attachments?: Prisma.assessment_attachmentsUncheckedUpdateManyWithoutAssessmentsNestedInput
   assessment_results?: Prisma.assessment_resultsUncheckedUpdateManyWithoutAssessmentsNestedInput
+  assessment_diagnosis?: Prisma.assessment_diagnosisUncheckedUpdateOneWithoutAssessmentsNestedInput
 }
 
 export type assessmentsCreateManyInput = {
@@ -461,6 +468,11 @@ export type assessmentsMinOrderByAggregateInput = {
 export type assessmentsSumOrderByAggregateInput = {
   template_id?: Prisma.SortOrder
   calculated_score?: Prisma.SortOrder
+}
+
+export type AssessmentsScalarRelationFilter = {
+  is?: Prisma.assessmentsWhereInput
+  isNot?: Prisma.assessmentsWhereInput
 }
 
 export type assessmentsCreateNestedManyWithoutApplicationsInput = {
@@ -599,6 +611,20 @@ export type NullableEnumassessment_status_enumFieldUpdateOperationsInput = {
   set?: $Enums.assessment_status_enum | null
 }
 
+export type assessmentsCreateNestedOneWithoutAssessment_diagnosisInput = {
+  create?: Prisma.XOR<Prisma.assessmentsCreateWithoutAssessment_diagnosisInput, Prisma.assessmentsUncheckedCreateWithoutAssessment_diagnosisInput>
+  connectOrCreate?: Prisma.assessmentsCreateOrConnectWithoutAssessment_diagnosisInput
+  connect?: Prisma.assessmentsWhereUniqueInput
+}
+
+export type assessmentsUpdateOneRequiredWithoutAssessment_diagnosisNestedInput = {
+  create?: Prisma.XOR<Prisma.assessmentsCreateWithoutAssessment_diagnosisInput, Prisma.assessmentsUncheckedCreateWithoutAssessment_diagnosisInput>
+  connectOrCreate?: Prisma.assessmentsCreateOrConnectWithoutAssessment_diagnosisInput
+  upsert?: Prisma.assessmentsUpsertWithoutAssessment_diagnosisInput
+  connect?: Prisma.assessmentsWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.assessmentsUpdateToOneWithWhereWithoutAssessment_diagnosisInput, Prisma.assessmentsUpdateWithoutAssessment_diagnosisInput>, Prisma.assessmentsUncheckedUpdateWithoutAssessment_diagnosisInput>
+}
+
 export type assessmentsCreateNestedManyWithoutPeopleInput = {
   create?: Prisma.XOR<Prisma.assessmentsCreateWithoutPeopleInput, Prisma.assessmentsUncheckedCreateWithoutPeopleInput> | Prisma.assessmentsCreateWithoutPeopleInput[] | Prisma.assessmentsUncheckedCreateWithoutPeopleInput[]
   connectOrCreate?: Prisma.assessmentsCreateOrConnectWithoutPeopleInput | Prisma.assessmentsCreateOrConnectWithoutPeopleInput[]
@@ -650,6 +676,7 @@ export type assessmentsCreateWithoutApplicationsInput = {
   assessment_answers?: Prisma.assessment_answersCreateNestedManyWithoutAssessmentsInput
   assessment_attachments?: Prisma.assessment_attachmentsCreateNestedManyWithoutAssessmentsInput
   assessment_results?: Prisma.assessment_resultsCreateNestedManyWithoutAssessmentsInput
+  assessment_diagnosis?: Prisma.assessment_diagnosisCreateNestedOneWithoutAssessmentsInput
   people?: Prisma.peopleCreateNestedOneWithoutAssessmentsInput
   assessment_templates?: Prisma.assessment_templatesCreateNestedOneWithoutAssessmentsInput
 }
@@ -665,6 +692,7 @@ export type assessmentsUncheckedCreateWithoutApplicationsInput = {
   assessment_answers?: Prisma.assessment_answersUncheckedCreateNestedManyWithoutAssessmentsInput
   assessment_attachments?: Prisma.assessment_attachmentsUncheckedCreateNestedManyWithoutAssessmentsInput
   assessment_results?: Prisma.assessment_resultsUncheckedCreateNestedManyWithoutAssessmentsInput
+  assessment_diagnosis?: Prisma.assessment_diagnosisUncheckedCreateNestedOneWithoutAssessmentsInput
 }
 
 export type assessmentsCreateOrConnectWithoutApplicationsInput = {
@@ -715,6 +743,7 @@ export type assessmentsCreateWithoutAssessment_answersInput = {
   finished_at?: Date | string | null
   assessment_attachments?: Prisma.assessment_attachmentsCreateNestedManyWithoutAssessmentsInput
   assessment_results?: Prisma.assessment_resultsCreateNestedManyWithoutAssessmentsInput
+  assessment_diagnosis?: Prisma.assessment_diagnosisCreateNestedOneWithoutAssessmentsInput
   applications?: Prisma.applicationsCreateNestedOneWithoutAssessmentsInput
   people?: Prisma.peopleCreateNestedOneWithoutAssessmentsInput
   assessment_templates?: Prisma.assessment_templatesCreateNestedOneWithoutAssessmentsInput
@@ -731,6 +760,7 @@ export type assessmentsUncheckedCreateWithoutAssessment_answersInput = {
   finished_at?: Date | string | null
   assessment_attachments?: Prisma.assessment_attachmentsUncheckedCreateNestedManyWithoutAssessmentsInput
   assessment_results?: Prisma.assessment_resultsUncheckedCreateNestedManyWithoutAssessmentsInput
+  assessment_diagnosis?: Prisma.assessment_diagnosisUncheckedCreateNestedOneWithoutAssessmentsInput
 }
 
 export type assessmentsCreateOrConnectWithoutAssessment_answersInput = {
@@ -757,6 +787,7 @@ export type assessmentsUpdateWithoutAssessment_answersInput = {
   finished_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   assessment_attachments?: Prisma.assessment_attachmentsUpdateManyWithoutAssessmentsNestedInput
   assessment_results?: Prisma.assessment_resultsUpdateManyWithoutAssessmentsNestedInput
+  assessment_diagnosis?: Prisma.assessment_diagnosisUpdateOneWithoutAssessmentsNestedInput
   applications?: Prisma.applicationsUpdateOneWithoutAssessmentsNestedInput
   people?: Prisma.peopleUpdateOneWithoutAssessmentsNestedInput
   assessment_templates?: Prisma.assessment_templatesUpdateOneWithoutAssessmentsNestedInput
@@ -773,6 +804,7 @@ export type assessmentsUncheckedUpdateWithoutAssessment_answersInput = {
   finished_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   assessment_attachments?: Prisma.assessment_attachmentsUncheckedUpdateManyWithoutAssessmentsNestedInput
   assessment_results?: Prisma.assessment_resultsUncheckedUpdateManyWithoutAssessmentsNestedInput
+  assessment_diagnosis?: Prisma.assessment_diagnosisUncheckedUpdateOneWithoutAssessmentsNestedInput
 }
 
 export type assessmentsCreateWithoutAssessment_attachmentsInput = {
@@ -783,6 +815,7 @@ export type assessmentsCreateWithoutAssessment_attachmentsInput = {
   finished_at?: Date | string | null
   assessment_answers?: Prisma.assessment_answersCreateNestedManyWithoutAssessmentsInput
   assessment_results?: Prisma.assessment_resultsCreateNestedManyWithoutAssessmentsInput
+  assessment_diagnosis?: Prisma.assessment_diagnosisCreateNestedOneWithoutAssessmentsInput
   applications?: Prisma.applicationsCreateNestedOneWithoutAssessmentsInput
   people?: Prisma.peopleCreateNestedOneWithoutAssessmentsInput
   assessment_templates?: Prisma.assessment_templatesCreateNestedOneWithoutAssessmentsInput
@@ -799,6 +832,7 @@ export type assessmentsUncheckedCreateWithoutAssessment_attachmentsInput = {
   finished_at?: Date | string | null
   assessment_answers?: Prisma.assessment_answersUncheckedCreateNestedManyWithoutAssessmentsInput
   assessment_results?: Prisma.assessment_resultsUncheckedCreateNestedManyWithoutAssessmentsInput
+  assessment_diagnosis?: Prisma.assessment_diagnosisUncheckedCreateNestedOneWithoutAssessmentsInput
 }
 
 export type assessmentsCreateOrConnectWithoutAssessment_attachmentsInput = {
@@ -825,6 +859,7 @@ export type assessmentsUpdateWithoutAssessment_attachmentsInput = {
   finished_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   assessment_answers?: Prisma.assessment_answersUpdateManyWithoutAssessmentsNestedInput
   assessment_results?: Prisma.assessment_resultsUpdateManyWithoutAssessmentsNestedInput
+  assessment_diagnosis?: Prisma.assessment_diagnosisUpdateOneWithoutAssessmentsNestedInput
   applications?: Prisma.applicationsUpdateOneWithoutAssessmentsNestedInput
   people?: Prisma.peopleUpdateOneWithoutAssessmentsNestedInput
   assessment_templates?: Prisma.assessment_templatesUpdateOneWithoutAssessmentsNestedInput
@@ -841,6 +876,7 @@ export type assessmentsUncheckedUpdateWithoutAssessment_attachmentsInput = {
   finished_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   assessment_answers?: Prisma.assessment_answersUncheckedUpdateManyWithoutAssessmentsNestedInput
   assessment_results?: Prisma.assessment_resultsUncheckedUpdateManyWithoutAssessmentsNestedInput
+  assessment_diagnosis?: Prisma.assessment_diagnosisUncheckedUpdateOneWithoutAssessmentsNestedInput
 }
 
 export type assessmentsCreateWithoutAssessment_resultsInput = {
@@ -851,6 +887,7 @@ export type assessmentsCreateWithoutAssessment_resultsInput = {
   finished_at?: Date | string | null
   assessment_answers?: Prisma.assessment_answersCreateNestedManyWithoutAssessmentsInput
   assessment_attachments?: Prisma.assessment_attachmentsCreateNestedManyWithoutAssessmentsInput
+  assessment_diagnosis?: Prisma.assessment_diagnosisCreateNestedOneWithoutAssessmentsInput
   applications?: Prisma.applicationsCreateNestedOneWithoutAssessmentsInput
   people?: Prisma.peopleCreateNestedOneWithoutAssessmentsInput
   assessment_templates?: Prisma.assessment_templatesCreateNestedOneWithoutAssessmentsInput
@@ -867,6 +904,7 @@ export type assessmentsUncheckedCreateWithoutAssessment_resultsInput = {
   finished_at?: Date | string | null
   assessment_answers?: Prisma.assessment_answersUncheckedCreateNestedManyWithoutAssessmentsInput
   assessment_attachments?: Prisma.assessment_attachmentsUncheckedCreateNestedManyWithoutAssessmentsInput
+  assessment_diagnosis?: Prisma.assessment_diagnosisUncheckedCreateNestedOneWithoutAssessmentsInput
 }
 
 export type assessmentsCreateOrConnectWithoutAssessment_resultsInput = {
@@ -893,6 +931,7 @@ export type assessmentsUpdateWithoutAssessment_resultsInput = {
   finished_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   assessment_answers?: Prisma.assessment_answersUpdateManyWithoutAssessmentsNestedInput
   assessment_attachments?: Prisma.assessment_attachmentsUpdateManyWithoutAssessmentsNestedInput
+  assessment_diagnosis?: Prisma.assessment_diagnosisUpdateOneWithoutAssessmentsNestedInput
   applications?: Prisma.applicationsUpdateOneWithoutAssessmentsNestedInput
   people?: Prisma.peopleUpdateOneWithoutAssessmentsNestedInput
   assessment_templates?: Prisma.assessment_templatesUpdateOneWithoutAssessmentsNestedInput
@@ -909,6 +948,7 @@ export type assessmentsUncheckedUpdateWithoutAssessment_resultsInput = {
   finished_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   assessment_answers?: Prisma.assessment_answersUncheckedUpdateManyWithoutAssessmentsNestedInput
   assessment_attachments?: Prisma.assessment_attachmentsUncheckedUpdateManyWithoutAssessmentsNestedInput
+  assessment_diagnosis?: Prisma.assessment_diagnosisUncheckedUpdateOneWithoutAssessmentsNestedInput
 }
 
 export type assessmentsCreateWithoutAssessment_templatesInput = {
@@ -920,6 +960,7 @@ export type assessmentsCreateWithoutAssessment_templatesInput = {
   assessment_answers?: Prisma.assessment_answersCreateNestedManyWithoutAssessmentsInput
   assessment_attachments?: Prisma.assessment_attachmentsCreateNestedManyWithoutAssessmentsInput
   assessment_results?: Prisma.assessment_resultsCreateNestedManyWithoutAssessmentsInput
+  assessment_diagnosis?: Prisma.assessment_diagnosisCreateNestedOneWithoutAssessmentsInput
   applications?: Prisma.applicationsCreateNestedOneWithoutAssessmentsInput
   people?: Prisma.peopleCreateNestedOneWithoutAssessmentsInput
 }
@@ -935,6 +976,7 @@ export type assessmentsUncheckedCreateWithoutAssessment_templatesInput = {
   assessment_answers?: Prisma.assessment_answersUncheckedCreateNestedManyWithoutAssessmentsInput
   assessment_attachments?: Prisma.assessment_attachmentsUncheckedCreateNestedManyWithoutAssessmentsInput
   assessment_results?: Prisma.assessment_resultsUncheckedCreateNestedManyWithoutAssessmentsInput
+  assessment_diagnosis?: Prisma.assessment_diagnosisUncheckedCreateNestedOneWithoutAssessmentsInput
 }
 
 export type assessmentsCreateOrConnectWithoutAssessment_templatesInput = {
@@ -963,6 +1005,78 @@ export type assessmentsUpdateManyWithWhereWithoutAssessment_templatesInput = {
   data: Prisma.XOR<Prisma.assessmentsUpdateManyMutationInput, Prisma.assessmentsUncheckedUpdateManyWithoutAssessment_templatesInput>
 }
 
+export type assessmentsCreateWithoutAssessment_diagnosisInput = {
+  id?: string
+  status?: $Enums.assessment_status_enum | null
+  calculated_score?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  started_at?: Date | string | null
+  finished_at?: Date | string | null
+  assessment_answers?: Prisma.assessment_answersCreateNestedManyWithoutAssessmentsInput
+  assessment_attachments?: Prisma.assessment_attachmentsCreateNestedManyWithoutAssessmentsInput
+  assessment_results?: Prisma.assessment_resultsCreateNestedManyWithoutAssessmentsInput
+  applications?: Prisma.applicationsCreateNestedOneWithoutAssessmentsInput
+  people?: Prisma.peopleCreateNestedOneWithoutAssessmentsInput
+  assessment_templates?: Prisma.assessment_templatesCreateNestedOneWithoutAssessmentsInput
+}
+
+export type assessmentsUncheckedCreateWithoutAssessment_diagnosisInput = {
+  id?: string
+  application_id?: string | null
+  template_id?: number | null
+  respondent_person_id?: string | null
+  status?: $Enums.assessment_status_enum | null
+  calculated_score?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  started_at?: Date | string | null
+  finished_at?: Date | string | null
+  assessment_answers?: Prisma.assessment_answersUncheckedCreateNestedManyWithoutAssessmentsInput
+  assessment_attachments?: Prisma.assessment_attachmentsUncheckedCreateNestedManyWithoutAssessmentsInput
+  assessment_results?: Prisma.assessment_resultsUncheckedCreateNestedManyWithoutAssessmentsInput
+}
+
+export type assessmentsCreateOrConnectWithoutAssessment_diagnosisInput = {
+  where: Prisma.assessmentsWhereUniqueInput
+  create: Prisma.XOR<Prisma.assessmentsCreateWithoutAssessment_diagnosisInput, Prisma.assessmentsUncheckedCreateWithoutAssessment_diagnosisInput>
+}
+
+export type assessmentsUpsertWithoutAssessment_diagnosisInput = {
+  update: Prisma.XOR<Prisma.assessmentsUpdateWithoutAssessment_diagnosisInput, Prisma.assessmentsUncheckedUpdateWithoutAssessment_diagnosisInput>
+  create: Prisma.XOR<Prisma.assessmentsCreateWithoutAssessment_diagnosisInput, Prisma.assessmentsUncheckedCreateWithoutAssessment_diagnosisInput>
+  where?: Prisma.assessmentsWhereInput
+}
+
+export type assessmentsUpdateToOneWithWhereWithoutAssessment_diagnosisInput = {
+  where?: Prisma.assessmentsWhereInput
+  data: Prisma.XOR<Prisma.assessmentsUpdateWithoutAssessment_diagnosisInput, Prisma.assessmentsUncheckedUpdateWithoutAssessment_diagnosisInput>
+}
+
+export type assessmentsUpdateWithoutAssessment_diagnosisInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.NullableEnumassessment_status_enumFieldUpdateOperationsInput | $Enums.assessment_status_enum | null
+  calculated_score?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  started_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  finished_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  assessment_answers?: Prisma.assessment_answersUpdateManyWithoutAssessmentsNestedInput
+  assessment_attachments?: Prisma.assessment_attachmentsUpdateManyWithoutAssessmentsNestedInput
+  assessment_results?: Prisma.assessment_resultsUpdateManyWithoutAssessmentsNestedInput
+  applications?: Prisma.applicationsUpdateOneWithoutAssessmentsNestedInput
+  people?: Prisma.peopleUpdateOneWithoutAssessmentsNestedInput
+  assessment_templates?: Prisma.assessment_templatesUpdateOneWithoutAssessmentsNestedInput
+}
+
+export type assessmentsUncheckedUpdateWithoutAssessment_diagnosisInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  application_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  template_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  respondent_person_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.NullableEnumassessment_status_enumFieldUpdateOperationsInput | $Enums.assessment_status_enum | null
+  calculated_score?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  started_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  finished_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  assessment_answers?: Prisma.assessment_answersUncheckedUpdateManyWithoutAssessmentsNestedInput
+  assessment_attachments?: Prisma.assessment_attachmentsUncheckedUpdateManyWithoutAssessmentsNestedInput
+  assessment_results?: Prisma.assessment_resultsUncheckedUpdateManyWithoutAssessmentsNestedInput
+}
+
 export type assessmentsCreateWithoutPeopleInput = {
   id?: string
   status?: $Enums.assessment_status_enum | null
@@ -972,6 +1086,7 @@ export type assessmentsCreateWithoutPeopleInput = {
   assessment_answers?: Prisma.assessment_answersCreateNestedManyWithoutAssessmentsInput
   assessment_attachments?: Prisma.assessment_attachmentsCreateNestedManyWithoutAssessmentsInput
   assessment_results?: Prisma.assessment_resultsCreateNestedManyWithoutAssessmentsInput
+  assessment_diagnosis?: Prisma.assessment_diagnosisCreateNestedOneWithoutAssessmentsInput
   applications?: Prisma.applicationsCreateNestedOneWithoutAssessmentsInput
   assessment_templates?: Prisma.assessment_templatesCreateNestedOneWithoutAssessmentsInput
 }
@@ -987,6 +1102,7 @@ export type assessmentsUncheckedCreateWithoutPeopleInput = {
   assessment_answers?: Prisma.assessment_answersUncheckedCreateNestedManyWithoutAssessmentsInput
   assessment_attachments?: Prisma.assessment_attachmentsUncheckedCreateNestedManyWithoutAssessmentsInput
   assessment_results?: Prisma.assessment_resultsUncheckedCreateNestedManyWithoutAssessmentsInput
+  assessment_diagnosis?: Prisma.assessment_diagnosisUncheckedCreateNestedOneWithoutAssessmentsInput
 }
 
 export type assessmentsCreateOrConnectWithoutPeopleInput = {
@@ -1034,6 +1150,7 @@ export type assessmentsUpdateWithoutApplicationsInput = {
   assessment_answers?: Prisma.assessment_answersUpdateManyWithoutAssessmentsNestedInput
   assessment_attachments?: Prisma.assessment_attachmentsUpdateManyWithoutAssessmentsNestedInput
   assessment_results?: Prisma.assessment_resultsUpdateManyWithoutAssessmentsNestedInput
+  assessment_diagnosis?: Prisma.assessment_diagnosisUpdateOneWithoutAssessmentsNestedInput
   people?: Prisma.peopleUpdateOneWithoutAssessmentsNestedInput
   assessment_templates?: Prisma.assessment_templatesUpdateOneWithoutAssessmentsNestedInput
 }
@@ -1049,6 +1166,7 @@ export type assessmentsUncheckedUpdateWithoutApplicationsInput = {
   assessment_answers?: Prisma.assessment_answersUncheckedUpdateManyWithoutAssessmentsNestedInput
   assessment_attachments?: Prisma.assessment_attachmentsUncheckedUpdateManyWithoutAssessmentsNestedInput
   assessment_results?: Prisma.assessment_resultsUncheckedUpdateManyWithoutAssessmentsNestedInput
+  assessment_diagnosis?: Prisma.assessment_diagnosisUncheckedUpdateOneWithoutAssessmentsNestedInput
 }
 
 export type assessmentsUncheckedUpdateManyWithoutApplicationsInput = {
@@ -1080,6 +1198,7 @@ export type assessmentsUpdateWithoutAssessment_templatesInput = {
   assessment_answers?: Prisma.assessment_answersUpdateManyWithoutAssessmentsNestedInput
   assessment_attachments?: Prisma.assessment_attachmentsUpdateManyWithoutAssessmentsNestedInput
   assessment_results?: Prisma.assessment_resultsUpdateManyWithoutAssessmentsNestedInput
+  assessment_diagnosis?: Prisma.assessment_diagnosisUpdateOneWithoutAssessmentsNestedInput
   applications?: Prisma.applicationsUpdateOneWithoutAssessmentsNestedInput
   people?: Prisma.peopleUpdateOneWithoutAssessmentsNestedInput
 }
@@ -1095,6 +1214,7 @@ export type assessmentsUncheckedUpdateWithoutAssessment_templatesInput = {
   assessment_answers?: Prisma.assessment_answersUncheckedUpdateManyWithoutAssessmentsNestedInput
   assessment_attachments?: Prisma.assessment_attachmentsUncheckedUpdateManyWithoutAssessmentsNestedInput
   assessment_results?: Prisma.assessment_resultsUncheckedUpdateManyWithoutAssessmentsNestedInput
+  assessment_diagnosis?: Prisma.assessment_diagnosisUncheckedUpdateOneWithoutAssessmentsNestedInput
 }
 
 export type assessmentsUncheckedUpdateManyWithoutAssessment_templatesInput = {
@@ -1126,6 +1246,7 @@ export type assessmentsUpdateWithoutPeopleInput = {
   assessment_answers?: Prisma.assessment_answersUpdateManyWithoutAssessmentsNestedInput
   assessment_attachments?: Prisma.assessment_attachmentsUpdateManyWithoutAssessmentsNestedInput
   assessment_results?: Prisma.assessment_resultsUpdateManyWithoutAssessmentsNestedInput
+  assessment_diagnosis?: Prisma.assessment_diagnosisUpdateOneWithoutAssessmentsNestedInput
   applications?: Prisma.applicationsUpdateOneWithoutAssessmentsNestedInput
   assessment_templates?: Prisma.assessment_templatesUpdateOneWithoutAssessmentsNestedInput
 }
@@ -1141,6 +1262,7 @@ export type assessmentsUncheckedUpdateWithoutPeopleInput = {
   assessment_answers?: Prisma.assessment_answersUncheckedUpdateManyWithoutAssessmentsNestedInput
   assessment_attachments?: Prisma.assessment_attachmentsUncheckedUpdateManyWithoutAssessmentsNestedInput
   assessment_results?: Prisma.assessment_resultsUncheckedUpdateManyWithoutAssessmentsNestedInput
+  assessment_diagnosis?: Prisma.assessment_diagnosisUncheckedUpdateOneWithoutAssessmentsNestedInput
 }
 
 export type assessmentsUncheckedUpdateManyWithoutPeopleInput = {
@@ -1214,6 +1336,7 @@ export type assessmentsSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   assessment_answers?: boolean | Prisma.assessments$assessment_answersArgs<ExtArgs>
   assessment_attachments?: boolean | Prisma.assessments$assessment_attachmentsArgs<ExtArgs>
   assessment_results?: boolean | Prisma.assessments$assessment_resultsArgs<ExtArgs>
+  assessment_diagnosis?: boolean | Prisma.assessments$assessment_diagnosisArgs<ExtArgs>
   applications?: boolean | Prisma.assessments$applicationsArgs<ExtArgs>
   people?: boolean | Prisma.assessments$peopleArgs<ExtArgs>
   assessment_templates?: boolean | Prisma.assessments$assessment_templatesArgs<ExtArgs>
@@ -1264,6 +1387,7 @@ export type assessmentsInclude<ExtArgs extends runtime.Types.Extensions.Internal
   assessment_answers?: boolean | Prisma.assessments$assessment_answersArgs<ExtArgs>
   assessment_attachments?: boolean | Prisma.assessments$assessment_attachmentsArgs<ExtArgs>
   assessment_results?: boolean | Prisma.assessments$assessment_resultsArgs<ExtArgs>
+  assessment_diagnosis?: boolean | Prisma.assessments$assessment_diagnosisArgs<ExtArgs>
   applications?: boolean | Prisma.assessments$applicationsArgs<ExtArgs>
   people?: boolean | Prisma.assessments$peopleArgs<ExtArgs>
   assessment_templates?: boolean | Prisma.assessments$assessment_templatesArgs<ExtArgs>
@@ -1286,6 +1410,7 @@ export type $assessmentsPayload<ExtArgs extends runtime.Types.Extensions.Interna
     assessment_answers: Prisma.$assessment_answersPayload<ExtArgs>[]
     assessment_attachments: Prisma.$assessment_attachmentsPayload<ExtArgs>[]
     assessment_results: Prisma.$assessment_resultsPayload<ExtArgs>[]
+    assessment_diagnosis: Prisma.$assessment_diagnosisPayload<ExtArgs> | null
     applications: Prisma.$applicationsPayload<ExtArgs> | null
     people: Prisma.$peoplePayload<ExtArgs> | null
     assessment_templates: Prisma.$assessment_templatesPayload<ExtArgs> | null
@@ -1696,6 +1821,7 @@ export interface Prisma__assessmentsClient<T, Null = never, ExtArgs extends runt
   assessment_answers<T extends Prisma.assessments$assessment_answersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.assessments$assessment_answersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$assessment_answersPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   assessment_attachments<T extends Prisma.assessments$assessment_attachmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.assessments$assessment_attachmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$assessment_attachmentsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   assessment_results<T extends Prisma.assessments$assessment_resultsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.assessments$assessment_resultsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$assessment_resultsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  assessment_diagnosis<T extends Prisma.assessments$assessment_diagnosisArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.assessments$assessment_diagnosisArgs<ExtArgs>>): Prisma.Prisma__assessment_diagnosisClient<runtime.Types.Result.GetResult<Prisma.$assessment_diagnosisPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   applications<T extends Prisma.assessments$applicationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.assessments$applicationsArgs<ExtArgs>>): Prisma.Prisma__applicationsClient<runtime.Types.Result.GetResult<Prisma.$applicationsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   people<T extends Prisma.assessments$peopleArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.assessments$peopleArgs<ExtArgs>>): Prisma.Prisma__peopleClient<runtime.Types.Result.GetResult<Prisma.$peoplePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   assessment_templates<T extends Prisma.assessments$assessment_templatesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.assessments$assessment_templatesArgs<ExtArgs>>): Prisma.Prisma__assessment_templatesClient<runtime.Types.Result.GetResult<Prisma.$assessment_templatesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
@@ -2201,6 +2327,25 @@ export type assessments$assessment_resultsArgs<ExtArgs extends runtime.Types.Ext
   take?: number
   skip?: number
   distinct?: Prisma.Assessment_resultsScalarFieldEnum | Prisma.Assessment_resultsScalarFieldEnum[]
+}
+
+/**
+ * assessments.assessment_diagnosis
+ */
+export type assessments$assessment_diagnosisArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the assessment_diagnosis
+   */
+  select?: Prisma.assessment_diagnosisSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the assessment_diagnosis
+   */
+  omit?: Prisma.assessment_diagnosisOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.assessment_diagnosisInclude<ExtArgs> | null
+  where?: Prisma.assessment_diagnosisWhereInput
 }
 
 /**

@@ -56,6 +56,7 @@ export const ModelName = {
   assessment_sections: 'assessment_sections',
   assessment_templates: 'assessment_templates',
   assessments: 'assessments',
+  assessment_diagnosis: 'assessment_diagnosis',
   business_areas: 'business_areas',
   business_sub_areas: 'business_sub_areas',
   companies: 'companies',
@@ -189,6 +190,19 @@ export const AssessmentsScalarFieldEnum = {
 } as const
 
 export type AssessmentsScalarFieldEnum = (typeof AssessmentsScalarFieldEnum)[keyof typeof AssessmentsScalarFieldEnum]
+
+
+export const Assessment_diagnosisScalarFieldEnum = {
+  id: 'id',
+  assessment_id: 'assessment_id',
+  maturity_level: 'maturity_level',
+  risk_label: 'risk_label',
+  axis_analysis: 'axis_analysis',
+  action_plan: 'action_plan',
+  created_at: 'created_at'
+} as const
+
+export type Assessment_diagnosisScalarFieldEnum = (typeof Assessment_diagnosisScalarFieldEnum)[keyof typeof Assessment_diagnosisScalarFieldEnum]
 
 
 export const Business_areasScalarFieldEnum = {
@@ -408,6 +422,21 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+
+
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
 export const QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
@@ -422,4 +451,13 @@ export const NullsOrder = {
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
