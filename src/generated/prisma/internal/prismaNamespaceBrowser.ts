@@ -388,6 +388,7 @@ export const UsersScalarFieldEnum = {
   id: 'id',
   email: 'email',
   password_hash: 'password_hash',
+  firebase_uid: 'firebase_uid',
   full_name: 'full_name',
   avatar_url: 'avatar_url',
   is_super_admin: 'is_super_admin',

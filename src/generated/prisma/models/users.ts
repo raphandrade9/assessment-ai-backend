@@ -28,6 +28,7 @@ export type UsersMinAggregateOutputType = {
   id: string | null
   email: string | null
   password_hash: string | null
+  firebase_uid: string | null
   full_name: string | null
   avatar_url: string | null
   is_super_admin: boolean | null
@@ -39,6 +40,7 @@ export type UsersMaxAggregateOutputType = {
   id: string | null
   email: string | null
   password_hash: string | null
+  firebase_uid: string | null
   full_name: string | null
   avatar_url: string | null
   is_super_admin: boolean | null
@@ -50,6 +52,7 @@ export type UsersCountAggregateOutputType = {
   id: number
   email: number
   password_hash: number
+  firebase_uid: number
   full_name: number
   avatar_url: number
   is_super_admin: number
@@ -63,6 +66,7 @@ export type UsersMinAggregateInputType = {
   id?: true
   email?: true
   password_hash?: true
+  firebase_uid?: true
   full_name?: true
   avatar_url?: true
   is_super_admin?: true
@@ -74,6 +78,7 @@ export type UsersMaxAggregateInputType = {
   id?: true
   email?: true
   password_hash?: true
+  firebase_uid?: true
   full_name?: true
   avatar_url?: true
   is_super_admin?: true
@@ -85,6 +90,7 @@ export type UsersCountAggregateInputType = {
   id?: true
   email?: true
   password_hash?: true
+  firebase_uid?: true
   full_name?: true
   avatar_url?: true
   is_super_admin?: true
@@ -168,7 +174,8 @@ export type usersGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
 export type UsersGroupByOutputType = {
   id: string
   email: string
-  password_hash: string
+  password_hash: string | null
+  firebase_uid: string | null
   full_name: string
   avatar_url: string | null
   is_super_admin: boolean | null
@@ -200,7 +207,8 @@ export type usersWhereInput = {
   NOT?: Prisma.usersWhereInput | Prisma.usersWhereInput[]
   id?: Prisma.UuidFilter<"users"> | string
   email?: Prisma.StringFilter<"users"> | string
-  password_hash?: Prisma.StringFilter<"users"> | string
+  password_hash?: Prisma.StringNullableFilter<"users"> | string | null
+  firebase_uid?: Prisma.StringNullableFilter<"users"> | string | null
   full_name?: Prisma.StringFilter<"users"> | string
   avatar_url?: Prisma.StringNullableFilter<"users"> | string | null
   is_super_admin?: Prisma.BoolNullableFilter<"users"> | boolean | null
@@ -213,7 +221,8 @@ export type usersWhereInput = {
 export type usersOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   email?: Prisma.SortOrder
-  password_hash?: Prisma.SortOrder
+  password_hash?: Prisma.SortOrderInput | Prisma.SortOrder
+  firebase_uid?: Prisma.SortOrderInput | Prisma.SortOrder
   full_name?: Prisma.SortOrder
   avatar_url?: Prisma.SortOrderInput | Prisma.SortOrder
   is_super_admin?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -226,10 +235,11 @@ export type usersOrderByWithRelationInput = {
 export type usersWhereUniqueInput = Prisma.AtLeast<{
   id?: string
   email?: string
+  firebase_uid?: string
   AND?: Prisma.usersWhereInput | Prisma.usersWhereInput[]
   OR?: Prisma.usersWhereInput[]
   NOT?: Prisma.usersWhereInput | Prisma.usersWhereInput[]
-  password_hash?: Prisma.StringFilter<"users"> | string
+  password_hash?: Prisma.StringNullableFilter<"users"> | string | null
   full_name?: Prisma.StringFilter<"users"> | string
   avatar_url?: Prisma.StringNullableFilter<"users"> | string | null
   is_super_admin?: Prisma.BoolNullableFilter<"users"> | boolean | null
@@ -237,12 +247,13 @@ export type usersWhereUniqueInput = Prisma.AtLeast<{
   created_at?: Prisma.DateTimeNullableFilter<"users"> | Date | string | null
   tenant_users?: Prisma.Tenant_usersListRelationFilter
   user_company_access?: Prisma.User_company_accessListRelationFilter
-}, "id" | "email">
+}, "id" | "email" | "firebase_uid">
 
 export type usersOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   email?: Prisma.SortOrder
-  password_hash?: Prisma.SortOrder
+  password_hash?: Prisma.SortOrderInput | Prisma.SortOrder
+  firebase_uid?: Prisma.SortOrderInput | Prisma.SortOrder
   full_name?: Prisma.SortOrder
   avatar_url?: Prisma.SortOrderInput | Prisma.SortOrder
   is_super_admin?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -259,7 +270,8 @@ export type usersScalarWhereWithAggregatesInput = {
   NOT?: Prisma.usersScalarWhereWithAggregatesInput | Prisma.usersScalarWhereWithAggregatesInput[]
   id?: Prisma.UuidWithAggregatesFilter<"users"> | string
   email?: Prisma.StringWithAggregatesFilter<"users"> | string
-  password_hash?: Prisma.StringWithAggregatesFilter<"users"> | string
+  password_hash?: Prisma.StringNullableWithAggregatesFilter<"users"> | string | null
+  firebase_uid?: Prisma.StringNullableWithAggregatesFilter<"users"> | string | null
   full_name?: Prisma.StringWithAggregatesFilter<"users"> | string
   avatar_url?: Prisma.StringNullableWithAggregatesFilter<"users"> | string | null
   is_super_admin?: Prisma.BoolNullableWithAggregatesFilter<"users"> | boolean | null
@@ -270,7 +282,8 @@ export type usersScalarWhereWithAggregatesInput = {
 export type usersCreateInput = {
   id?: string
   email: string
-  password_hash: string
+  password_hash?: string | null
+  firebase_uid?: string | null
   full_name: string
   avatar_url?: string | null
   is_super_admin?: boolean | null
@@ -283,7 +296,8 @@ export type usersCreateInput = {
 export type usersUncheckedCreateInput = {
   id?: string
   email: string
-  password_hash: string
+  password_hash?: string | null
+  firebase_uid?: string | null
   full_name: string
   avatar_url?: string | null
   is_super_admin?: boolean | null
@@ -296,7 +310,8 @@ export type usersUncheckedCreateInput = {
 export type usersUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  password_hash?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  firebase_uid?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
   avatar_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_super_admin?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -309,7 +324,8 @@ export type usersUpdateInput = {
 export type usersUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  password_hash?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  firebase_uid?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
   avatar_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_super_admin?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -322,7 +338,8 @@ export type usersUncheckedUpdateInput = {
 export type usersCreateManyInput = {
   id?: string
   email: string
-  password_hash: string
+  password_hash?: string | null
+  firebase_uid?: string | null
   full_name: string
   avatar_url?: string | null
   is_super_admin?: boolean | null
@@ -333,7 +350,8 @@ export type usersCreateManyInput = {
 export type usersUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  password_hash?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  firebase_uid?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
   avatar_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_super_admin?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -344,7 +362,8 @@ export type usersUpdateManyMutationInput = {
 export type usersUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  password_hash?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  firebase_uid?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
   avatar_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_super_admin?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -366,6 +385,7 @@ export type usersCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   email?: Prisma.SortOrder
   password_hash?: Prisma.SortOrder
+  firebase_uid?: Prisma.SortOrder
   full_name?: Prisma.SortOrder
   avatar_url?: Prisma.SortOrder
   is_super_admin?: Prisma.SortOrder
@@ -377,6 +397,7 @@ export type usersMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   email?: Prisma.SortOrder
   password_hash?: Prisma.SortOrder
+  firebase_uid?: Prisma.SortOrder
   full_name?: Prisma.SortOrder
   avatar_url?: Prisma.SortOrder
   is_super_admin?: Prisma.SortOrder
@@ -388,6 +409,7 @@ export type usersMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   email?: Prisma.SortOrder
   password_hash?: Prisma.SortOrder
+  firebase_uid?: Prisma.SortOrder
   full_name?: Prisma.SortOrder
   avatar_url?: Prisma.SortOrder
   is_super_admin?: Prisma.SortOrder
@@ -428,7 +450,8 @@ export type usersUpdateOneRequiredWithoutUser_company_accessNestedInput = {
 export type usersCreateWithoutTenant_usersInput = {
   id?: string
   email: string
-  password_hash: string
+  password_hash?: string | null
+  firebase_uid?: string | null
   full_name: string
   avatar_url?: string | null
   is_super_admin?: boolean | null
@@ -440,7 +463,8 @@ export type usersCreateWithoutTenant_usersInput = {
 export type usersUncheckedCreateWithoutTenant_usersInput = {
   id?: string
   email: string
-  password_hash: string
+  password_hash?: string | null
+  firebase_uid?: string | null
   full_name: string
   avatar_url?: string | null
   is_super_admin?: boolean | null
@@ -468,7 +492,8 @@ export type usersUpdateToOneWithWhereWithoutTenant_usersInput = {
 export type usersUpdateWithoutTenant_usersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  password_hash?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  firebase_uid?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
   avatar_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_super_admin?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -480,7 +505,8 @@ export type usersUpdateWithoutTenant_usersInput = {
 export type usersUncheckedUpdateWithoutTenant_usersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  password_hash?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  firebase_uid?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
   avatar_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_super_admin?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -492,7 +518,8 @@ export type usersUncheckedUpdateWithoutTenant_usersInput = {
 export type usersCreateWithoutUser_company_accessInput = {
   id?: string
   email: string
-  password_hash: string
+  password_hash?: string | null
+  firebase_uid?: string | null
   full_name: string
   avatar_url?: string | null
   is_super_admin?: boolean | null
@@ -504,7 +531,8 @@ export type usersCreateWithoutUser_company_accessInput = {
 export type usersUncheckedCreateWithoutUser_company_accessInput = {
   id?: string
   email: string
-  password_hash: string
+  password_hash?: string | null
+  firebase_uid?: string | null
   full_name: string
   avatar_url?: string | null
   is_super_admin?: boolean | null
@@ -532,7 +560,8 @@ export type usersUpdateToOneWithWhereWithoutUser_company_accessInput = {
 export type usersUpdateWithoutUser_company_accessInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  password_hash?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  firebase_uid?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
   avatar_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_super_admin?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -544,7 +573,8 @@ export type usersUpdateWithoutUser_company_accessInput = {
 export type usersUncheckedUpdateWithoutUser_company_accessInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  password_hash?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  firebase_uid?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   full_name?: Prisma.StringFieldUpdateOperationsInput | string
   avatar_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_super_admin?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -597,6 +627,7 @@ export type usersSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   id?: boolean
   email?: boolean
   password_hash?: boolean
+  firebase_uid?: boolean
   full_name?: boolean
   avatar_url?: boolean
   is_super_admin?: boolean
@@ -611,6 +642,7 @@ export type usersSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   id?: boolean
   email?: boolean
   password_hash?: boolean
+  firebase_uid?: boolean
   full_name?: boolean
   avatar_url?: boolean
   is_super_admin?: boolean
@@ -622,6 +654,7 @@ export type usersSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   id?: boolean
   email?: boolean
   password_hash?: boolean
+  firebase_uid?: boolean
   full_name?: boolean
   avatar_url?: boolean
   is_super_admin?: boolean
@@ -633,6 +666,7 @@ export type usersSelectScalar = {
   id?: boolean
   email?: boolean
   password_hash?: boolean
+  firebase_uid?: boolean
   full_name?: boolean
   avatar_url?: boolean
   is_super_admin?: boolean
@@ -640,7 +674,7 @@ export type usersSelectScalar = {
   created_at?: boolean
 }
 
-export type usersOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "password_hash" | "full_name" | "avatar_url" | "is_super_admin" | "last_login" | "created_at", ExtArgs["result"]["users"]>
+export type usersOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "password_hash" | "firebase_uid" | "full_name" | "avatar_url" | "is_super_admin" | "last_login" | "created_at", ExtArgs["result"]["users"]>
 export type usersInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tenant_users?: boolean | Prisma.users$tenant_usersArgs<ExtArgs>
   user_company_access?: boolean | Prisma.users$user_company_accessArgs<ExtArgs>
@@ -658,7 +692,8 @@ export type $usersPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     email: string
-    password_hash: string
+    password_hash: string | null
+    firebase_uid: string | null
     full_name: string
     avatar_url: string | null
     is_super_admin: boolean | null
@@ -1092,6 +1127,7 @@ export interface usersFieldRefs {
   readonly id: Prisma.FieldRef<"users", 'String'>
   readonly email: Prisma.FieldRef<"users", 'String'>
   readonly password_hash: Prisma.FieldRef<"users", 'String'>
+  readonly firebase_uid: Prisma.FieldRef<"users", 'String'>
   readonly full_name: Prisma.FieldRef<"users", 'String'>
   readonly avatar_url: Prisma.FieldRef<"users", 'String'>
   readonly is_super_admin: Prisma.FieldRef<"users", 'Boolean'>

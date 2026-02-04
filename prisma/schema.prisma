@@ -307,7 +307,8 @@ model user_company_access {
 model users {
   id                  String                @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   email               String                @unique @db.VarChar(255)
-  password_hash       String                @db.VarChar(255)
+  password_hash       String?               @db.VarChar(255)
+  firebase_uid        String?               @unique @db.VarChar(128)
   full_name           String                @db.VarChar(255)
   avatar_url          String?               @db.VarChar(500)
   is_super_admin      Boolean?              @default(false)
