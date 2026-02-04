@@ -32,7 +32,7 @@ export class AssessmentController {
                 return res.status(400).json({ error: 'Missing application_id' });
             }
 
-            // Validar se a aplicação existe e se o usuário tem acesso à empresa dela
+            // Validar se a aplicação existe e se o usuário tem acesso
             const application = await prisma.applications.findUnique({
                 where: { id: application_id },
                 include: {
@@ -50,6 +50,22 @@ export class AssessmentController {
                 return res.status(403).json({ error: 'Unauthorized access to this application' });
             }
 
+            // VERIFICAÇÃO: Se já existe um assessment IN_PROGRESS para esta aplicação, vamos retorná-lo
+            const existingAssessment = await prisma.assessments.findFirst({
+                where: {
+                    application_id,
+                    status: assessment_status_enum.IN_PROGRESS
+                },
+                include: {
+                    assessment_answers: true
+                }
+            });
+
+            if (existingAssessment) {
+                console.log(`[AssessmentController] Resuming existing assessment ${existingAssessment.id} with ${existingAssessment.assessment_answers.length} answers`);
+                return res.status(200).json(existingAssessment);
+            }
+
             // Buscar template ativo
             const template = await prisma.assessment_templates.findFirst({
                 where: { is_active: true },
@@ -63,11 +79,60 @@ export class AssessmentController {
                     status: assessment_status_enum.IN_PROGRESS,
                     started_at: new Date(),
                 },
+                include: {
+                    assessment_answers: true
+                }
             });
 
-            return res.status(201).json({ id: assessment.id });
+            console.log(`[AssessmentController] Initialized new assessment ${assessment.id}`);
+            return res.status(201).json(assessment);
         } catch (error) {
             console.error('Init Assessment Error:', error);
+            return res.status(500).json({ error: 'Internal server error' });
+        }
+    }
+
+    // Novo método para buscar assessment por ID (incluindo respostas)
+    async getById(req: Request, res: Response) {
+        try {
+            const { id } = req.params;
+            const userId = req.user.id;
+
+            const assessment = await prisma.assessments.findUnique({
+                where: { id: id as string },
+                include: {
+                    assessment_answers: true,
+                    applications: {
+                        include: {
+                            companies: {
+                                include: {
+                                    user_company_access: {
+                                        where: { user_id: userId }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            if (!assessment) {
+                console.log(`[AssessmentController] Assessment ${id} not found.`);
+                return res.status(404).json({ error: 'Assessment not found' });
+            }
+
+            const assessmentData = assessment as any;
+
+            // Validar acesso
+            if (!assessmentData.applications?.companies?.user_company_access?.length) {
+                console.warn(`[AssessmentController] Unauthorized access attempt to assessment ${id} by user ${userId}.`);
+                return res.status(403).json({ error: 'Unauthorized access to this assessment' });
+            }
+
+            console.log(`[AssessmentController] GET assessment ${id} with ${assessmentData.assessment_answers?.length} answers`);
+            return res.json(assessment);
+        } catch (error) {
+            console.error('Get Assessment Error:', error);
             return res.status(500).json({ error: 'Internal server error' });
         }
     }

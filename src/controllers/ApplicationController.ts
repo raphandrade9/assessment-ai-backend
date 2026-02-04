@@ -32,13 +32,35 @@ export class ApplicationController {
                     company_id: companyIdStr,
                 },
                 include: {
-                    _count: {
-                        select: { assessments: true },
-                    },
+                    assessments: {
+                        orderBy: { started_at: 'desc' },
+                        take: 1,
+                        include: {
+                            _count: {
+                                select: { assessment_answers: true }
+                            }
+                        }
+                    }
                 },
             });
 
-            return res.json(applications);
+            // Format response to match required structure
+            const formattedApps = (applications as any[]).map(app => {
+                const latestAssessment = app.assessments[0];
+                return {
+                    id: app.id,
+                    name: app.name,
+                    description: app.description,
+                    assessment: latestAssessment ? {
+                        id: latestAssessment.id,
+                        status: latestAssessment.status,
+                        answers_count: latestAssessment._count.assessment_answers
+                    } : null
+                };
+            });
+
+            console.log(`[ApplicationController] Found ${formattedApps.length} applications for company ${companyIdStr}`);
+            return res.json(formattedApps);
         } catch (error) {
             console.error('List Applications Error:', error);
             return res.status(500).json({ error: 'Internal server error' });

@@ -15,6 +15,7 @@ routes.use('/api/companies', requireAuth);
 routes.use('/api/applications', requireAuth);
 
 routes.get('/api/assessment/questions', assessmentController.getQuestions);
+routes.get('/api/assessment/:id', assessmentController.getById);
 routes.post('/api/assessment/init', assessmentController.init);
 routes.put('/api/assessment/:id/answers', assessmentController.saveAnswer);
 routes.post('/api/assessment/:id/finalize', assessmentController.finalize);
