@@ -378,6 +378,7 @@ export type TenantsScalarFieldEnum = (typeof TenantsScalarFieldEnum)[keyof typeo
 export const User_company_accessScalarFieldEnum = {
   user_id: 'user_id',
   company_id: 'company_id',
+  role: 'role',
   created_at: 'created_at'
 } as const
 

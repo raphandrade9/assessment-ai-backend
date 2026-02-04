@@ -37,6 +37,7 @@ export type question_type_enum = (typeof question_type_enum)[keyof typeof questi
 
 
 export const user_role_type = {
+  OWNER: 'OWNER',
   ADMIN: 'ADMIN',
   EDITOR: 'EDITOR',
   VIEWER: 'VIEWER'
