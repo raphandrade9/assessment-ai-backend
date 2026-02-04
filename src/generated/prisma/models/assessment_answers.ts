@@ -269,6 +269,7 @@ export type assessment_answersOrderByWithRelationInput = {
 
 export type assessment_answersWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  assessment_id_question_id?: Prisma.assessment_answersAssessment_idQuestion_idCompoundUniqueInput
   AND?: Prisma.assessment_answersWhereInput | Prisma.assessment_answersWhereInput[]
   OR?: Prisma.assessment_answersWhereInput[]
   NOT?: Prisma.assessment_answersWhereInput | Prisma.assessment_answersWhereInput[]
@@ -282,7 +283,7 @@ export type assessment_answersWhereUniqueInput = Prisma.AtLeast<{
   assessments?: Prisma.XOR<Prisma.AssessmentsNullableScalarRelationFilter, Prisma.assessmentsWhereInput> | null
   questions?: Prisma.XOR<Prisma.QuestionsNullableScalarRelationFilter, Prisma.questionsWhereInput> | null
   question_options?: Prisma.XOR<Prisma.Question_optionsNullableScalarRelationFilter, Prisma.question_optionsWhereInput> | null
-}, "id">
+}, "id" | "assessment_id_question_id">
 
 export type assessment_answersOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -386,6 +387,11 @@ export type assessment_answersUncheckedUpdateManyInput = {
   comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   score_awarded?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type assessment_answersAssessment_idQuestion_idCompoundUniqueInput = {
+  assessment_id: string
+  question_id: number
 }
 
 export type assessment_answersCountOrderByAggregateInput = {

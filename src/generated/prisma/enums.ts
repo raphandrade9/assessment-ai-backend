@@ -11,7 +11,9 @@
 
 export const assessment_status_enum = {
   DRAFT: 'DRAFT',
+  IN_PROGRESS: 'IN_PROGRESS',
   SUBMITTED: 'SUBMITTED',
+  COMPLETED: 'COMPLETED',
   ARCHIVED: 'ARCHIVED'
 } as const
 
