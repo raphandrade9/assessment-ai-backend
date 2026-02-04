@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import prisma from '../lib/prisma';
+import { assessment_status_enum } from '../generated/prisma/client';
 
 export class AssessmentController {
     async getQuestions(req: Request, res: Response) {
@@ -59,7 +60,7 @@ export class AssessmentController {
                 data: {
                     application_id,
                     template_id: template?.id,
-                    status: 'IN_PROGRESS',
+                    status: assessment_status_enum.IN_PROGRESS,
                     started_at: new Date(),
                 },
             });
@@ -73,73 +74,93 @@ export class AssessmentController {
 
     // 2. PUT /api/assessment/:id/answers
     async saveAnswer(req: Request, res: Response) {
-        try {
-            const assessmentId = req.params.id as string;
-            const { question_id, selected_option_id } = req.body;
+        const assessmentId = req.params.id as string;
+        const { question_id, selected_option_id } = req.body;
 
+        try {
             if (!question_id || !selected_option_id) {
                 return res.status(400).json({ error: 'Missing question_id or selected_option_id' });
             }
 
-            // Upsert resposta
+            const qId = Number(question_id);
+            const optId = Number(selected_option_id);
+
+            if (isNaN(qId) || isNaN(optId)) {
+                return res.status(400).json({ error: 'Invalid question_id or selected_option_id format' });
+            }
+
+            // Upsert resposta utilizando a chave composta gerada pelo Prisma
             await prisma.assessment_answers.upsert({
                 where: {
                     assessment_id_question_id: {
                         assessment_id: assessmentId,
-                        question_id: question_id,
+                        question_id: qId,
                     },
                 },
                 update: {
-                    selected_option_id,
+                    selected_option_id: optId,
                 },
                 create: {
                     assessment_id: assessmentId,
-                    question_id,
-                    selected_option_id,
+                    question_id: qId,
+                    selected_option_id: optId,
                 },
             });
 
             return res.json({ success: true });
-        } catch (error) {
-            console.error('Save Answer Error:', error);
-            return res.status(500).json({ error: 'Internal server error' });
+        } catch (error: any) {
+            console.error('CRITICAL: Save Answer Error Detailed:', {
+                assessmentId,
+                question_id,
+                selected_option_id,
+                error: error.message,
+                stack: error.stack
+            });
+            return res.status(500).json({ error: 'Failed to persist answer', details: error.message });
         }
     }
 
     // 3. POST /api/assessment/:id/finalize
     async finalize(req: Request, res: Response) {
-        try {
-            const assessmentId = req.params.id as string;
-            const { answers } = req.body;
+        const assessmentId = req.params.id as string;
+        const { answers } = req.body;
 
+        try {
             const result = await prisma.$transaction(async (tx) => {
-                // a) Upsert em massa se vierem respostas no payload
+                // a) Upsert em massa se vierem respostas no payload (backup do auto-save)
                 if (answers && Array.isArray(answers)) {
                     for (const ans of answers) {
-                        await tx.assessment_answers.upsert({
-                            where: {
-                                assessment_id_question_id: {
-                                    assessment_id: assessmentId,
-                                    question_id: ans.question_id,
+                        const qId = Number(ans.question_id);
+                        const optId = Number(ans.selected_option_id);
+
+                        if (!isNaN(qId) && !isNaN(optId)) {
+                            await tx.assessment_answers.upsert({
+                                where: {
+                                    assessment_id_question_id: {
+                                        assessment_id: assessmentId,
+                                        question_id: qId,
+                                    },
                                 },
-                            },
-                            update: {
-                                selected_option_id: ans.selected_option_id,
-                            },
-                            create: {
-                                assessment_id: assessmentId,
-                                question_id: ans.question_id,
-                                selected_option_id: ans.selected_option_id,
-                            },
-                        });
+                                update: {
+                                    selected_option_id: optId,
+                                },
+                                create: {
+                                    assessment_id: assessmentId,
+                                    question_id: qId,
+                                    selected_option_id: optId,
+                                },
+                            });
+                        }
                     }
                 }
 
-                // b) Calcular Score total somando as respostas do banco
+                // b) Calcular Score total buscando dados reais do banco
                 const allAnswers = await tx.assessment_answers.findMany({
                     where: { assessment_id: assessmentId },
                     include: {
-                        question_options: true,
+                        question_options: {
+                            select: { score_value: true }
+                        },
                     },
                 });
 
@@ -148,12 +169,12 @@ export class AssessmentController {
                     totalScore += (ans as any).question_options?.score_value || 0;
                 }
 
-                // c) Atualizar assessment para COMPLETED e salvar score
+                // c) Atualizar assessment para COMPLETED e salvar score calculado
                 const updatedAssessment = await tx.assessments.update({
                     where: { id: assessmentId },
                     data: {
                         calculated_score: totalScore,
-                        status: 'COMPLETED',
+                        status: assessment_status_enum.COMPLETED,
                         finished_at: new Date(),
                     },
                 });
@@ -161,13 +182,18 @@ export class AssessmentController {
                 return {
                     id: updatedAssessment.id,
                     calculated_score: totalScore,
+                    status: updatedAssessment.status
                 };
             });
 
             return res.json(result);
-        } catch (error) {
-            console.error('Finalize Assessment Error:', error);
-            return res.status(500).json({ error: 'Internal server error' });
+        } catch (error: any) {
+            console.error('CRITICAL: Finalize Assessment Error Detailed:', {
+                assessmentId,
+                error: error.message,
+                stack: error.stack
+            });
+            return res.status(500).json({ error: 'Failed to finalize assessment', details: error.message });
         }
     }
 }
