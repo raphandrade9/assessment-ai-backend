@@ -1,0 +1,342 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model applications {
+  id                                            String                    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  company_id                                    String?                   @db.Uuid
+  name                                          String                    @db.VarChar(255)
+  description                                   String?
+  business_owner_id                             String?                   @db.Uuid
+  tech_owner_id                                 String?                   @db.Uuid
+  business_area_id                              String?                   @db.Uuid
+  sub_area_id                                   String?                   @db.Uuid
+  risk_status_id                                Int?
+  criticality_id                                Int?
+  operational_status_id                         Int?
+  data_sensitivity_id                           Int?
+  has_assessment                                Boolean?                  @default(false)
+  has_score                                     Boolean?                  @default(false)
+  has_diagnosis                                 Boolean?                  @default(false)
+  has_action_plan                               Boolean?                  @default(false)
+  created_at                                    DateTime?                 @default(now()) @db.Timestamptz(6)
+  updated_at                                    DateTime?                 @default(now()) @db.Timestamptz(6)
+  business_areas                                business_areas?           @relation(fields: [business_area_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  people_applications_business_owner_idTopeople people?                   @relation("applications_business_owner_idTopeople", fields: [business_owner_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  companies                                     companies?                @relation(fields: [company_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  ref_business_criticality                      ref_business_criticality? @relation(fields: [criticality_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  ref_sensitivity_levels                        ref_sensitivity_levels?   @relation(fields: [data_sensitivity_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  ref_operational_status                        ref_operational_status?   @relation(fields: [operational_status_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  ref_risk_status                               ref_risk_status?          @relation(fields: [risk_status_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  business_sub_areas                            business_sub_areas?       @relation(fields: [sub_area_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  people_applications_tech_owner_idTopeople     people?                   @relation("applications_tech_owner_idTopeople", fields: [tech_owner_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  assessments                                   assessments[]
+}
+
+model assessment_answers {
+  id                 String            @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  assessment_id      String?           @db.Uuid
+  question_id        Int?
+  selected_option_id Int?
+  open_text_answer   String?
+  comment            String?
+  score_awarded      Int?
+  created_at         DateTime?         @default(now()) @db.Timestamptz(6)
+  assessments        assessments?      @relation(fields: [assessment_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  questions          questions?        @relation(fields: [question_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  question_options   question_options? @relation(fields: [selected_option_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model assessment_attachments {
+  id            String         @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  assessment_id String?        @db.Uuid
+  file_type     file_type_enum
+  file_path     String         @db.VarChar(500)
+  uploaded_at   DateTime?      @default(now()) @db.Timestamptz(6)
+  assessments   assessments?   @relation(fields: [assessment_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model assessment_results {
+  id                  String               @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  assessment_id       String?              @db.Uuid
+  section_id          Int?
+  score               Decimal?             @db.Decimal(5, 2)
+  diagnosis_text      String?
+  action_plan_text    String?
+  created_at          DateTime?            @default(now()) @db.Timestamptz(6)
+  assessments         assessments?         @relation(fields: [assessment_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  assessment_sections assessment_sections? @relation(fields: [section_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model assessment_sections {
+  id                   Int                   @id @default(autoincrement())
+  template_id          Int?
+  title                String                @db.VarChar(255)
+  weight               Decimal?              @default(1.0) @db.Decimal(5, 2)
+  order_index          Int?                  @default(0)
+  assessment_results   assessment_results[]
+  assessment_templates assessment_templates? @relation(fields: [template_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  diagnosis_rules      diagnosis_rules[]
+  questions            questions[]
+}
+
+model assessment_templates {
+  id                  Int                   @id @default(autoincrement())
+  title               String                @db.VarChar(255)
+  description         String?
+  version_number      Int
+  is_active           Boolean?              @default(false)
+  created_at          DateTime?             @default(now()) @db.Timestamptz(6)
+  assessment_sections assessment_sections[]
+  assessments         assessments[]
+  diagnosis_rules     diagnosis_rules[]
+}
+
+model assessments {
+  id                     String                   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  application_id         String?                  @db.Uuid
+  template_id            Int?
+  respondent_person_id   String?                  @db.Uuid
+  status                 assessment_status_enum?  @default(DRAFT)
+  calculated_score       Decimal?                 @db.Decimal(5, 2)
+  started_at             DateTime?                @default(now()) @db.Timestamptz(6)
+  finished_at            DateTime?                @db.Timestamptz(6)
+  assessment_answers     assessment_answers[]
+  assessment_attachments assessment_attachments[]
+  assessment_results     assessment_results[]
+  applications           applications?            @relation(fields: [application_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  people                 people?                  @relation(fields: [respondent_person_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  assessment_templates   assessment_templates?    @relation(fields: [template_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model business_areas {
+  id                 String               @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  company_id         String?              @db.Uuid
+  name               String               @db.VarChar(100)
+  description        String?
+  applications       applications[]
+  companies          companies?           @relation(fields: [company_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  business_sub_areas business_sub_areas[]
+
+  @@unique([company_id, name])
+}
+
+model business_sub_areas {
+  id             String          @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  area_id        String?         @db.Uuid
+  name           String          @db.VarChar(100)
+  applications   applications[]
+  business_areas business_areas? @relation(fields: [area_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([area_id, name])
+}
+
+model companies {
+  id                  String                @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  tenant_id           String?               @db.Uuid
+  name                String                @db.VarChar(255)
+  cnpj                String?               @db.VarChar(20)
+  sector              String?               @db.VarChar(100)
+  logo_url            String?               @db.VarChar(500)
+  created_at          DateTime?             @default(now()) @db.Timestamptz(6)
+  applications        applications[]
+  business_areas      business_areas[]
+  tenants             tenants?              @relation(fields: [tenant_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  people              people[]
+  user_company_access user_company_access[]
+
+  @@unique([tenant_id, cnpj])
+}
+
+model diagnosis_rules {
+  id                    Int                   @id @default(autoincrement())
+  template_id           Int?
+  section_id            Int?
+  min_score             Decimal?              @db.Decimal(5, 2)
+  max_score             Decimal?              @db.Decimal(5, 2)
+  diagnosis_text        String?
+  suggested_action_plan String?
+  assessment_sections   assessment_sections?  @relation(fields: [section_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  assessment_templates  assessment_templates? @relation(fields: [template_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model people {
+  id                                                  String               @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  company_id                                          String?              @db.Uuid
+  name                                                String               @db.VarChar(255)
+  email                                               String?              @db.VarChar(255)
+  job_title                                           String?              @db.VarChar(100)
+  phone                                               String?              @db.VarChar(50)
+  archetype_id                                        Int?
+  tech_level_id                                       Int?
+  business_level_id                                   Int?
+  created_at                                          DateTime?            @default(now()) @db.Timestamptz(6)
+  applications_applications_business_owner_idTopeople applications[]       @relation("applications_business_owner_idTopeople")
+  applications_applications_tech_owner_idTopeople     applications[]       @relation("applications_tech_owner_idTopeople")
+  assessments                                         assessments[]
+  ref_archetypes                                      ref_archetypes?      @relation(fields: [archetype_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  ref_business_levels                                 ref_business_levels? @relation(fields: [business_level_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  companies                                           companies?           @relation(fields: [company_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  ref_tech_levels                                     ref_tech_levels?     @relation(fields: [tech_level_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model question_options {
+  id                 Int                  @id @default(autoincrement())
+  question_id        Int?
+  text               String               @db.VarChar(500)
+  score_value        Int?                 @default(0)
+  is_knockout        Boolean?             @default(false)
+  assessment_answers assessment_answers[]
+  questions          questions?           @relation(fields: [question_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model questions {
+  id                  Int                  @id @default(autoincrement())
+  section_id          Int?
+  text                String
+  help_text           String?
+  question_type       question_type_enum
+  allow_comment       Boolean?             @default(false)
+  is_required         Boolean?             @default(true)
+  order_index         Int?                 @default(0)
+  assessment_answers  assessment_answers[]
+  question_options    question_options[]
+  assessment_sections assessment_sections? @relation(fields: [section_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model ref_archetypes {
+  id          Int      @id @default(autoincrement())
+  label       String   @db.VarChar(100)
+  description String?
+  color_hex   String?  @db.VarChar(7)
+  people      people[]
+}
+
+model ref_business_criticality {
+  id              Int            @id @default(autoincrement())
+  label           String         @db.VarChar(100)
+  description     String?
+  color_hex       String?        @db.VarChar(7)
+  sla_target      String?        @db.VarChar(50)
+  business_impact String?        @db.VarChar(255)
+  applications    applications[]
+}
+
+model ref_business_levels {
+  id           Int      @id @default(autoincrement())
+  level_number Int
+  label        String   @db.VarChar(100)
+  description  String?
+  people       people[]
+}
+
+model ref_operational_status {
+  id           Int            @id @default(autoincrement())
+  label        String         @db.VarChar(100)
+  description  String?
+  color_hex    String?        @db.VarChar(7)
+  is_active    Boolean?       @default(true)
+  applications applications[]
+}
+
+model ref_risk_status {
+  id             Int            @id @default(autoincrement())
+  label          String         @db.VarChar(100)
+  description    String?
+  color_hex      String?        @db.VarChar(7)
+  is_blocker     Boolean?       @default(false)
+  severity_level Int?
+  applications   applications[]
+}
+
+model ref_sensitivity_levels {
+  id                  Int            @id @default(autoincrement())
+  label               String         @db.VarChar(100)
+  description         String?
+  requires_encryption Boolean?       @default(false)
+  applications        applications[]
+}
+
+model ref_tech_levels {
+  id           Int      @id @default(autoincrement())
+  level_number Int
+  label        String   @db.VarChar(100)
+  description  String?
+  people       people[]
+}
+
+model tenant_users {
+  id         String          @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  tenant_id  String?         @db.Uuid
+  user_id    String?         @db.Uuid
+  role       user_role_type? @default(VIEWER)
+  created_at DateTime?       @default(now()) @db.Timestamptz(6)
+  tenants    tenants?        @relation(fields: [tenant_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  users      users?          @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([tenant_id, user_id])
+}
+
+model tenants {
+  id           String         @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  name         String         @db.VarChar(255)
+  slug         String         @unique @db.VarChar(100)
+  status       String?        @default("ACTIVE") @db.VarChar(50)
+  logo_url     String?        @db.VarChar(500)
+  created_at   DateTime?      @default(now()) @db.Timestamptz(6)
+  companies    companies[]
+  tenant_users tenant_users[]
+}
+
+model user_company_access {
+  user_id    String    @db.Uuid
+  company_id String    @db.Uuid
+  created_at DateTime? @default(now()) @db.Timestamptz(6)
+  companies  companies @relation(fields: [company_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  users      users     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@id([user_id, company_id])
+}
+
+model users {
+  id                  String                @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  email               String                @unique @db.VarChar(255)
+  password_hash       String                @db.VarChar(255)
+  full_name           String                @db.VarChar(255)
+  avatar_url          String?               @db.VarChar(500)
+  is_super_admin      Boolean?              @default(false)
+  last_login          DateTime?             @db.Timestamptz(6)
+  created_at          DateTime?             @default(now()) @db.Timestamptz(6)
+  tenant_users        tenant_users[]
+  user_company_access user_company_access[]
+}
+
+enum assessment_status_enum {
+  DRAFT
+  SUBMITTED
+  ARCHIVED
+}
+
+enum file_type_enum {
+  CONTEXT_DOC
+  MEETING_TRANSCRIPT
+  EVIDENCE
+}
+
+enum question_type_enum {
+  SINGLE_CHOICE
+  MULTI_CHOICE
+  OPEN_TEXT
+}
+
+enum user_role_type {
+  ADMIN
+  EDITOR
+  VIEWER
+}
