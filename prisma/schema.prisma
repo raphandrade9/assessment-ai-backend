@@ -128,6 +128,8 @@ model AssessmentDiagnosis {
   axis_analysis  Json?
   action_plan    Json?
   created_at     DateTime?   @default(now()) @db.Timestamptz(6)
+
+  @@map("assessment_diagnosis")
 }
 
 model business_areas {
