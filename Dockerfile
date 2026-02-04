@@ -11,6 +11,10 @@ RUN npm ci
 COPY . .
 
 # Gerar o Prisma Client (isso usa o output configurado no schema)
+# TRUQUE: Definimos uma URL falsa apenas para o build passar.
+# O Prisma precisa que a variável exista, mas não valida se conecta agora.
+ARG DATABASE_URL="postgresql://johndoe:randompassword@localhost:5432/mydb?schema=public"
+
 RUN npx prisma generate
 
 # Compilar o TypeScript
