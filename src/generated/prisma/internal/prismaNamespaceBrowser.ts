@@ -56,7 +56,7 @@ export const ModelName = {
   assessment_sections: 'assessment_sections',
   assessment_templates: 'assessment_templates',
   assessments: 'assessments',
-  assessment_diagnosis: 'assessment_diagnosis',
+  AssessmentDiagnosis: 'AssessmentDiagnosis',
   business_areas: 'business_areas',
   business_sub_areas: 'business_sub_areas',
   companies: 'companies',
@@ -192,17 +192,18 @@ export const AssessmentsScalarFieldEnum = {
 export type AssessmentsScalarFieldEnum = (typeof AssessmentsScalarFieldEnum)[keyof typeof AssessmentsScalarFieldEnum]
 
 
-export const Assessment_diagnosisScalarFieldEnum = {
+export const AssessmentDiagnosisScalarFieldEnum = {
   id: 'id',
   assessment_id: 'assessment_id',
   maturity_level: 'maturity_level',
   risk_label: 'risk_label',
+  overview_text: 'overview_text',
   axis_analysis: 'axis_analysis',
   action_plan: 'action_plan',
   created_at: 'created_at'
 } as const
 
-export type Assessment_diagnosisScalarFieldEnum = (typeof Assessment_diagnosisScalarFieldEnum)[keyof typeof Assessment_diagnosisScalarFieldEnum]
+export type AssessmentDiagnosisScalarFieldEnum = (typeof AssessmentDiagnosisScalarFieldEnum)[keyof typeof AssessmentDiagnosisScalarFieldEnum]
 
 
 export const Business_areasScalarFieldEnum = {
@@ -420,13 +421,6 @@ export const SortOrder = {
 } as const
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
-
-
-export const JsonNullValueInput = {
-  JsonNull: JsonNull
-} as const
-
-export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
 export const NullableJsonNullValueInput = {

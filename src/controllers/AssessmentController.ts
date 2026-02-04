@@ -256,11 +256,12 @@ export class AssessmentController {
                     throw new Error('No answers found to finalize assessment');
                 }
 
-                // 1. Cálculo do Score Global (Média Aritmética)
+                // 1. Cálculo do Score Global (MÉDIA ARITMÉTICA 0-100)
+                // O usuário quer a média: Total Pontos / Total Perguntas Respondidas
                 const totalSum = allAnswersWithSections.reduce((acc, curr) => acc + (curr.score_awarded || 0), 0);
                 const globalScore = Number((totalSum / allAnswersWithSections.length).toFixed(2));
 
-                // 2. Cálculo por Eixo (Média por Section)
+                // 2. Cálculo por Eixo (Para o Dashboard/Radar Chart)
                 const axisMap: Record<number, { title: string, sum: number, count: number }> = {};
                 allAnswersWithSections.forEach(ans => {
                     const sectionId = ans.questions?.section_id;
@@ -287,33 +288,38 @@ export class AssessmentController {
                     };
                 });
 
-                // 3. Determinação de Level e Risco
-                let maturity_level = "Iniciante";
-                let risk_label = "Crítico";
+                // 3. Determinação de Level e Risco (Novas Regras)
+                // Se score < 50: Level "Inicial", Risco "Alto"
+                // Se score >= 50: Level "Intermediário", Risco "Moderado"
+                // Se score >= 80: Level "Avançado", Risco "Baixo"
+                let maturity_level = "Inicial";
+                let risk_label = "Alto";
 
-                if (globalScore >= 70) {
+                if (globalScore >= 80) {
                     maturity_level = "Avançado";
                     risk_label = "Baixo";
-                } else if (globalScore >= 40) {
+                } else if (globalScore >= 50) {
                     maturity_level = "Intermediário";
                     risk_label = "Moderado";
                 }
 
-                // 4. Salvar Diagnóstico
-                const diagnosis = await tx.assessment_diagnosis.upsert({
+                // 4. Salvar Diagnóstico na nova tabela AssessmentDiagnosis
+                const diagnosis = await tx.assessmentDiagnosis.upsert({
                     where: { assessment_id: assessmentId },
                     update: {
                         maturity_level,
                         risk_label,
+                        overview_text: `Assessment finalizado com média de ${globalScore}. Nível de maturidade identificado como ${maturity_level}.`,
                         axis_analysis: axisAnalysis as any,
-                        action_plan: {} // MVP Placeholder
+                        action_plan: [] // MVP Placeholder
                     },
                     create: {
                         assessment_id: assessmentId,
                         maturity_level,
                         risk_label,
+                        overview_text: `Assessment finalizado com média de ${globalScore}. Nível de maturidade identificado como ${maturity_level}.`,
                         axis_analysis: axisAnalysis as any,
-                        action_plan: {} // MVP Placeholder
+                        action_plan: [] // MVP Placeholder
                     }
                 });
 
@@ -332,7 +338,8 @@ export class AssessmentController {
                     score: globalScore,
                     maturity_level,
                     risk_label,
-                    axis_analysis: axisAnalysis
+                    axis_analysis: axisAnalysis,
+                    action_plan: diagnosis.action_plan
                 };
             });
 

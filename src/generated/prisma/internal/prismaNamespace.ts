@@ -397,7 +397,7 @@ export const ModelName = {
   assessment_sections: 'assessment_sections',
   assessment_templates: 'assessment_templates',
   assessments: 'assessments',
-  assessment_diagnosis: 'assessment_diagnosis',
+  AssessmentDiagnosis: 'AssessmentDiagnosis',
   business_areas: 'business_areas',
   business_sub_areas: 'business_sub_areas',
   companies: 'companies',
@@ -431,7 +431,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "applications" | "assessment_answers" | "assessment_attachments" | "assessment_results" | "assessment_sections" | "assessment_templates" | "assessments" | "assessment_diagnosis" | "business_areas" | "business_sub_areas" | "companies" | "diagnosis_rules" | "people" | "question_options" | "questions" | "ref_archetypes" | "ref_business_criticality" | "ref_business_levels" | "ref_operational_status" | "ref_risk_status" | "ref_sensitivity_levels" | "ref_tech_levels" | "tenant_users" | "tenants" | "user_company_access" | "users"
+    modelProps: "applications" | "assessment_answers" | "assessment_attachments" | "assessment_results" | "assessment_sections" | "assessment_templates" | "assessments" | "assessmentDiagnosis" | "business_areas" | "business_sub_areas" | "companies" | "diagnosis_rules" | "people" | "question_options" | "questions" | "ref_archetypes" | "ref_business_criticality" | "ref_business_levels" | "ref_operational_status" | "ref_risk_status" | "ref_sensitivity_levels" | "ref_tech_levels" | "tenant_users" | "tenants" | "user_company_access" | "users"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -953,77 +953,77 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    assessment_diagnosis: {
-      payload: Prisma.$assessment_diagnosisPayload<ExtArgs>
-      fields: Prisma.assessment_diagnosisFieldRefs
+    AssessmentDiagnosis: {
+      payload: Prisma.$AssessmentDiagnosisPayload<ExtArgs>
+      fields: Prisma.AssessmentDiagnosisFieldRefs
       operations: {
         findUnique: {
-          args: Prisma.assessment_diagnosisFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$assessment_diagnosisPayload> | null
+          args: Prisma.AssessmentDiagnosisFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssessmentDiagnosisPayload> | null
         }
         findUniqueOrThrow: {
-          args: Prisma.assessment_diagnosisFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$assessment_diagnosisPayload>
+          args: Prisma.AssessmentDiagnosisFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssessmentDiagnosisPayload>
         }
         findFirst: {
-          args: Prisma.assessment_diagnosisFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$assessment_diagnosisPayload> | null
+          args: Prisma.AssessmentDiagnosisFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssessmentDiagnosisPayload> | null
         }
         findFirstOrThrow: {
-          args: Prisma.assessment_diagnosisFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$assessment_diagnosisPayload>
+          args: Prisma.AssessmentDiagnosisFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssessmentDiagnosisPayload>
         }
         findMany: {
-          args: Prisma.assessment_diagnosisFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$assessment_diagnosisPayload>[]
+          args: Prisma.AssessmentDiagnosisFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssessmentDiagnosisPayload>[]
         }
         create: {
-          args: Prisma.assessment_diagnosisCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$assessment_diagnosisPayload>
+          args: Prisma.AssessmentDiagnosisCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssessmentDiagnosisPayload>
         }
         createMany: {
-          args: Prisma.assessment_diagnosisCreateManyArgs<ExtArgs>
+          args: Prisma.AssessmentDiagnosisCreateManyArgs<ExtArgs>
           result: BatchPayload
         }
         createManyAndReturn: {
-          args: Prisma.assessment_diagnosisCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$assessment_diagnosisPayload>[]
+          args: Prisma.AssessmentDiagnosisCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssessmentDiagnosisPayload>[]
         }
         delete: {
-          args: Prisma.assessment_diagnosisDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$assessment_diagnosisPayload>
+          args: Prisma.AssessmentDiagnosisDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssessmentDiagnosisPayload>
         }
         update: {
-          args: Prisma.assessment_diagnosisUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$assessment_diagnosisPayload>
+          args: Prisma.AssessmentDiagnosisUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssessmentDiagnosisPayload>
         }
         deleteMany: {
-          args: Prisma.assessment_diagnosisDeleteManyArgs<ExtArgs>
+          args: Prisma.AssessmentDiagnosisDeleteManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateMany: {
-          args: Prisma.assessment_diagnosisUpdateManyArgs<ExtArgs>
+          args: Prisma.AssessmentDiagnosisUpdateManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateManyAndReturn: {
-          args: Prisma.assessment_diagnosisUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$assessment_diagnosisPayload>[]
+          args: Prisma.AssessmentDiagnosisUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssessmentDiagnosisPayload>[]
         }
         upsert: {
-          args: Prisma.assessment_diagnosisUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$assessment_diagnosisPayload>
+          args: Prisma.AssessmentDiagnosisUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssessmentDiagnosisPayload>
         }
         aggregate: {
-          args: Prisma.Assessment_diagnosisAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateAssessment_diagnosis>
+          args: Prisma.AssessmentDiagnosisAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAssessmentDiagnosis>
         }
         groupBy: {
-          args: Prisma.assessment_diagnosisGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.Assessment_diagnosisGroupByOutputType>[]
+          args: Prisma.AssessmentDiagnosisGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AssessmentDiagnosisGroupByOutputType>[]
         }
         count: {
-          args: Prisma.assessment_diagnosisCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.Assessment_diagnosisCountAggregateOutputType> | number
+          args: Prisma.AssessmentDiagnosisCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AssessmentDiagnosisCountAggregateOutputType> | number
         }
       }
     }
@@ -2497,17 +2497,18 @@ export const AssessmentsScalarFieldEnum = {
 export type AssessmentsScalarFieldEnum = (typeof AssessmentsScalarFieldEnum)[keyof typeof AssessmentsScalarFieldEnum]
 
 
-export const Assessment_diagnosisScalarFieldEnum = {
+export const AssessmentDiagnosisScalarFieldEnum = {
   id: 'id',
   assessment_id: 'assessment_id',
   maturity_level: 'maturity_level',
   risk_label: 'risk_label',
+  overview_text: 'overview_text',
   axis_analysis: 'axis_analysis',
   action_plan: 'action_plan',
   created_at: 'created_at'
 } as const
 
-export type Assessment_diagnosisScalarFieldEnum = (typeof Assessment_diagnosisScalarFieldEnum)[keyof typeof Assessment_diagnosisScalarFieldEnum]
+export type AssessmentDiagnosisScalarFieldEnum = (typeof AssessmentDiagnosisScalarFieldEnum)[keyof typeof AssessmentDiagnosisScalarFieldEnum]
 
 
 export const Business_areasScalarFieldEnum = {
@@ -2725,13 +2726,6 @@ export const SortOrder = {
 } as const
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
-
-
-export const JsonNullValueInput = {
-  JsonNull: JsonNull
-} as const
-
-export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
 export const NullableJsonNullValueInput = {
@@ -3013,7 +3007,7 @@ export type GlobalOmitConfig = {
   assessment_sections?: Prisma.assessment_sectionsOmit
   assessment_templates?: Prisma.assessment_templatesOmit
   assessments?: Prisma.assessmentsOmit
-  assessment_diagnosis?: Prisma.assessment_diagnosisOmit
+  assessmentDiagnosis?: Prisma.AssessmentDiagnosisOmit
   business_areas?: Prisma.business_areasOmit
   business_sub_areas?: Prisma.business_sub_areasOmit
   companies?: Prisma.companiesOmit
