@@ -29,23 +29,63 @@ export class CompanyController {
     async create(req: Request, res: Response) {
         try {
             const { name, document } = req.body;
-            const userId = req.user.id;
+            const user = req.user;
+            const userId = user.id;
 
             if (!name) {
                 return res.status(400).json({ error: 'Company name is required' });
             }
 
-            // Criar empresa e vínculo em uma transação
             const company = await prisma.$transaction(async (tx) => {
+                // 1. Verificação de Tenant do Usuário
+                let tenantUser = await tx.tenant_users.findFirst({
+                    where: { user_id: userId },
+                });
+
+                let tenantId: string;
+
+                if (!tenantUser) {
+                    // 2. Criação do Tenant (Cenário A: Primeira Empresa)
+                    const tenantName = `Organization de ${user.full_name || user.email}`;
+                    const baseSlug = (user.full_name || user.email.split('@')[0])
+                        .toLowerCase()
+                        .replace(/ /g, '-')
+                        .replace(/[^\w-]+/g, '');
+
+                    const slug = `${baseSlug}-${Date.now()}`; // Garantir unicidade simples
+
+                    const newTenant = await tx.tenants.create({
+                        data: {
+                            name: tenantName,
+                            slug,
+                        },
+                    });
+
+                    // Criar vínculo do usuário com o novo tenant
+                    await tx.tenant_users.create({
+                        data: {
+                            user_id: userId,
+                            tenant_id: newTenant.id,
+                            role: 'OWNER',
+                        },
+                    });
+
+                    tenantId = newTenant.id;
+                } else {
+                    // Cenário B: Já existe tenant
+                    tenantId = tenantUser.tenant_id as string;
+                }
+
+                // 3. Criação da Empresa com Tenant Obrigatório
                 const newCompany = await tx.companies.create({
                     data: {
                         name,
                         cnpj: document,
-                        // Nota: tenant_id é opcional no schema, mas em um sistema multi-tenant real
-                        // você provavelmente criaria um tenant ou associaria a um existente aqui.
+                        tenant_id: tenantId,
                     },
                 });
 
+                // 4. Vínculo User-Company
                 await tx.user_company_access.create({
                     data: {
                         user_id: userId,
