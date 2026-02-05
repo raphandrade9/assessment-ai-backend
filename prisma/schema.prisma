@@ -273,7 +273,7 @@ model ref_risk_status {
 }
 
 model ref_sensitivity_levels {
-  id                  Int            @id @id @default(autoincrement())
+  id                  Int            @id @default(autoincrement())
   label               String         @db.VarChar(100)
   description         String?
   requires_encryption Boolean?       @default(false)
