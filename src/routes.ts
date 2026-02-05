@@ -23,6 +23,9 @@ routes.post('/api/assessment/:id/finalize', assessmentController.finalize);
 // Company routes
 routes.get('/api/companies', companyController.list);
 routes.post('/api/companies', companyController.create);
+routes.get('/api/companies/:id/metrics', companyController.getMetrics);
+routes.get('/api/companies/:id/metrics/areas', companyController.getMetricsByArea);
+routes.get('/api/companies/:id/metrics/areas/:areaId/sub-areas', companyController.getMetricsBySubArea);
 
 // Application routes
 routes.get('/api/applications', applicationController.list);
