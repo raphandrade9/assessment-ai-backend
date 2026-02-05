@@ -1,8 +1,9 @@
 import { Request, Response } from 'express';
 import prisma from '../lib/prisma';
+import { calculateMaturityPercentage } from '../utils/metrics';
 
 export class ApplicationController {
-    async list(req: Request, res: Response) {
+    async list(req: any, res: any) {
         try {
             const { company_id } = req.query;
             const userId = req.user.id;
@@ -32,6 +33,10 @@ export class ApplicationController {
                     company_id: companyIdStr,
                 },
                 include: {
+                    business_areas: { select: { name: true } },
+                    business_sub_areas: { select: { name: true } },
+                    ref_risk_status: { select: { label: true } },
+                    ref_business_criticality: { select: { label: true } },
                     assessments: {
                         orderBy: { started_at: 'desc' },
                         take: 1,
@@ -47,15 +52,24 @@ export class ApplicationController {
             // Format response to match required structure
             const formattedApps = (applications as any[]).map(app => {
                 const latestAssessment = app.assessments[0];
+
+                // Progress based on 20 questions (from user requirement)
+                const answersCount = latestAssessment?._count?.assessment_answers || 0;
+                const progress = Math.min(Math.round((answersCount / 20) * 100), 100);
+
                 return {
                     id: app.id,
                     name: app.name,
-                    description: app.description,
+                    business_area: app.business_areas ? { name: app.business_areas.name } : null,
+                    sub_area: app.business_sub_areas ? { name: app.business_sub_areas.name } : null,
                     assessment: latestAssessment ? {
                         id: latestAssessment.id,
                         status: latestAssessment.status,
-                        answers_count: latestAssessment._count.assessment_answers
-                    } : null
+                        progress: progress,
+                        maturity_score: calculateMaturityPercentage(Number(latestAssessment.calculated_score || 0))
+                    } : null,
+                    risk_status: app.ref_risk_status ? { name: app.ref_risk_status.label } : null,
+                    criticality: app.ref_business_criticality ? { name: app.ref_business_criticality.label } : null
                 };
             });
 
@@ -67,7 +81,7 @@ export class ApplicationController {
         }
     }
 
-    async create(req: Request, res: Response) {
+    async create(req: any, res: any) {
         try {
             const { company_id, name, description } = req.body;
             const userId = req.user.id;
