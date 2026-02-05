@@ -106,7 +106,7 @@ model assessments {
   template_id            Int?
   respondent_person_id   String?                  @db.Uuid
   status                 assessment_status_enum?  @default(DRAFT)
-  calculated_score       Decimal?                 @db.Decimal(5, 2)
+  calculated_score       Decimal?                 @db.Decimal(10, 2)
   started_at             DateTime?                @default(now()) @db.Timestamptz(6)
   finished_at            DateTime?                @db.Timestamptz(6)
   assessment_answers     assessment_answers[]

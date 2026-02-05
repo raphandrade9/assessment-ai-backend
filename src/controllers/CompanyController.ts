@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import prisma from '../lib/prisma';
+import { calculateMaturityPercentage } from '../utils/metrics';
 
 export class CompanyController {
     async list(req: Request, res: Response) {
@@ -177,8 +178,7 @@ export class CompanyController {
             ]);
 
             // Normalização: 0-2000 -> 0-100
-            const rawAvg = Number(avgMaturity?._avg?.calculated_score || 0);
-            const normalizedAvg = Math.round(rawAvg / 20);
+            const normalizedAvg = calculateMaturityPercentage(avgMaturity?._avg?.calculated_score as any);
 
             return res.json({
                 avg_maturity: normalizedAvg,
@@ -237,7 +237,7 @@ export class CompanyController {
                 name: group.name,
                 app_count: group.app_count,
                 avg_score: group.assessed_count > 0
-                    ? Math.round(group.total_score / group.assessed_count)
+                    ? calculateMaturityPercentage(group.total_score / group.assessed_count)
                     : 0
             }));
 
@@ -302,7 +302,7 @@ export class CompanyController {
                 name: group.name,
                 app_count: group.app_count,
                 avg_score: group.assessed_count > 0
-                    ? Math.round(group.total_score / group.assessed_count)
+                    ? calculateMaturityPercentage(group.total_score / group.assessed_count)
                     : 0
             }));
 
