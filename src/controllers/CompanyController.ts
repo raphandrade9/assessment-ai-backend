@@ -109,7 +109,7 @@ export class CompanyController {
             const id = req.params.id as string;
 
             const [avgMaturity, attentionRequired, pendingAssessments, totalApps] = await Promise.all([
-                // 1. Média de Maturidade
+                // 1. Média de Maturidade (Normalizada 0-100)
                 prisma.assessments.aggregate({
                     where: {
                         applications: { company_id: id },
@@ -118,7 +118,7 @@ export class CompanyController {
                     _avg: { calculated_score: true }
                 }),
 
-                // 2. Atenção Requerida
+                // 2. Atenção Requerida (Regras de Negócio Ajustadas)
                 prisma.applications.count({
                     where: {
                         company_id: id,
@@ -128,22 +128,21 @@ export class CompanyController {
                                 ref_risk_status: {
                                     OR: [
                                         { label: { contains: 'Atenção', mode: 'insensitive' } },
-                                        { label: { contains: 'Crítico', mode: 'insensitive' } },
-                                        { label: { contains: 'Critico', mode: 'insensitive' } },
+                                        { label: { contains: 'Crític', mode: 'insensitive' } },
                                         { label: { contains: 'Alto', mode: 'insensitive' } }
                                     ]
                                 }
                             },
-                            // Nota Baixa
+                            // Nota Baixa (< 40% de 2000pts = 800pts)
                             {
                                 assessments: {
                                     some: {
                                         status: 'COMPLETED',
-                                        calculated_score: { lt: 40 }
+                                        calculated_score: { lt: 800 }
                                     }
                                 }
                             },
-                            // Crítico sem Assessment
+                            // Crítico ou Alto sem Assessment
                             {
                                 AND: [
                                     {
@@ -161,7 +160,7 @@ export class CompanyController {
                     }
                 }),
 
-                // 3. Avaliações Pendentes (In Progress)
+                // 3. Avaliações Pendentes (IN_PROGRESS)
                 prisma.applications.count({
                     where: {
                         company_id: id,
@@ -177,8 +176,12 @@ export class CompanyController {
                 })
             ]);
 
+            // Normalização: 0-2000 -> 0-100
+            const rawAvg = Number(avgMaturity?._avg?.calculated_score || 0);
+            const normalizedAvg = Math.round(rawAvg / 20);
+
             return res.json({
-                avg_maturity: Math.round(Number(avgMaturity?._avg?.calculated_score || 0)),
+                avg_maturity: normalizedAvg,
                 attention_required: attentionRequired,
                 pending_assessments: pendingAssessments,
                 total_applications: totalApps
