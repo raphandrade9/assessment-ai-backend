@@ -33,10 +33,14 @@ export class ApplicationController {
                     company_id: companyIdStr,
                 },
                 include: {
-                    business_areas: { select: { name: true } },
-                    business_sub_areas: { select: { name: true } },
-                    ref_risk_status: { select: { label: true } },
-                    ref_business_criticality: { select: { label: true } },
+                    business_areas: { select: { id: true, name: true } },
+                    business_sub_areas: { select: { id: true, name: true } },
+                    ref_risk_status: { select: { id: true, label: true } },
+                    ref_business_criticality: { select: { id: true, label: true } },
+                    ref_sensitivity_levels: { select: { id: true, label: true } },
+                    ref_operational_status: { select: { id: true, label: true } },
+                    people_applications_business_owner_idTopeople: { select: { id: true, name: true } },
+                    people_applications_tech_owner_idTopeople: { select: { id: true, name: true } },
                     assessments: {
                         orderBy: { started_at: 'desc' },
                         take: 1,
@@ -53,23 +57,35 @@ export class ApplicationController {
             const formattedApps = (applications as any[]).map(app => {
                 const latestAssessment = app.assessments[0];
 
-                // Progress based on 20 questions (from user requirement)
                 const answersCount = latestAssessment?._count?.assessment_answers || 0;
                 const progress = Math.min(Math.round((answersCount / 20) * 100), 100);
 
                 return {
                     id: app.id,
                     name: app.name,
-                    business_area: app.business_areas ? { name: app.business_areas.name } : null,
-                    sub_area: app.business_sub_areas ? { name: app.business_sub_areas.name } : null,
+                    description: app.description,
+                    business_owner_id: app.business_owner_id,
+                    tech_owner_id: app.tech_owner_id,
+                    business_area_id: app.business_area_id,
+                    sub_area_id: app.sub_area_id,
+                    risk_status_id: app.risk_status_id,
+                    criticality_id: app.criticality_id,
+                    operational_status_id: app.operational_status_id,
+                    data_sensitivity_id: app.data_sensitivity_id,
+                    business_owner: app.people_applications_business_owner_idTopeople,
+                    technical_owner: app.people_applications_tech_owner_idTopeople,
+                    business_area: app.business_areas,
+                    sub_area: app.business_sub_areas,
+                    risk_status: app.ref_risk_status,
+                    criticality: app.ref_business_criticality,
+                    sensitivity: app.ref_sensitivity_levels,
+                    operational_status: app.ref_operational_status,
                     assessment: latestAssessment ? {
                         id: latestAssessment.id,
                         status: latestAssessment.status,
                         progress: progress,
                         maturity_score: calculateMaturityPercentage(Number(latestAssessment.calculated_score || 0))
-                    } : null,
-                    risk_status: app.ref_risk_status ? { name: app.ref_risk_status.label } : null,
-                    criticality: app.ref_business_criticality ? { name: app.ref_business_criticality.label } : null
+                    } : null
                 };
             });
 
@@ -83,19 +99,24 @@ export class ApplicationController {
 
     async create(req: any, res: any) {
         try {
-            const { company_id, name, description } = req.body;
+            const {
+                company_id, name, description,
+                business_owner_id, tech_owner_id,
+                business_area_id, sub_area_id,
+                risk_status_id, criticality_id,
+                operational_status_id, data_sensitivity_id
+            } = req.body;
             const userId = req.user.id;
 
             if (!company_id || !name) {
                 return res.status(400).json({ error: 'Missing company_id or name' });
             }
 
-            // Verificar se a empresa pertence ao usuário ou se ele tem acesso
             const access = await prisma.user_company_access.findUnique({
                 where: {
                     user_id_company_id: {
                         user_id: userId,
-                        company_id: company_id,
+                        company_id: String(company_id),
                     },
                 },
             });
@@ -106,9 +127,17 @@ export class ApplicationController {
 
             const application = await prisma.applications.create({
                 data: {
-                    company_id,
+                    company_id: String(company_id),
                     name,
                     description,
+                    business_owner_id,
+                    tech_owner_id,
+                    business_area_id,
+                    sub_area_id,
+                    risk_status_id: risk_status_id ? Number(risk_status_id) : undefined,
+                    criticality_id: criticality_id ? Number(criticality_id) : undefined,
+                    operational_status_id: operational_status_id ? Number(operational_status_id) : undefined,
+                    data_sensitivity_id: data_sensitivity_id ? Number(data_sensitivity_id) : undefined,
                 },
             });
 

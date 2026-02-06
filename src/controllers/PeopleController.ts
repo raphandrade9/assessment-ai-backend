@@ -23,6 +23,9 @@ export class PeopleController {
                 email: person.email,
                 job_title: person.job_title,
                 phone: person.phone,
+                archetype_id: person.archetype_id,
+                technical_level_id: person.tech_level_id,
+                business_level_id: person.business_level_id,
                 archetype: person.ref_archetypes,
                 technical_level: person.ref_tech_levels,
                 business_level: person.ref_business_levels
@@ -76,6 +79,9 @@ export class PeopleController {
                 email: person.email,
                 job_title: person.job_title,
                 phone: person.phone,
+                archetype_id: person.archetype_id,
+                technical_level_id: person.tech_level_id,
+                business_level_id: person.business_level_id,
                 archetype: person.ref_archetypes,
                 technical_level: person.ref_tech_levels,
                 business_level: person.ref_business_levels
@@ -133,6 +139,9 @@ export class PeopleController {
                 email: updatedPerson.email,
                 job_title: updatedPerson.job_title,
                 phone: updatedPerson.phone,
+                archetype_id: updatedPerson.archetype_id,
+                technical_level_id: updatedPerson.tech_level_id,
+                business_level_id: updatedPerson.business_level_id,
                 archetype: updatedPerson.ref_archetypes,
                 technical_level: updatedPerson.ref_tech_levels,
                 business_level: updatedPerson.ref_business_levels
