@@ -109,7 +109,7 @@ export class CompanyController {
         try {
             const id = req.params.id as string;
 
-            const [avgMaturity, attentionRequired, pendingAssessments, totalApps] = await Promise.all([
+            const [avgMaturity, attentionRequired, pendingAssessments, totalApps, completedAssessments] = await Promise.all([
                 // 1. Média de Maturidade (Normalizada 0-100)
                 prisma.assessments.aggregate({
                     where: {
@@ -174,6 +174,14 @@ export class CompanyController {
                 // 4. Total de Aplicações
                 prisma.applications.count({
                     where: { company_id: id }
+                }),
+
+                // 5. Assessments Concluídos (Completed)
+                prisma.assessments.count({
+                    where: {
+                        applications: { company_id: id },
+                        status: 'COMPLETED'
+                    }
                 })
             ]);
 
@@ -184,6 +192,7 @@ export class CompanyController {
                 avg_maturity: normalizedAvg,
                 attention_required: attentionRequired,
                 pending_assessments: pendingAssessments,
+                completed_assessments: completedAssessments,
                 total_applications: totalApps
             });
         } catch (error) {
@@ -309,6 +318,80 @@ export class CompanyController {
             return res.json({ sub_areas: result });
         } catch (error) {
             console.error('Error getting metrics by sub-area:', error);
+            return res.status(500).json({ error: 'Internal server error' });
+        }
+    }
+    async getApplicationsByStatus(req: Request, res: Response) {
+        try {
+            const companyId = req.params.id as string;
+            const groupBy = (req.query.group_by as string) || 'area'; // 'area' | 'sub_area'
+            const parentId = req.query.parent_id as string | undefined;
+
+            const whereClause: any = { company_id: companyId };
+
+            // Filtro opcional de parent (ex: ao clicar em uma área, ver sub-áreas dela)
+            if (parentId) {
+                if (groupBy === 'sub_area') {
+                    whereClause.business_area_id = parentId;
+                }
+            }
+
+            const apps = await prisma.applications.findMany({
+                where: whereClause,
+                include: {
+                    business_areas: true,
+                    business_sub_areas: true,
+                    assessments: {
+                        select: { status: true }
+                    }
+                }
+            });
+
+            const groups: Record<string, any> = {};
+
+            apps.forEach(app => {
+                let groupId = 'unassigned';
+                let groupName = 'Não Identificado';
+
+                if (groupBy === 'area') {
+                    groupId = app.business_area_id || 'unassigned';
+                    groupName = app.business_areas?.name || 'Sem Área';
+                } else if (groupBy === 'sub_area') {
+                    groupId = app.sub_area_id || 'unassigned';
+                    groupName = app.business_sub_areas?.name || 'Sem Sub-Área';
+                }
+
+                if (!groups[groupId]) {
+                    groups[groupId] = {
+                        id: groupId === 'unassigned' ? null : groupId,
+                        name: groupName,
+                        completed: 0,
+                        in_progress: 0,
+                        not_started: 0,
+                        total: 0
+                    };
+                }
+
+                groups[groupId].total++;
+
+                // Determinar status da aplicação
+                // Prioridade: COMPLETED > IN_PROGRESS > NOT_STARTED
+                const hasCompleted = app.assessments.some(a => a.status === 'COMPLETED');
+                const hasInProgress = app.assessments.some(a => a.status === 'IN_PROGRESS');
+
+                if (hasCompleted) {
+                    groups[groupId].completed++;
+                } else if (hasInProgress) {
+                    groups[groupId].in_progress++;
+                } else {
+                    groups[groupId].not_started++;
+                }
+            });
+
+            const result = Object.values(groups);
+            return res.json(result);
+        } catch (error) {
+            console.error('Error getting applications by status:', error);
             return res.status(500).json({ error: 'Internal server error' });
         }
     }

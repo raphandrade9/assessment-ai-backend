@@ -5,5 +5,5 @@
  */
 export function calculateMaturityPercentage(rawScore: number | null | undefined): number {
     if (!rawScore) return 0;
-    return Math.round(Number(rawScore) / 20);
+    return Math.round(Number(rawScore));
 }

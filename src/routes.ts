@@ -31,6 +31,7 @@ routes.post('/api/companies', companyController.create);
 routes.get('/api/companies/:id/metrics', companyController.getMetrics);
 routes.get('/api/companies/:id/metrics/areas', companyController.getMetricsByArea);
 routes.get('/api/companies/:id/metrics/areas/:areaId/sub-areas', companyController.getMetricsBySubArea);
+routes.get('/api/companies/:id/analytics/applications-by-status', companyController.getApplicationsByStatus);
 
 // People routes
 routes.get('/api/companies/:companyId/people', peopleController.listByCompany);
