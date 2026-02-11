@@ -11,7 +11,7 @@ export class UserController {
      * Query params: companyId (required)
      * Authorization: ADMIN or OWNER
      */
-    async list(req: Request, res: Response) {
+    list = async (req: Request, res: Response) => {
         try {
             const companyId = req.query.companyId as string;
             const requesterId = (req as any).user?.id;
@@ -65,7 +65,7 @@ export class UserController {
      * Body: { email, fullName, role, companyId }
      * Authorization: ADMIN or OWNER
      */
-    async create(req: Request, res: Response) {
+    create = async (req: Request, res: Response) => {
         try {
             const { email, fullName, role, companyId } = req.body;
 
@@ -186,7 +186,7 @@ export class UserController {
      * Body: { role, companyId }
      * Authorization: ADMIN or OWNER (with restrictions)
      */
-    async updateRole(req: Request, res: Response) {
+    updateRole = async (req: Request, res: Response) => {
         try {
             const targetUserId = req.params.id;
             const requesterId = (req as any).user?.id;
@@ -277,7 +277,7 @@ export class UserController {
      * Query params: companyId (required)
      * Authorization: ADMIN or OWNER
      */
-    async removeAccess(req: Request, res: Response) {
+    removeAccess = async (req: Request, res: Response) => {
         try {
             const targetUserId = req.params.id;
             const companyId = Array.isArray(req.query.companyId)
@@ -339,7 +339,7 @@ export class UserController {
      * Trigger a password reset email for a user
      * Authorization: ADMIN or OWNER
      */
-    async resetPassword(req: Request, res: Response) {
+    resetPassword = async (req: Request, res: Response) => {
         try {
             const targetUserId = req.params.id;
 
@@ -378,7 +378,7 @@ export class UserController {
      * Generate a temporary random password
      * Private helper method
      */
-    private generateTempPassword(): string {
+    private generateTempPassword = (): string => {
         const length = 16;
         const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*';
         let password = '';
