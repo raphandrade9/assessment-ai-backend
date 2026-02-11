@@ -4,7 +4,9 @@ import { CompanyController } from './controllers/CompanyController';
 import { ApplicationController } from './controllers/ApplicationController';
 import { PeopleController } from './controllers/PeopleController';
 import { ReferenceController } from './controllers/ReferenceController';
+import { UserController } from './controllers/UserController';
 import { requireAuth } from './middlewares/auth';
+import { requireRole } from './utils/authHelpers';
 import { BusinessAreaController } from './controllers/BusinessAreaController';
 
 const routes = Router();
@@ -13,6 +15,7 @@ const companyController = new CompanyController();
 const applicationController = new ApplicationController();
 const peopleController = new PeopleController();
 const referenceController = new ReferenceController();
+const userController = new UserController();
 const businessAreaController = new BusinessAreaController();
 
 // Protected routes
@@ -61,5 +64,13 @@ routes.get('/api/references/business-levels', referenceController.getBusinessLev
 // Application routes
 routes.get('/api/applications', applicationController.list);
 routes.post('/api/applications', applicationController.create);
+
+// User Management routes
+routes.use('/api/users', requireAuth);
+routes.get('/api/users', requireRole(['OWNER', 'ADMIN']), userController.list);
+routes.post('/api/users', requireRole(['OWNER', 'ADMIN']), userController.create);
+routes.put('/api/users/:id/role', requireRole(['OWNER', 'ADMIN']), userController.updateRole);
+routes.delete('/api/users/:id', requireRole(['OWNER', 'ADMIN']), userController.removeAccess);
+routes.post('/api/users/:id/reset-password', requireRole(['OWNER', 'ADMIN']), userController.resetPassword);
 
 export default routes;
