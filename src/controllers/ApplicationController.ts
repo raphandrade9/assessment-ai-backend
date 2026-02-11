@@ -3,7 +3,7 @@ import prisma from '../lib/prisma';
 import { calculateMaturityPercentage } from '../utils/metrics';
 
 export class ApplicationController {
-    async list(req: any, res: any) {
+    list = async (req: any, res: any) => {
         try {
             const { company_id } = req.query;
             const userId = req.user.id;
@@ -97,7 +97,7 @@ export class ApplicationController {
         }
     }
 
-    async create(req: any, res: any) {
+    create = async (req: any, res: any) => {
         try {
             const {
                 company_id, name, description,
@@ -125,25 +125,97 @@ export class ApplicationController {
                 return res.status(403).json({ error: 'Unauthorized access to this company' });
             }
 
+            // Helper to clean empty strings or invalid IDs to null
+            const cleanId = (id: any) => (id && id !== '' ? String(id) : null);
+            const cleanNumber = (val: any) => (val !== undefined && val !== null && val !== '' ? Number(val) : null);
+
             const application = await prisma.applications.create({
                 data: {
                     company_id: String(company_id),
                     name,
-                    description,
-                    business_owner_id,
-                    tech_owner_id,
-                    business_area_id,
-                    sub_area_id,
-                    risk_status_id: risk_status_id ? Number(risk_status_id) : undefined,
-                    criticality_id: criticality_id ? Number(criticality_id) : undefined,
-                    operational_status_id: operational_status_id ? Number(operational_status_id) : undefined,
-                    data_sensitivity_id: data_sensitivity_id ? Number(data_sensitivity_id) : undefined,
+                    description: description || null,
+                    business_owner_id: cleanId(business_owner_id),
+                    tech_owner_id: cleanId(tech_owner_id),
+                    business_area_id: cleanId(business_area_id),
+                    sub_area_id: cleanId(sub_area_id),
+                    risk_status_id: cleanNumber(risk_status_id),
+                    criticality_id: cleanNumber(criticality_id),
+                    operational_status_id: cleanNumber(operational_status_id),
+                    data_sensitivity_id: cleanNumber(data_sensitivity_id),
                 },
             });
 
             return res.status(201).json(application);
         } catch (error) {
             console.error('Create Application Error:', error);
+            return res.status(500).json({ error: 'Internal server error' });
+        }
+    }
+
+    update = async (req: any, res: any) => {
+        try {
+            const { id } = req.params;
+            const userId = req.user.id;
+            const data = req.body;
+
+            // 1. Find the application and check access
+            const existingApp = await prisma.applications.findUnique({
+                where: { id },
+                select: { company_id: true }
+            });
+
+            if (!existingApp) {
+                return res.status(404).json({ error: 'Application not found' });
+            }
+
+            if (!existingApp.company_id) {
+                return res.status(400).json({ error: 'Application has no company associated' });
+            }
+
+            const access = await prisma.user_company_access.findUnique({
+                where: {
+                    user_id_company_id: {
+                        user_id: userId,
+                        company_id: existingApp.company_id,
+                    },
+                },
+            });
+
+            if (!access) {
+                return res.status(403).json({ error: 'Unauthorized access to this application' });
+            }
+
+            // 2. Prepare update data - only include fields present in request
+            const updateData: any = {};
+            const fields = [
+                'name', 'description', 'business_owner_id', 'tech_owner_id',
+                'business_area_id', 'sub_area_id', 'risk_status_id',
+                'criticality_id', 'operational_status_id', 'data_sensitivity_id'
+            ];
+
+            const idFields = ['business_owner_id', 'tech_owner_id', 'business_area_id', 'sub_area_id'];
+            const numberFields = ['risk_status_id', 'criticality_id', 'operational_status_id', 'data_sensitivity_id'];
+
+            fields.forEach(field => {
+                if (data.hasOwnProperty(field)) {
+                    if (idFields.includes(field)) {
+                        updateData[field] = data[field] && data[field] !== '' ? String(data[field]) : null;
+                    } else if (numberFields.includes(field)) {
+                        updateData[field] = data[field] !== undefined && data[field] !== null && data[field] !== '' ? Number(data[field]) : null;
+                    } else {
+                        updateData[field] = data[field];
+                    }
+                }
+            });
+
+            const updatedApplication = await prisma.applications.update({
+                where: { id },
+                data: updateData,
+            });
+
+            return res.json(updatedApplication);
+        } catch (error) {
+            console.error('Update Application Error:', error);
             return res.status(500).json({ error: 'Internal server error' });
         }
     }

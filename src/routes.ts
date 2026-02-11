@@ -64,6 +64,7 @@ routes.get('/api/references/business-levels', referenceController.getBusinessLev
 // Application routes
 routes.get('/api/applications', applicationController.list);
 routes.post('/api/applications', applicationController.create);
+routes.patch('/api/applications/:id', applicationController.update);
 
 // User Management routes
 routes.use('/api/users', requireAuth);
