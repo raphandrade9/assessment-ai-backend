@@ -34,8 +34,8 @@ export async function hasRole(userId: string, companyId: string, allowedRoles: u
  */
 export function requireRole(allowedRoles: user_role_type[]) {
     return async (req: Request, res: Response, next: NextFunction) => {
-        const userId = req.user?.id;
-        const companyId = req.query.companyId as string || req.body.companyId as string;
+        const userId = (req as any).user?.id;
+        const companyId = (req.query?.companyId || req.body?.companyId) as string;
 
         if (!userId) {
             return res.status(401).json({ error: 'Unauthorized: No user found' });
