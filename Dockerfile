@@ -45,4 +45,4 @@ USER node
 EXPOSE ${PORT}
 
 # Comando de entrada
-CMD ["node", "dist/server.js"]
+CMD ["npm", "start"]
