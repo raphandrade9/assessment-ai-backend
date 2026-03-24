@@ -65,6 +65,7 @@ routes.get('/api/references/operational-status', referenceController.getOperatio
 
 // Application routes
 routes.get('/api/applications', applicationController.list);
+routes.get('/api/applications/:id', applicationController.getById);
 routes.post('/api/applications', applicationController.create);
 routes.patch('/api/applications/:id', applicationController.update);
 
