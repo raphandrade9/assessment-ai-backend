@@ -321,6 +321,63 @@ export class CompanyController {
             return res.status(500).json({ error: 'Internal server error' });
         }
     }
+
+    async getApplicationsBySubArea(req: Request, res: Response) {
+        try {
+            const companyId = req.params.id as string;
+            const areaId = req.params.areaId;
+            const subAreaId = req.params.subAreaId;
+
+            const whereClause: any = { company_id: companyId };
+
+            if (areaId === 'unassigned') {
+                whereClause.business_area_id = null;
+            } else {
+                whereClause.business_area_id = areaId;
+            }
+
+            if (subAreaId === 'unassigned') {
+                whereClause.sub_area_id = null;
+            } else {
+                whereClause.sub_area_id = subAreaId;
+            }
+
+            const apps = await prisma.applications.findMany({
+                where: whereClause,
+                include: {
+                    assessments: {
+                        where: { status: 'COMPLETED' },
+                        select: { calculated_score: true }
+                    }
+                }
+            });
+
+            const result = apps.map(app => {
+                let totalScore = 0;
+                let count = 0;
+
+                app.assessments.forEach(assessment => {
+                    totalScore += Number(assessment.calculated_score || 0);
+                    count++;
+                });
+
+                return {
+                    id: app.id,
+                    name: app.name,
+                    avg_score: count > 0 ? calculateMaturityPercentage(totalScore / count) : 0
+                };
+            });
+
+            // Ordenar descendentemente por avg_score
+            result.sort((a, b) => b.avg_score - a.avg_score);
+
+            return res.json({ applications: result });
+        } catch (error) {
+            console.error('Error getting applications by sub-area:', error);
+            return res.status(500).json({ error: 'Internal server error' });
+        }
+    }
+
     async getApplicationsByStatus(req: Request, res: Response) {
         try {
             const companyId = req.params.id as string;
