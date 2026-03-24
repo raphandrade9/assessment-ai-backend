@@ -57,6 +57,7 @@ export type ApplicationsMinAggregateOutputType = {
   has_score: boolean | null
   has_diagnosis: boolean | null
   has_action_plan: boolean | null
+  created_by_user_id: string | null
   created_at: Date | null
   updated_at: Date | null
 }
@@ -78,6 +79,7 @@ export type ApplicationsMaxAggregateOutputType = {
   has_score: boolean | null
   has_diagnosis: boolean | null
   has_action_plan: boolean | null
+  created_by_user_id: string | null
   created_at: Date | null
   updated_at: Date | null
 }
@@ -99,6 +101,7 @@ export type ApplicationsCountAggregateOutputType = {
   has_score: number
   has_diagnosis: number
   has_action_plan: number
+  created_by_user_id: number
   created_at: number
   updated_at: number
   _all: number
@@ -136,6 +139,7 @@ export type ApplicationsMinAggregateInputType = {
   has_score?: true
   has_diagnosis?: true
   has_action_plan?: true
+  created_by_user_id?: true
   created_at?: true
   updated_at?: true
 }
@@ -157,6 +161,7 @@ export type ApplicationsMaxAggregateInputType = {
   has_score?: true
   has_diagnosis?: true
   has_action_plan?: true
+  created_by_user_id?: true
   created_at?: true
   updated_at?: true
 }
@@ -178,6 +183,7 @@ export type ApplicationsCountAggregateInputType = {
   has_score?: true
   has_diagnosis?: true
   has_action_plan?: true
+  created_by_user_id?: true
   created_at?: true
   updated_at?: true
   _all?: true
@@ -286,6 +292,7 @@ export type ApplicationsGroupByOutputType = {
   has_score: boolean | null
   has_diagnosis: boolean | null
   has_action_plan: boolean | null
+  created_by_user_id: string | null
   created_at: Date | null
   updated_at: Date | null
   _count: ApplicationsCountAggregateOutputType | null
@@ -330,6 +337,7 @@ export type applicationsWhereInput = {
   has_score?: Prisma.BoolNullableFilter<"applications"> | boolean | null
   has_diagnosis?: Prisma.BoolNullableFilter<"applications"> | boolean | null
   has_action_plan?: Prisma.BoolNullableFilter<"applications"> | boolean | null
+  created_by_user_id?: Prisma.UuidNullableFilter<"applications"> | string | null
   created_at?: Prisma.DateTimeNullableFilter<"applications"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"applications"> | Date | string | null
   business_areas?: Prisma.XOR<Prisma.Business_areasNullableScalarRelationFilter, Prisma.business_areasWhereInput> | null
@@ -341,6 +349,7 @@ export type applicationsWhereInput = {
   ref_risk_status?: Prisma.XOR<Prisma.Ref_risk_statusNullableScalarRelationFilter, Prisma.ref_risk_statusWhereInput> | null
   business_sub_areas?: Prisma.XOR<Prisma.Business_sub_areasNullableScalarRelationFilter, Prisma.business_sub_areasWhereInput> | null
   people_applications_tech_owner_idTopeople?: Prisma.XOR<Prisma.PeopleNullableScalarRelationFilter, Prisma.peopleWhereInput> | null
+  users?: Prisma.XOR<Prisma.UsersNullableScalarRelationFilter, Prisma.usersWhereInput> | null
   assessments?: Prisma.AssessmentsListRelationFilter
 }
 
@@ -361,6 +370,7 @@ export type applicationsOrderByWithRelationInput = {
   has_score?: Prisma.SortOrderInput | Prisma.SortOrder
   has_diagnosis?: Prisma.SortOrderInput | Prisma.SortOrder
   has_action_plan?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
   business_areas?: Prisma.business_areasOrderByWithRelationInput
@@ -372,6 +382,7 @@ export type applicationsOrderByWithRelationInput = {
   ref_risk_status?: Prisma.ref_risk_statusOrderByWithRelationInput
   business_sub_areas?: Prisma.business_sub_areasOrderByWithRelationInput
   people_applications_tech_owner_idTopeople?: Prisma.peopleOrderByWithRelationInput
+  users?: Prisma.usersOrderByWithRelationInput
   assessments?: Prisma.assessmentsOrderByRelationAggregateInput
 }
 
@@ -395,6 +406,7 @@ export type applicationsWhereUniqueInput = Prisma.AtLeast<{
   has_score?: Prisma.BoolNullableFilter<"applications"> | boolean | null
   has_diagnosis?: Prisma.BoolNullableFilter<"applications"> | boolean | null
   has_action_plan?: Prisma.BoolNullableFilter<"applications"> | boolean | null
+  created_by_user_id?: Prisma.UuidNullableFilter<"applications"> | string | null
   created_at?: Prisma.DateTimeNullableFilter<"applications"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"applications"> | Date | string | null
   business_areas?: Prisma.XOR<Prisma.Business_areasNullableScalarRelationFilter, Prisma.business_areasWhereInput> | null
@@ -406,6 +418,7 @@ export type applicationsWhereUniqueInput = Prisma.AtLeast<{
   ref_risk_status?: Prisma.XOR<Prisma.Ref_risk_statusNullableScalarRelationFilter, Prisma.ref_risk_statusWhereInput> | null
   business_sub_areas?: Prisma.XOR<Prisma.Business_sub_areasNullableScalarRelationFilter, Prisma.business_sub_areasWhereInput> | null
   people_applications_tech_owner_idTopeople?: Prisma.XOR<Prisma.PeopleNullableScalarRelationFilter, Prisma.peopleWhereInput> | null
+  users?: Prisma.XOR<Prisma.UsersNullableScalarRelationFilter, Prisma.usersWhereInput> | null
   assessments?: Prisma.AssessmentsListRelationFilter
 }, "id">
 
@@ -426,6 +439,7 @@ export type applicationsOrderByWithAggregationInput = {
   has_score?: Prisma.SortOrderInput | Prisma.SortOrder
   has_diagnosis?: Prisma.SortOrderInput | Prisma.SortOrder
   has_action_plan?: Prisma.SortOrderInput | Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.applicationsCountOrderByAggregateInput
@@ -455,6 +469,7 @@ export type applicationsScalarWhereWithAggregatesInput = {
   has_score?: Prisma.BoolNullableWithAggregatesFilter<"applications"> | boolean | null
   has_diagnosis?: Prisma.BoolNullableWithAggregatesFilter<"applications"> | boolean | null
   has_action_plan?: Prisma.BoolNullableWithAggregatesFilter<"applications"> | boolean | null
+  created_by_user_id?: Prisma.UuidNullableWithAggregatesFilter<"applications"> | string | null
   created_at?: Prisma.DateTimeNullableWithAggregatesFilter<"applications"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableWithAggregatesFilter<"applications"> | Date | string | null
 }
@@ -478,6 +493,7 @@ export type applicationsCreateInput = {
   ref_risk_status?: Prisma.ref_risk_statusCreateNestedOneWithoutApplicationsInput
   business_sub_areas?: Prisma.business_sub_areasCreateNestedOneWithoutApplicationsInput
   people_applications_tech_owner_idTopeople?: Prisma.peopleCreateNestedOneWithoutApplications_applications_tech_owner_idTopeopleInput
+  users?: Prisma.usersCreateNestedOneWithoutApplicationsInput
   assessments?: Prisma.assessmentsCreateNestedManyWithoutApplicationsInput
 }
 
@@ -498,6 +514,7 @@ export type applicationsUncheckedCreateInput = {
   has_score?: boolean | null
   has_diagnosis?: boolean | null
   has_action_plan?: boolean | null
+  created_by_user_id?: string | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
   assessments?: Prisma.assessmentsUncheckedCreateNestedManyWithoutApplicationsInput
@@ -522,6 +539,7 @@ export type applicationsUpdateInput = {
   ref_risk_status?: Prisma.ref_risk_statusUpdateOneWithoutApplicationsNestedInput
   business_sub_areas?: Prisma.business_sub_areasUpdateOneWithoutApplicationsNestedInput
   people_applications_tech_owner_idTopeople?: Prisma.peopleUpdateOneWithoutApplications_applications_tech_owner_idTopeopleNestedInput
+  users?: Prisma.usersUpdateOneWithoutApplicationsNestedInput
   assessments?: Prisma.assessmentsUpdateManyWithoutApplicationsNestedInput
 }
 
@@ -542,6 +560,7 @@ export type applicationsUncheckedUpdateInput = {
   has_score?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   has_diagnosis?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   has_action_plan?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   assessments?: Prisma.assessmentsUncheckedUpdateManyWithoutApplicationsNestedInput
@@ -564,6 +583,7 @@ export type applicationsCreateManyInput = {
   has_score?: boolean | null
   has_diagnosis?: boolean | null
   has_action_plan?: boolean | null
+  created_by_user_id?: string | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
 }
@@ -597,6 +617,7 @@ export type applicationsUncheckedUpdateManyInput = {
   has_score?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   has_diagnosis?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   has_action_plan?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -618,6 +639,7 @@ export type applicationsCountOrderByAggregateInput = {
   has_score?: Prisma.SortOrder
   has_diagnosis?: Prisma.SortOrder
   has_action_plan?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
 }
@@ -646,6 +668,7 @@ export type applicationsMaxOrderByAggregateInput = {
   has_score?: Prisma.SortOrder
   has_diagnosis?: Prisma.SortOrder
   has_action_plan?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
 }
@@ -667,6 +690,7 @@ export type applicationsMinOrderByAggregateInput = {
   has_score?: Prisma.SortOrder
   has_diagnosis?: Prisma.SortOrder
   has_action_plan?: Prisma.SortOrder
+  created_by_user_id?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
 }
@@ -1111,6 +1135,48 @@ export type applicationsUncheckedUpdateManyWithoutRef_sensitivity_levelsNestedIn
   deleteMany?: Prisma.applicationsScalarWhereInput | Prisma.applicationsScalarWhereInput[]
 }
 
+export type applicationsCreateNestedManyWithoutUsersInput = {
+  create?: Prisma.XOR<Prisma.applicationsCreateWithoutUsersInput, Prisma.applicationsUncheckedCreateWithoutUsersInput> | Prisma.applicationsCreateWithoutUsersInput[] | Prisma.applicationsUncheckedCreateWithoutUsersInput[]
+  connectOrCreate?: Prisma.applicationsCreateOrConnectWithoutUsersInput | Prisma.applicationsCreateOrConnectWithoutUsersInput[]
+  createMany?: Prisma.applicationsCreateManyUsersInputEnvelope
+  connect?: Prisma.applicationsWhereUniqueInput | Prisma.applicationsWhereUniqueInput[]
+}
+
+export type applicationsUncheckedCreateNestedManyWithoutUsersInput = {
+  create?: Prisma.XOR<Prisma.applicationsCreateWithoutUsersInput, Prisma.applicationsUncheckedCreateWithoutUsersInput> | Prisma.applicationsCreateWithoutUsersInput[] | Prisma.applicationsUncheckedCreateWithoutUsersInput[]
+  connectOrCreate?: Prisma.applicationsCreateOrConnectWithoutUsersInput | Prisma.applicationsCreateOrConnectWithoutUsersInput[]
+  createMany?: Prisma.applicationsCreateManyUsersInputEnvelope
+  connect?: Prisma.applicationsWhereUniqueInput | Prisma.applicationsWhereUniqueInput[]
+}
+
+export type applicationsUpdateManyWithoutUsersNestedInput = {
+  create?: Prisma.XOR<Prisma.applicationsCreateWithoutUsersInput, Prisma.applicationsUncheckedCreateWithoutUsersInput> | Prisma.applicationsCreateWithoutUsersInput[] | Prisma.applicationsUncheckedCreateWithoutUsersInput[]
+  connectOrCreate?: Prisma.applicationsCreateOrConnectWithoutUsersInput | Prisma.applicationsCreateOrConnectWithoutUsersInput[]
+  upsert?: Prisma.applicationsUpsertWithWhereUniqueWithoutUsersInput | Prisma.applicationsUpsertWithWhereUniqueWithoutUsersInput[]
+  createMany?: Prisma.applicationsCreateManyUsersInputEnvelope
+  set?: Prisma.applicationsWhereUniqueInput | Prisma.applicationsWhereUniqueInput[]
+  disconnect?: Prisma.applicationsWhereUniqueInput | Prisma.applicationsWhereUniqueInput[]
+  delete?: Prisma.applicationsWhereUniqueInput | Prisma.applicationsWhereUniqueInput[]
+  connect?: Prisma.applicationsWhereUniqueInput | Prisma.applicationsWhereUniqueInput[]
+  update?: Prisma.applicationsUpdateWithWhereUniqueWithoutUsersInput | Prisma.applicationsUpdateWithWhereUniqueWithoutUsersInput[]
+  updateMany?: Prisma.applicationsUpdateManyWithWhereWithoutUsersInput | Prisma.applicationsUpdateManyWithWhereWithoutUsersInput[]
+  deleteMany?: Prisma.applicationsScalarWhereInput | Prisma.applicationsScalarWhereInput[]
+}
+
+export type applicationsUncheckedUpdateManyWithoutUsersNestedInput = {
+  create?: Prisma.XOR<Prisma.applicationsCreateWithoutUsersInput, Prisma.applicationsUncheckedCreateWithoutUsersInput> | Prisma.applicationsCreateWithoutUsersInput[] | Prisma.applicationsUncheckedCreateWithoutUsersInput[]
+  connectOrCreate?: Prisma.applicationsCreateOrConnectWithoutUsersInput | Prisma.applicationsCreateOrConnectWithoutUsersInput[]
+  upsert?: Prisma.applicationsUpsertWithWhereUniqueWithoutUsersInput | Prisma.applicationsUpsertWithWhereUniqueWithoutUsersInput[]
+  createMany?: Prisma.applicationsCreateManyUsersInputEnvelope
+  set?: Prisma.applicationsWhereUniqueInput | Prisma.applicationsWhereUniqueInput[]
+  disconnect?: Prisma.applicationsWhereUniqueInput | Prisma.applicationsWhereUniqueInput[]
+  delete?: Prisma.applicationsWhereUniqueInput | Prisma.applicationsWhereUniqueInput[]
+  connect?: Prisma.applicationsWhereUniqueInput | Prisma.applicationsWhereUniqueInput[]
+  update?: Prisma.applicationsUpdateWithWhereUniqueWithoutUsersInput | Prisma.applicationsUpdateWithWhereUniqueWithoutUsersInput[]
+  updateMany?: Prisma.applicationsUpdateManyWithWhereWithoutUsersInput | Prisma.applicationsUpdateManyWithWhereWithoutUsersInput[]
+  deleteMany?: Prisma.applicationsScalarWhereInput | Prisma.applicationsScalarWhereInput[]
+}
+
 export type applicationsCreateWithoutAssessmentsInput = {
   id?: string
   name: string
@@ -1130,6 +1196,7 @@ export type applicationsCreateWithoutAssessmentsInput = {
   ref_risk_status?: Prisma.ref_risk_statusCreateNestedOneWithoutApplicationsInput
   business_sub_areas?: Prisma.business_sub_areasCreateNestedOneWithoutApplicationsInput
   people_applications_tech_owner_idTopeople?: Prisma.peopleCreateNestedOneWithoutApplications_applications_tech_owner_idTopeopleInput
+  users?: Prisma.usersCreateNestedOneWithoutApplicationsInput
 }
 
 export type applicationsUncheckedCreateWithoutAssessmentsInput = {
@@ -1149,6 +1216,7 @@ export type applicationsUncheckedCreateWithoutAssessmentsInput = {
   has_score?: boolean | null
   has_diagnosis?: boolean | null
   has_action_plan?: boolean | null
+  created_by_user_id?: string | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
 }
@@ -1188,6 +1256,7 @@ export type applicationsUpdateWithoutAssessmentsInput = {
   ref_risk_status?: Prisma.ref_risk_statusUpdateOneWithoutApplicationsNestedInput
   business_sub_areas?: Prisma.business_sub_areasUpdateOneWithoutApplicationsNestedInput
   people_applications_tech_owner_idTopeople?: Prisma.peopleUpdateOneWithoutApplications_applications_tech_owner_idTopeopleNestedInput
+  users?: Prisma.usersUpdateOneWithoutApplicationsNestedInput
 }
 
 export type applicationsUncheckedUpdateWithoutAssessmentsInput = {
@@ -1207,6 +1276,7 @@ export type applicationsUncheckedUpdateWithoutAssessmentsInput = {
   has_score?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   has_diagnosis?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   has_action_plan?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -1229,6 +1299,7 @@ export type applicationsCreateWithoutBusiness_areasInput = {
   ref_risk_status?: Prisma.ref_risk_statusCreateNestedOneWithoutApplicationsInput
   business_sub_areas?: Prisma.business_sub_areasCreateNestedOneWithoutApplicationsInput
   people_applications_tech_owner_idTopeople?: Prisma.peopleCreateNestedOneWithoutApplications_applications_tech_owner_idTopeopleInput
+  users?: Prisma.usersCreateNestedOneWithoutApplicationsInput
   assessments?: Prisma.assessmentsCreateNestedManyWithoutApplicationsInput
 }
 
@@ -1248,6 +1319,7 @@ export type applicationsUncheckedCreateWithoutBusiness_areasInput = {
   has_score?: boolean | null
   has_diagnosis?: boolean | null
   has_action_plan?: boolean | null
+  created_by_user_id?: string | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
   assessments?: Prisma.assessmentsUncheckedCreateNestedManyWithoutApplicationsInput
@@ -1299,6 +1371,7 @@ export type applicationsScalarWhereInput = {
   has_score?: Prisma.BoolNullableFilter<"applications"> | boolean | null
   has_diagnosis?: Prisma.BoolNullableFilter<"applications"> | boolean | null
   has_action_plan?: Prisma.BoolNullableFilter<"applications"> | boolean | null
+  created_by_user_id?: Prisma.UuidNullableFilter<"applications"> | string | null
   created_at?: Prisma.DateTimeNullableFilter<"applications"> | Date | string | null
   updated_at?: Prisma.DateTimeNullableFilter<"applications"> | Date | string | null
 }
@@ -1321,6 +1394,7 @@ export type applicationsCreateWithoutBusiness_sub_areasInput = {
   ref_operational_status?: Prisma.ref_operational_statusCreateNestedOneWithoutApplicationsInput
   ref_risk_status?: Prisma.ref_risk_statusCreateNestedOneWithoutApplicationsInput
   people_applications_tech_owner_idTopeople?: Prisma.peopleCreateNestedOneWithoutApplications_applications_tech_owner_idTopeopleInput
+  users?: Prisma.usersCreateNestedOneWithoutApplicationsInput
   assessments?: Prisma.assessmentsCreateNestedManyWithoutApplicationsInput
 }
 
@@ -1340,6 +1414,7 @@ export type applicationsUncheckedCreateWithoutBusiness_sub_areasInput = {
   has_score?: boolean | null
   has_diagnosis?: boolean | null
   has_action_plan?: boolean | null
+  created_by_user_id?: string | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
   assessments?: Prisma.assessmentsUncheckedCreateNestedManyWithoutApplicationsInput
@@ -1389,6 +1464,7 @@ export type applicationsCreateWithoutCompaniesInput = {
   ref_risk_status?: Prisma.ref_risk_statusCreateNestedOneWithoutApplicationsInput
   business_sub_areas?: Prisma.business_sub_areasCreateNestedOneWithoutApplicationsInput
   people_applications_tech_owner_idTopeople?: Prisma.peopleCreateNestedOneWithoutApplications_applications_tech_owner_idTopeopleInput
+  users?: Prisma.usersCreateNestedOneWithoutApplicationsInput
   assessments?: Prisma.assessmentsCreateNestedManyWithoutApplicationsInput
 }
 
@@ -1408,6 +1484,7 @@ export type applicationsUncheckedCreateWithoutCompaniesInput = {
   has_score?: boolean | null
   has_diagnosis?: boolean | null
   has_action_plan?: boolean | null
+  created_by_user_id?: string | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
   assessments?: Prisma.assessmentsUncheckedCreateNestedManyWithoutApplicationsInput
@@ -1457,6 +1534,7 @@ export type applicationsCreateWithoutPeople_applications_business_owner_idTopeop
   ref_risk_status?: Prisma.ref_risk_statusCreateNestedOneWithoutApplicationsInput
   business_sub_areas?: Prisma.business_sub_areasCreateNestedOneWithoutApplicationsInput
   people_applications_tech_owner_idTopeople?: Prisma.peopleCreateNestedOneWithoutApplications_applications_tech_owner_idTopeopleInput
+  users?: Prisma.usersCreateNestedOneWithoutApplicationsInput
   assessments?: Prisma.assessmentsCreateNestedManyWithoutApplicationsInput
 }
 
@@ -1476,6 +1554,7 @@ export type applicationsUncheckedCreateWithoutPeople_applications_business_owner
   has_score?: boolean | null
   has_diagnosis?: boolean | null
   has_action_plan?: boolean | null
+  created_by_user_id?: string | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
   assessments?: Prisma.assessmentsUncheckedCreateNestedManyWithoutApplicationsInput
@@ -1509,6 +1588,7 @@ export type applicationsCreateWithoutPeople_applications_tech_owner_idTopeopleIn
   ref_operational_status?: Prisma.ref_operational_statusCreateNestedOneWithoutApplicationsInput
   ref_risk_status?: Prisma.ref_risk_statusCreateNestedOneWithoutApplicationsInput
   business_sub_areas?: Prisma.business_sub_areasCreateNestedOneWithoutApplicationsInput
+  users?: Prisma.usersCreateNestedOneWithoutApplicationsInput
   assessments?: Prisma.assessmentsCreateNestedManyWithoutApplicationsInput
 }
 
@@ -1528,6 +1608,7 @@ export type applicationsUncheckedCreateWithoutPeople_applications_tech_owner_idT
   has_score?: boolean | null
   has_diagnosis?: boolean | null
   has_action_plan?: boolean | null
+  created_by_user_id?: string | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
   assessments?: Prisma.assessmentsUncheckedCreateNestedManyWithoutApplicationsInput
@@ -1593,6 +1674,7 @@ export type applicationsCreateWithoutRef_business_criticalityInput = {
   ref_risk_status?: Prisma.ref_risk_statusCreateNestedOneWithoutApplicationsInput
   business_sub_areas?: Prisma.business_sub_areasCreateNestedOneWithoutApplicationsInput
   people_applications_tech_owner_idTopeople?: Prisma.peopleCreateNestedOneWithoutApplications_applications_tech_owner_idTopeopleInput
+  users?: Prisma.usersCreateNestedOneWithoutApplicationsInput
   assessments?: Prisma.assessmentsCreateNestedManyWithoutApplicationsInput
 }
 
@@ -1612,6 +1694,7 @@ export type applicationsUncheckedCreateWithoutRef_business_criticalityInput = {
   has_score?: boolean | null
   has_diagnosis?: boolean | null
   has_action_plan?: boolean | null
+  created_by_user_id?: string | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
   assessments?: Prisma.assessmentsUncheckedCreateNestedManyWithoutApplicationsInput
@@ -1661,6 +1744,7 @@ export type applicationsCreateWithoutRef_operational_statusInput = {
   ref_risk_status?: Prisma.ref_risk_statusCreateNestedOneWithoutApplicationsInput
   business_sub_areas?: Prisma.business_sub_areasCreateNestedOneWithoutApplicationsInput
   people_applications_tech_owner_idTopeople?: Prisma.peopleCreateNestedOneWithoutApplications_applications_tech_owner_idTopeopleInput
+  users?: Prisma.usersCreateNestedOneWithoutApplicationsInput
   assessments?: Prisma.assessmentsCreateNestedManyWithoutApplicationsInput
 }
 
@@ -1680,6 +1764,7 @@ export type applicationsUncheckedCreateWithoutRef_operational_statusInput = {
   has_score?: boolean | null
   has_diagnosis?: boolean | null
   has_action_plan?: boolean | null
+  created_by_user_id?: string | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
   assessments?: Prisma.assessmentsUncheckedCreateNestedManyWithoutApplicationsInput
@@ -1729,6 +1814,7 @@ export type applicationsCreateWithoutRef_risk_statusInput = {
   ref_operational_status?: Prisma.ref_operational_statusCreateNestedOneWithoutApplicationsInput
   business_sub_areas?: Prisma.business_sub_areasCreateNestedOneWithoutApplicationsInput
   people_applications_tech_owner_idTopeople?: Prisma.peopleCreateNestedOneWithoutApplications_applications_tech_owner_idTopeopleInput
+  users?: Prisma.usersCreateNestedOneWithoutApplicationsInput
   assessments?: Prisma.assessmentsCreateNestedManyWithoutApplicationsInput
 }
 
@@ -1748,6 +1834,7 @@ export type applicationsUncheckedCreateWithoutRef_risk_statusInput = {
   has_score?: boolean | null
   has_diagnosis?: boolean | null
   has_action_plan?: boolean | null
+  created_by_user_id?: string | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
   assessments?: Prisma.assessmentsUncheckedCreateNestedManyWithoutApplicationsInput
@@ -1797,6 +1884,7 @@ export type applicationsCreateWithoutRef_sensitivity_levelsInput = {
   ref_risk_status?: Prisma.ref_risk_statusCreateNestedOneWithoutApplicationsInput
   business_sub_areas?: Prisma.business_sub_areasCreateNestedOneWithoutApplicationsInput
   people_applications_tech_owner_idTopeople?: Prisma.peopleCreateNestedOneWithoutApplications_applications_tech_owner_idTopeopleInput
+  users?: Prisma.usersCreateNestedOneWithoutApplicationsInput
   assessments?: Prisma.assessmentsCreateNestedManyWithoutApplicationsInput
 }
 
@@ -1816,6 +1904,7 @@ export type applicationsUncheckedCreateWithoutRef_sensitivity_levelsInput = {
   has_score?: boolean | null
   has_diagnosis?: boolean | null
   has_action_plan?: boolean | null
+  created_by_user_id?: string | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
   assessments?: Prisma.assessmentsUncheckedCreateNestedManyWithoutApplicationsInput
@@ -1847,6 +1936,76 @@ export type applicationsUpdateManyWithWhereWithoutRef_sensitivity_levelsInput = 
   data: Prisma.XOR<Prisma.applicationsUpdateManyMutationInput, Prisma.applicationsUncheckedUpdateManyWithoutRef_sensitivity_levelsInput>
 }
 
+export type applicationsCreateWithoutUsersInput = {
+  id?: string
+  name: string
+  description?: string | null
+  has_assessment?: boolean | null
+  has_score?: boolean | null
+  has_diagnosis?: boolean | null
+  has_action_plan?: boolean | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  business_areas?: Prisma.business_areasCreateNestedOneWithoutApplicationsInput
+  people_applications_business_owner_idTopeople?: Prisma.peopleCreateNestedOneWithoutApplications_applications_business_owner_idTopeopleInput
+  companies?: Prisma.companiesCreateNestedOneWithoutApplicationsInput
+  ref_business_criticality?: Prisma.ref_business_criticalityCreateNestedOneWithoutApplicationsInput
+  ref_sensitivity_levels?: Prisma.ref_sensitivity_levelsCreateNestedOneWithoutApplicationsInput
+  ref_operational_status?: Prisma.ref_operational_statusCreateNestedOneWithoutApplicationsInput
+  ref_risk_status?: Prisma.ref_risk_statusCreateNestedOneWithoutApplicationsInput
+  business_sub_areas?: Prisma.business_sub_areasCreateNestedOneWithoutApplicationsInput
+  people_applications_tech_owner_idTopeople?: Prisma.peopleCreateNestedOneWithoutApplications_applications_tech_owner_idTopeopleInput
+  assessments?: Prisma.assessmentsCreateNestedManyWithoutApplicationsInput
+}
+
+export type applicationsUncheckedCreateWithoutUsersInput = {
+  id?: string
+  company_id?: string | null
+  name: string
+  description?: string | null
+  business_owner_id?: string | null
+  tech_owner_id?: string | null
+  business_area_id?: string | null
+  sub_area_id?: string | null
+  risk_status_id?: number | null
+  criticality_id?: number | null
+  operational_status_id?: number | null
+  data_sensitivity_id?: number | null
+  has_assessment?: boolean | null
+  has_score?: boolean | null
+  has_diagnosis?: boolean | null
+  has_action_plan?: boolean | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+  assessments?: Prisma.assessmentsUncheckedCreateNestedManyWithoutApplicationsInput
+}
+
+export type applicationsCreateOrConnectWithoutUsersInput = {
+  where: Prisma.applicationsWhereUniqueInput
+  create: Prisma.XOR<Prisma.applicationsCreateWithoutUsersInput, Prisma.applicationsUncheckedCreateWithoutUsersInput>
+}
+
+export type applicationsCreateManyUsersInputEnvelope = {
+  data: Prisma.applicationsCreateManyUsersInput | Prisma.applicationsCreateManyUsersInput[]
+  skipDuplicates?: boolean
+}
+
+export type applicationsUpsertWithWhereUniqueWithoutUsersInput = {
+  where: Prisma.applicationsWhereUniqueInput
+  update: Prisma.XOR<Prisma.applicationsUpdateWithoutUsersInput, Prisma.applicationsUncheckedUpdateWithoutUsersInput>
+  create: Prisma.XOR<Prisma.applicationsCreateWithoutUsersInput, Prisma.applicationsUncheckedCreateWithoutUsersInput>
+}
+
+export type applicationsUpdateWithWhereUniqueWithoutUsersInput = {
+  where: Prisma.applicationsWhereUniqueInput
+  data: Prisma.XOR<Prisma.applicationsUpdateWithoutUsersInput, Prisma.applicationsUncheckedUpdateWithoutUsersInput>
+}
+
+export type applicationsUpdateManyWithWhereWithoutUsersInput = {
+  where: Prisma.applicationsScalarWhereInput
+  data: Prisma.XOR<Prisma.applicationsUpdateManyMutationInput, Prisma.applicationsUncheckedUpdateManyWithoutUsersInput>
+}
+
 export type applicationsCreateManyBusiness_areasInput = {
   id?: string
   company_id?: string | null
@@ -1863,6 +2022,7 @@ export type applicationsCreateManyBusiness_areasInput = {
   has_score?: boolean | null
   has_diagnosis?: boolean | null
   has_action_plan?: boolean | null
+  created_by_user_id?: string | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
 }
@@ -1885,6 +2045,7 @@ export type applicationsUpdateWithoutBusiness_areasInput = {
   ref_risk_status?: Prisma.ref_risk_statusUpdateOneWithoutApplicationsNestedInput
   business_sub_areas?: Prisma.business_sub_areasUpdateOneWithoutApplicationsNestedInput
   people_applications_tech_owner_idTopeople?: Prisma.peopleUpdateOneWithoutApplications_applications_tech_owner_idTopeopleNestedInput
+  users?: Prisma.usersUpdateOneWithoutApplicationsNestedInput
   assessments?: Prisma.assessmentsUpdateManyWithoutApplicationsNestedInput
 }
 
@@ -1904,6 +2065,7 @@ export type applicationsUncheckedUpdateWithoutBusiness_areasInput = {
   has_score?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   has_diagnosis?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   has_action_plan?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   assessments?: Prisma.assessmentsUncheckedUpdateManyWithoutApplicationsNestedInput
@@ -1925,6 +2087,7 @@ export type applicationsUncheckedUpdateManyWithoutBusiness_areasInput = {
   has_score?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   has_diagnosis?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   has_action_plan?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -1945,6 +2108,7 @@ export type applicationsCreateManyBusiness_sub_areasInput = {
   has_score?: boolean | null
   has_diagnosis?: boolean | null
   has_action_plan?: boolean | null
+  created_by_user_id?: string | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
 }
@@ -1967,6 +2131,7 @@ export type applicationsUpdateWithoutBusiness_sub_areasInput = {
   ref_operational_status?: Prisma.ref_operational_statusUpdateOneWithoutApplicationsNestedInput
   ref_risk_status?: Prisma.ref_risk_statusUpdateOneWithoutApplicationsNestedInput
   people_applications_tech_owner_idTopeople?: Prisma.peopleUpdateOneWithoutApplications_applications_tech_owner_idTopeopleNestedInput
+  users?: Prisma.usersUpdateOneWithoutApplicationsNestedInput
   assessments?: Prisma.assessmentsUpdateManyWithoutApplicationsNestedInput
 }
 
@@ -1986,6 +2151,7 @@ export type applicationsUncheckedUpdateWithoutBusiness_sub_areasInput = {
   has_score?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   has_diagnosis?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   has_action_plan?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   assessments?: Prisma.assessmentsUncheckedUpdateManyWithoutApplicationsNestedInput
@@ -2007,6 +2173,7 @@ export type applicationsUncheckedUpdateManyWithoutBusiness_sub_areasInput = {
   has_score?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   has_diagnosis?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   has_action_plan?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -2027,6 +2194,7 @@ export type applicationsCreateManyCompaniesInput = {
   has_score?: boolean | null
   has_diagnosis?: boolean | null
   has_action_plan?: boolean | null
+  created_by_user_id?: string | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
 }
@@ -2049,6 +2217,7 @@ export type applicationsUpdateWithoutCompaniesInput = {
   ref_risk_status?: Prisma.ref_risk_statusUpdateOneWithoutApplicationsNestedInput
   business_sub_areas?: Prisma.business_sub_areasUpdateOneWithoutApplicationsNestedInput
   people_applications_tech_owner_idTopeople?: Prisma.peopleUpdateOneWithoutApplications_applications_tech_owner_idTopeopleNestedInput
+  users?: Prisma.usersUpdateOneWithoutApplicationsNestedInput
   assessments?: Prisma.assessmentsUpdateManyWithoutApplicationsNestedInput
 }
 
@@ -2068,6 +2237,7 @@ export type applicationsUncheckedUpdateWithoutCompaniesInput = {
   has_score?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   has_diagnosis?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   has_action_plan?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   assessments?: Prisma.assessmentsUncheckedUpdateManyWithoutApplicationsNestedInput
@@ -2089,6 +2259,7 @@ export type applicationsUncheckedUpdateManyWithoutCompaniesInput = {
   has_score?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   has_diagnosis?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   has_action_plan?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -2109,6 +2280,7 @@ export type applicationsCreateManyPeople_applications_business_owner_idTopeopleI
   has_score?: boolean | null
   has_diagnosis?: boolean | null
   has_action_plan?: boolean | null
+  created_by_user_id?: string | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
 }
@@ -2129,6 +2301,7 @@ export type applicationsCreateManyPeople_applications_tech_owner_idTopeopleInput
   has_score?: boolean | null
   has_diagnosis?: boolean | null
   has_action_plan?: boolean | null
+  created_by_user_id?: string | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
 }
@@ -2151,6 +2324,7 @@ export type applicationsUpdateWithoutPeople_applications_business_owner_idTopeop
   ref_risk_status?: Prisma.ref_risk_statusUpdateOneWithoutApplicationsNestedInput
   business_sub_areas?: Prisma.business_sub_areasUpdateOneWithoutApplicationsNestedInput
   people_applications_tech_owner_idTopeople?: Prisma.peopleUpdateOneWithoutApplications_applications_tech_owner_idTopeopleNestedInput
+  users?: Prisma.usersUpdateOneWithoutApplicationsNestedInput
   assessments?: Prisma.assessmentsUpdateManyWithoutApplicationsNestedInput
 }
 
@@ -2170,6 +2344,7 @@ export type applicationsUncheckedUpdateWithoutPeople_applications_business_owner
   has_score?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   has_diagnosis?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   has_action_plan?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   assessments?: Prisma.assessmentsUncheckedUpdateManyWithoutApplicationsNestedInput
@@ -2191,6 +2366,7 @@ export type applicationsUncheckedUpdateManyWithoutPeople_applications_business_o
   has_score?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   has_diagnosis?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   has_action_plan?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -2213,6 +2389,7 @@ export type applicationsUpdateWithoutPeople_applications_tech_owner_idTopeopleIn
   ref_operational_status?: Prisma.ref_operational_statusUpdateOneWithoutApplicationsNestedInput
   ref_risk_status?: Prisma.ref_risk_statusUpdateOneWithoutApplicationsNestedInput
   business_sub_areas?: Prisma.business_sub_areasUpdateOneWithoutApplicationsNestedInput
+  users?: Prisma.usersUpdateOneWithoutApplicationsNestedInput
   assessments?: Prisma.assessmentsUpdateManyWithoutApplicationsNestedInput
 }
 
@@ -2232,6 +2409,7 @@ export type applicationsUncheckedUpdateWithoutPeople_applications_tech_owner_idT
   has_score?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   has_diagnosis?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   has_action_plan?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   assessments?: Prisma.assessmentsUncheckedUpdateManyWithoutApplicationsNestedInput
@@ -2253,6 +2431,7 @@ export type applicationsUncheckedUpdateManyWithoutPeople_applications_tech_owner
   has_score?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   has_diagnosis?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   has_action_plan?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -2273,6 +2452,7 @@ export type applicationsCreateManyRef_business_criticalityInput = {
   has_score?: boolean | null
   has_diagnosis?: boolean | null
   has_action_plan?: boolean | null
+  created_by_user_id?: string | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
 }
@@ -2295,6 +2475,7 @@ export type applicationsUpdateWithoutRef_business_criticalityInput = {
   ref_risk_status?: Prisma.ref_risk_statusUpdateOneWithoutApplicationsNestedInput
   business_sub_areas?: Prisma.business_sub_areasUpdateOneWithoutApplicationsNestedInput
   people_applications_tech_owner_idTopeople?: Prisma.peopleUpdateOneWithoutApplications_applications_tech_owner_idTopeopleNestedInput
+  users?: Prisma.usersUpdateOneWithoutApplicationsNestedInput
   assessments?: Prisma.assessmentsUpdateManyWithoutApplicationsNestedInput
 }
 
@@ -2314,6 +2495,7 @@ export type applicationsUncheckedUpdateWithoutRef_business_criticalityInput = {
   has_score?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   has_diagnosis?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   has_action_plan?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   assessments?: Prisma.assessmentsUncheckedUpdateManyWithoutApplicationsNestedInput
@@ -2335,6 +2517,7 @@ export type applicationsUncheckedUpdateManyWithoutRef_business_criticalityInput 
   has_score?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   has_diagnosis?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   has_action_plan?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -2355,6 +2538,7 @@ export type applicationsCreateManyRef_operational_statusInput = {
   has_score?: boolean | null
   has_diagnosis?: boolean | null
   has_action_plan?: boolean | null
+  created_by_user_id?: string | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
 }
@@ -2377,6 +2561,7 @@ export type applicationsUpdateWithoutRef_operational_statusInput = {
   ref_risk_status?: Prisma.ref_risk_statusUpdateOneWithoutApplicationsNestedInput
   business_sub_areas?: Prisma.business_sub_areasUpdateOneWithoutApplicationsNestedInput
   people_applications_tech_owner_idTopeople?: Prisma.peopleUpdateOneWithoutApplications_applications_tech_owner_idTopeopleNestedInput
+  users?: Prisma.usersUpdateOneWithoutApplicationsNestedInput
   assessments?: Prisma.assessmentsUpdateManyWithoutApplicationsNestedInput
 }
 
@@ -2396,6 +2581,7 @@ export type applicationsUncheckedUpdateWithoutRef_operational_statusInput = {
   has_score?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   has_diagnosis?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   has_action_plan?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   assessments?: Prisma.assessmentsUncheckedUpdateManyWithoutApplicationsNestedInput
@@ -2417,6 +2603,7 @@ export type applicationsUncheckedUpdateManyWithoutRef_operational_statusInput = 
   has_score?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   has_diagnosis?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   has_action_plan?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -2437,6 +2624,7 @@ export type applicationsCreateManyRef_risk_statusInput = {
   has_score?: boolean | null
   has_diagnosis?: boolean | null
   has_action_plan?: boolean | null
+  created_by_user_id?: string | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
 }
@@ -2459,6 +2647,7 @@ export type applicationsUpdateWithoutRef_risk_statusInput = {
   ref_operational_status?: Prisma.ref_operational_statusUpdateOneWithoutApplicationsNestedInput
   business_sub_areas?: Prisma.business_sub_areasUpdateOneWithoutApplicationsNestedInput
   people_applications_tech_owner_idTopeople?: Prisma.peopleUpdateOneWithoutApplications_applications_tech_owner_idTopeopleNestedInput
+  users?: Prisma.usersUpdateOneWithoutApplicationsNestedInput
   assessments?: Prisma.assessmentsUpdateManyWithoutApplicationsNestedInput
 }
 
@@ -2478,6 +2667,7 @@ export type applicationsUncheckedUpdateWithoutRef_risk_statusInput = {
   has_score?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   has_diagnosis?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   has_action_plan?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   assessments?: Prisma.assessmentsUncheckedUpdateManyWithoutApplicationsNestedInput
@@ -2499,6 +2689,7 @@ export type applicationsUncheckedUpdateManyWithoutRef_risk_statusInput = {
   has_score?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   has_diagnosis?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   has_action_plan?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -2519,6 +2710,7 @@ export type applicationsCreateManyRef_sensitivity_levelsInput = {
   has_score?: boolean | null
   has_diagnosis?: boolean | null
   has_action_plan?: boolean | null
+  created_by_user_id?: string | null
   created_at?: Date | string | null
   updated_at?: Date | string | null
 }
@@ -2541,6 +2733,7 @@ export type applicationsUpdateWithoutRef_sensitivity_levelsInput = {
   ref_risk_status?: Prisma.ref_risk_statusUpdateOneWithoutApplicationsNestedInput
   business_sub_areas?: Prisma.business_sub_areasUpdateOneWithoutApplicationsNestedInput
   people_applications_tech_owner_idTopeople?: Prisma.peopleUpdateOneWithoutApplications_applications_tech_owner_idTopeopleNestedInput
+  users?: Prisma.usersUpdateOneWithoutApplicationsNestedInput
   assessments?: Prisma.assessmentsUpdateManyWithoutApplicationsNestedInput
 }
 
@@ -2560,6 +2753,7 @@ export type applicationsUncheckedUpdateWithoutRef_sensitivity_levelsInput = {
   has_score?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   has_diagnosis?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   has_action_plan?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   assessments?: Prisma.assessmentsUncheckedUpdateManyWithoutApplicationsNestedInput
@@ -2577,6 +2771,93 @@ export type applicationsUncheckedUpdateManyWithoutRef_sensitivity_levelsInput = 
   risk_status_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   criticality_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   operational_status_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  has_assessment?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  has_score?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  has_diagnosis?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  has_action_plan?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type applicationsCreateManyUsersInput = {
+  id?: string
+  company_id?: string | null
+  name: string
+  description?: string | null
+  business_owner_id?: string | null
+  tech_owner_id?: string | null
+  business_area_id?: string | null
+  sub_area_id?: string | null
+  risk_status_id?: number | null
+  criticality_id?: number | null
+  operational_status_id?: number | null
+  data_sensitivity_id?: number | null
+  has_assessment?: boolean | null
+  has_score?: boolean | null
+  has_diagnosis?: boolean | null
+  has_action_plan?: boolean | null
+  created_at?: Date | string | null
+  updated_at?: Date | string | null
+}
+
+export type applicationsUpdateWithoutUsersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  has_assessment?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  has_score?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  has_diagnosis?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  has_action_plan?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  business_areas?: Prisma.business_areasUpdateOneWithoutApplicationsNestedInput
+  people_applications_business_owner_idTopeople?: Prisma.peopleUpdateOneWithoutApplications_applications_business_owner_idTopeopleNestedInput
+  companies?: Prisma.companiesUpdateOneWithoutApplicationsNestedInput
+  ref_business_criticality?: Prisma.ref_business_criticalityUpdateOneWithoutApplicationsNestedInput
+  ref_sensitivity_levels?: Prisma.ref_sensitivity_levelsUpdateOneWithoutApplicationsNestedInput
+  ref_operational_status?: Prisma.ref_operational_statusUpdateOneWithoutApplicationsNestedInput
+  ref_risk_status?: Prisma.ref_risk_statusUpdateOneWithoutApplicationsNestedInput
+  business_sub_areas?: Prisma.business_sub_areasUpdateOneWithoutApplicationsNestedInput
+  people_applications_tech_owner_idTopeople?: Prisma.peopleUpdateOneWithoutApplications_applications_tech_owner_idTopeopleNestedInput
+  assessments?: Prisma.assessmentsUpdateManyWithoutApplicationsNestedInput
+}
+
+export type applicationsUncheckedUpdateWithoutUsersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  company_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  business_owner_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tech_owner_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  business_area_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sub_area_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  risk_status_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  criticality_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  operational_status_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  data_sensitivity_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  has_assessment?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  has_score?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  has_diagnosis?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  has_action_plan?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  assessments?: Prisma.assessmentsUncheckedUpdateManyWithoutApplicationsNestedInput
+}
+
+export type applicationsUncheckedUpdateManyWithoutUsersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  company_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  business_owner_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tech_owner_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  business_area_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sub_area_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  risk_status_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  criticality_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  operational_status_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  data_sensitivity_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   has_assessment?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   has_score?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   has_diagnosis?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
@@ -2633,6 +2914,7 @@ export type applicationsSelect<ExtArgs extends runtime.Types.Extensions.Internal
   has_score?: boolean
   has_diagnosis?: boolean
   has_action_plan?: boolean
+  created_by_user_id?: boolean
   created_at?: boolean
   updated_at?: boolean
   business_areas?: boolean | Prisma.applications$business_areasArgs<ExtArgs>
@@ -2644,6 +2926,7 @@ export type applicationsSelect<ExtArgs extends runtime.Types.Extensions.Internal
   ref_risk_status?: boolean | Prisma.applications$ref_risk_statusArgs<ExtArgs>
   business_sub_areas?: boolean | Prisma.applications$business_sub_areasArgs<ExtArgs>
   people_applications_tech_owner_idTopeople?: boolean | Prisma.applications$people_applications_tech_owner_idTopeopleArgs<ExtArgs>
+  users?: boolean | Prisma.applications$usersArgs<ExtArgs>
   assessments?: boolean | Prisma.applications$assessmentsArgs<ExtArgs>
   _count?: boolean | Prisma.ApplicationsCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["applications"]>
@@ -2665,6 +2948,7 @@ export type applicationsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   has_score?: boolean
   has_diagnosis?: boolean
   has_action_plan?: boolean
+  created_by_user_id?: boolean
   created_at?: boolean
   updated_at?: boolean
   business_areas?: boolean | Prisma.applications$business_areasArgs<ExtArgs>
@@ -2676,6 +2960,7 @@ export type applicationsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   ref_risk_status?: boolean | Prisma.applications$ref_risk_statusArgs<ExtArgs>
   business_sub_areas?: boolean | Prisma.applications$business_sub_areasArgs<ExtArgs>
   people_applications_tech_owner_idTopeople?: boolean | Prisma.applications$people_applications_tech_owner_idTopeopleArgs<ExtArgs>
+  users?: boolean | Prisma.applications$usersArgs<ExtArgs>
 }, ExtArgs["result"]["applications"]>
 
 export type applicationsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -2695,6 +2980,7 @@ export type applicationsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   has_score?: boolean
   has_diagnosis?: boolean
   has_action_plan?: boolean
+  created_by_user_id?: boolean
   created_at?: boolean
   updated_at?: boolean
   business_areas?: boolean | Prisma.applications$business_areasArgs<ExtArgs>
@@ -2706,6 +2992,7 @@ export type applicationsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   ref_risk_status?: boolean | Prisma.applications$ref_risk_statusArgs<ExtArgs>
   business_sub_areas?: boolean | Prisma.applications$business_sub_areasArgs<ExtArgs>
   people_applications_tech_owner_idTopeople?: boolean | Prisma.applications$people_applications_tech_owner_idTopeopleArgs<ExtArgs>
+  users?: boolean | Prisma.applications$usersArgs<ExtArgs>
 }, ExtArgs["result"]["applications"]>
 
 export type applicationsSelectScalar = {
@@ -2725,11 +3012,12 @@ export type applicationsSelectScalar = {
   has_score?: boolean
   has_diagnosis?: boolean
   has_action_plan?: boolean
+  created_by_user_id?: boolean
   created_at?: boolean
   updated_at?: boolean
 }
 
-export type applicationsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "company_id" | "name" | "description" | "business_owner_id" | "tech_owner_id" | "business_area_id" | "sub_area_id" | "risk_status_id" | "criticality_id" | "operational_status_id" | "data_sensitivity_id" | "has_assessment" | "has_score" | "has_diagnosis" | "has_action_plan" | "created_at" | "updated_at", ExtArgs["result"]["applications"]>
+export type applicationsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "company_id" | "name" | "description" | "business_owner_id" | "tech_owner_id" | "business_area_id" | "sub_area_id" | "risk_status_id" | "criticality_id" | "operational_status_id" | "data_sensitivity_id" | "has_assessment" | "has_score" | "has_diagnosis" | "has_action_plan" | "created_by_user_id" | "created_at" | "updated_at", ExtArgs["result"]["applications"]>
 export type applicationsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   business_areas?: boolean | Prisma.applications$business_areasArgs<ExtArgs>
   people_applications_business_owner_idTopeople?: boolean | Prisma.applications$people_applications_business_owner_idTopeopleArgs<ExtArgs>
@@ -2740,6 +3028,7 @@ export type applicationsInclude<ExtArgs extends runtime.Types.Extensions.Interna
   ref_risk_status?: boolean | Prisma.applications$ref_risk_statusArgs<ExtArgs>
   business_sub_areas?: boolean | Prisma.applications$business_sub_areasArgs<ExtArgs>
   people_applications_tech_owner_idTopeople?: boolean | Prisma.applications$people_applications_tech_owner_idTopeopleArgs<ExtArgs>
+  users?: boolean | Prisma.applications$usersArgs<ExtArgs>
   assessments?: boolean | Prisma.applications$assessmentsArgs<ExtArgs>
   _count?: boolean | Prisma.ApplicationsCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -2753,6 +3042,7 @@ export type applicationsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types
   ref_risk_status?: boolean | Prisma.applications$ref_risk_statusArgs<ExtArgs>
   business_sub_areas?: boolean | Prisma.applications$business_sub_areasArgs<ExtArgs>
   people_applications_tech_owner_idTopeople?: boolean | Prisma.applications$people_applications_tech_owner_idTopeopleArgs<ExtArgs>
+  users?: boolean | Prisma.applications$usersArgs<ExtArgs>
 }
 export type applicationsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   business_areas?: boolean | Prisma.applications$business_areasArgs<ExtArgs>
@@ -2764,6 +3054,7 @@ export type applicationsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types
   ref_risk_status?: boolean | Prisma.applications$ref_risk_statusArgs<ExtArgs>
   business_sub_areas?: boolean | Prisma.applications$business_sub_areasArgs<ExtArgs>
   people_applications_tech_owner_idTopeople?: boolean | Prisma.applications$people_applications_tech_owner_idTopeopleArgs<ExtArgs>
+  users?: boolean | Prisma.applications$usersArgs<ExtArgs>
 }
 
 export type $applicationsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2778,6 +3069,7 @@ export type $applicationsPayload<ExtArgs extends runtime.Types.Extensions.Intern
     ref_risk_status: Prisma.$ref_risk_statusPayload<ExtArgs> | null
     business_sub_areas: Prisma.$business_sub_areasPayload<ExtArgs> | null
     people_applications_tech_owner_idTopeople: Prisma.$peoplePayload<ExtArgs> | null
+    users: Prisma.$usersPayload<ExtArgs> | null
     assessments: Prisma.$assessmentsPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -2797,6 +3089,7 @@ export type $applicationsPayload<ExtArgs extends runtime.Types.Extensions.Intern
     has_score: boolean | null
     has_diagnosis: boolean | null
     has_action_plan: boolean | null
+    created_by_user_id: string | null
     created_at: Date | null
     updated_at: Date | null
   }, ExtArgs["result"]["applications"]>
@@ -3202,6 +3495,7 @@ export interface Prisma__applicationsClient<T, Null = never, ExtArgs extends run
   ref_risk_status<T extends Prisma.applications$ref_risk_statusArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.applications$ref_risk_statusArgs<ExtArgs>>): Prisma.Prisma__ref_risk_statusClient<runtime.Types.Result.GetResult<Prisma.$ref_risk_statusPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   business_sub_areas<T extends Prisma.applications$business_sub_areasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.applications$business_sub_areasArgs<ExtArgs>>): Prisma.Prisma__business_sub_areasClient<runtime.Types.Result.GetResult<Prisma.$business_sub_areasPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   people_applications_tech_owner_idTopeople<T extends Prisma.applications$people_applications_tech_owner_idTopeopleArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.applications$people_applications_tech_owner_idTopeopleArgs<ExtArgs>>): Prisma.Prisma__peopleClient<runtime.Types.Result.GetResult<Prisma.$peoplePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  users<T extends Prisma.applications$usersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.applications$usersArgs<ExtArgs>>): Prisma.Prisma__usersClient<runtime.Types.Result.GetResult<Prisma.$usersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   assessments<T extends Prisma.applications$assessmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.applications$assessmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$assessmentsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -3248,6 +3542,7 @@ export interface applicationsFieldRefs {
   readonly has_score: Prisma.FieldRef<"applications", 'Boolean'>
   readonly has_diagnosis: Prisma.FieldRef<"applications", 'Boolean'>
   readonly has_action_plan: Prisma.FieldRef<"applications", 'Boolean'>
+  readonly created_by_user_id: Prisma.FieldRef<"applications", 'String'>
   readonly created_at: Prisma.FieldRef<"applications", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"applications", 'DateTime'>
 }
@@ -3814,6 +4109,25 @@ export type applications$people_applications_tech_owner_idTopeopleArgs<ExtArgs e
    */
   include?: Prisma.peopleInclude<ExtArgs> | null
   where?: Prisma.peopleWhereInput
+}
+
+/**
+ * applications.users
+ */
+export type applications$usersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the users
+   */
+  select?: Prisma.usersSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the users
+   */
+  omit?: Prisma.usersOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.usersInclude<ExtArgs> | null
+  where?: Prisma.usersWhereInput
 }
 
 /**

@@ -71,10 +71,10 @@ routes.patch('/api/applications/:id', applicationController.update);
 
 // User Management routes
 routes.use('/api/users', requireAuth);
-routes.get('/api/users', requireRole(['OWNER', 'ADMIN']), userController.list);
-routes.post('/api/users', requireRole(['OWNER', 'ADMIN']), userController.create);
-routes.put('/api/users/:id/role', requireRole(['OWNER', 'ADMIN']), userController.updateRole);
-routes.delete('/api/users/:id', requireRole(['OWNER', 'ADMIN']), userController.removeAccess);
-routes.post('/api/users/:id/reset-password', requireRole(['OWNER', 'ADMIN']), userController.resetPassword);
+routes.get('/api/users', requireRole(['OWNER']), userController.list);
+routes.post('/api/users', requireRole(['OWNER']), userController.create);
+routes.put('/api/users/:id/role', requireRole(['OWNER']), userController.updateRole);
+routes.delete('/api/users/:id', requireRole(['OWNER']), userController.removeAccess);
+routes.post('/api/users/:id/reset-password', requireRole(['OWNER']), userController.resetPassword);
 
 export default routes;

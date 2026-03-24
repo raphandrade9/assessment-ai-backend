@@ -60,6 +60,8 @@ export class ApplicationController {
                 const answersCount = latestAssessment?._count?.assessment_answers || 0;
                 const progress = Math.min(Math.round((answersCount / 20) * 100), 100);
 
+                const is_editable = access.role === 'OWNER' || access.role === 'ADMIN' || (access.role === 'EDITOR' && app.created_by_user_id === userId);
+
                 return {
                     id: app.id,
                     name: app.name,
@@ -81,6 +83,8 @@ export class ApplicationController {
                     sensitivity: app.ref_sensitivity_levels,
                     created_at: app.created_at,
                     updated_at: app.updated_at,
+                    created_by_user_id: app.created_by_user_id,
+                    is_editable,
                     operational_status: app.ref_operational_status,
                     assessment: latestAssessment ? {
                         id: latestAssessment.id,
@@ -150,6 +154,8 @@ export class ApplicationController {
             const answersCount = latestAssessment?._count?.assessment_answers || 0;
             const progress = Math.min(Math.round((answersCount / 20) * 100), 100);
 
+            const is_editable = access.role === 'OWNER' || access.role === 'ADMIN' || (access.role === 'EDITOR' && app.created_by_user_id === userId);
+
             const formattedApp = {
                 id: app.id,
                 name: app.name,
@@ -172,6 +178,8 @@ export class ApplicationController {
                 operational_status: app.ref_operational_status,
                 created_at: app.created_at,
                 updated_at: app.updated_at,
+                created_by_user_id: app.created_by_user_id,
+                is_editable,
                 assessment: latestAssessment ? {
                     id: latestAssessment.id,
                     status: latestAssessment.status,
@@ -216,6 +224,10 @@ export class ApplicationController {
                 return res.status(403).json({ error: 'Unauthorized access to this company' });
             }
 
+            if (access.role === 'VIEWER') {
+                return res.status(403).json({ error: 'Unauthorized: Viewers cannot create applications' });
+            }
+
             // Helper to clean empty strings or invalid IDs to null
             const cleanId = (id: any) => (id && id !== '' ? String(id) : null);
             const cleanNumber = (val: any) => (val !== undefined && val !== null && val !== '' ? Number(val) : null);
@@ -233,6 +245,7 @@ export class ApplicationController {
                     criticality_id: cleanNumber(criticality_id),
                     operational_status_id: cleanNumber(operational_status_id),
                     data_sensitivity_id: cleanNumber(data_sensitivity_id),
+                    created_by_user_id: userId,
                 },
             });
 
@@ -252,7 +265,7 @@ export class ApplicationController {
             // 1. Find the application and check access
             const existingApp = await prisma.applications.findUnique({
                 where: { id },
-                select: { company_id: true }
+                select: { company_id: true, created_by_user_id: true }
             });
 
             if (!existingApp) {
@@ -274,6 +287,14 @@ export class ApplicationController {
 
             if (!access) {
                 return res.status(403).json({ error: 'Unauthorized access to this application' });
+            }
+
+            if (access.role === 'VIEWER') {
+                return res.status(403).json({ error: 'Unauthorized: Viewers cannot edit applications' });
+            }
+
+            if (access.role === 'EDITOR' && existingApp.created_by_user_id !== userId) {
+                 return res.status(403).json({ error: 'Unauthorized: Editors can only edit their own applications' });
             }
 
             // 2. Prepare update data - only include fields present in request

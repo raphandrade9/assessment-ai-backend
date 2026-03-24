@@ -110,6 +110,7 @@ export const ApplicationsScalarFieldEnum = {
   has_score: 'has_score',
   has_diagnosis: 'has_diagnosis',
   has_action_plan: 'has_action_plan',
+  created_by_user_id: 'created_by_user_id',
   created_at: 'created_at',
   updated_at: 'updated_at'
 } as const

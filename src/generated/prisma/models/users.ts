@@ -214,6 +214,7 @@ export type usersWhereInput = {
   is_super_admin?: Prisma.BoolNullableFilter<"users"> | boolean | null
   last_login?: Prisma.DateTimeNullableFilter<"users"> | Date | string | null
   created_at?: Prisma.DateTimeNullableFilter<"users"> | Date | string | null
+  applications?: Prisma.ApplicationsListRelationFilter
   tenant_users?: Prisma.Tenant_usersListRelationFilter
   user_company_access?: Prisma.User_company_accessListRelationFilter
 }
@@ -228,6 +229,7 @@ export type usersOrderByWithRelationInput = {
   is_super_admin?: Prisma.SortOrderInput | Prisma.SortOrder
   last_login?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  applications?: Prisma.applicationsOrderByRelationAggregateInput
   tenant_users?: Prisma.tenant_usersOrderByRelationAggregateInput
   user_company_access?: Prisma.user_company_accessOrderByRelationAggregateInput
 }
@@ -245,6 +247,7 @@ export type usersWhereUniqueInput = Prisma.AtLeast<{
   is_super_admin?: Prisma.BoolNullableFilter<"users"> | boolean | null
   last_login?: Prisma.DateTimeNullableFilter<"users"> | Date | string | null
   created_at?: Prisma.DateTimeNullableFilter<"users"> | Date | string | null
+  applications?: Prisma.ApplicationsListRelationFilter
   tenant_users?: Prisma.Tenant_usersListRelationFilter
   user_company_access?: Prisma.User_company_accessListRelationFilter
 }, "id" | "email" | "firebase_uid">
@@ -289,6 +292,7 @@ export type usersCreateInput = {
   is_super_admin?: boolean | null
   last_login?: Date | string | null
   created_at?: Date | string | null
+  applications?: Prisma.applicationsCreateNestedManyWithoutUsersInput
   tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutUsersInput
   user_company_access?: Prisma.user_company_accessCreateNestedManyWithoutUsersInput
 }
@@ -303,6 +307,7 @@ export type usersUncheckedCreateInput = {
   is_super_admin?: boolean | null
   last_login?: Date | string | null
   created_at?: Date | string | null
+  applications?: Prisma.applicationsUncheckedCreateNestedManyWithoutUsersInput
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutUsersInput
   user_company_access?: Prisma.user_company_accessUncheckedCreateNestedManyWithoutUsersInput
 }
@@ -317,6 +322,7 @@ export type usersUpdateInput = {
   is_super_admin?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   last_login?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  applications?: Prisma.applicationsUpdateManyWithoutUsersNestedInput
   tenant_users?: Prisma.tenant_usersUpdateManyWithoutUsersNestedInput
   user_company_access?: Prisma.user_company_accessUpdateManyWithoutUsersNestedInput
 }
@@ -331,6 +337,7 @@ export type usersUncheckedUpdateInput = {
   is_super_admin?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   last_login?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  applications?: Prisma.applicationsUncheckedUpdateManyWithoutUsersNestedInput
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutUsersNestedInput
   user_company_access?: Prisma.user_company_accessUncheckedUpdateManyWithoutUsersNestedInput
 }
@@ -417,6 +424,22 @@ export type usersMinOrderByAggregateInput = {
   created_at?: Prisma.SortOrder
 }
 
+export type usersCreateNestedOneWithoutApplicationsInput = {
+  create?: Prisma.XOR<Prisma.usersCreateWithoutApplicationsInput, Prisma.usersUncheckedCreateWithoutApplicationsInput>
+  connectOrCreate?: Prisma.usersCreateOrConnectWithoutApplicationsInput
+  connect?: Prisma.usersWhereUniqueInput
+}
+
+export type usersUpdateOneWithoutApplicationsNestedInput = {
+  create?: Prisma.XOR<Prisma.usersCreateWithoutApplicationsInput, Prisma.usersUncheckedCreateWithoutApplicationsInput>
+  connectOrCreate?: Prisma.usersCreateOrConnectWithoutApplicationsInput
+  upsert?: Prisma.usersUpsertWithoutApplicationsInput
+  disconnect?: Prisma.usersWhereInput | boolean
+  delete?: Prisma.usersWhereInput | boolean
+  connect?: Prisma.usersWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutApplicationsInput, Prisma.usersUpdateWithoutApplicationsInput>, Prisma.usersUncheckedUpdateWithoutApplicationsInput>
+}
+
 export type usersCreateNestedOneWithoutTenant_usersInput = {
   create?: Prisma.XOR<Prisma.usersCreateWithoutTenant_usersInput, Prisma.usersUncheckedCreateWithoutTenant_usersInput>
   connectOrCreate?: Prisma.usersCreateOrConnectWithoutTenant_usersInput
@@ -447,6 +470,78 @@ export type usersUpdateOneRequiredWithoutUser_company_accessNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutUser_company_accessInput, Prisma.usersUpdateWithoutUser_company_accessInput>, Prisma.usersUncheckedUpdateWithoutUser_company_accessInput>
 }
 
+export type usersCreateWithoutApplicationsInput = {
+  id?: string
+  email: string
+  password_hash?: string | null
+  firebase_uid?: string | null
+  full_name: string
+  avatar_url?: string | null
+  is_super_admin?: boolean | null
+  last_login?: Date | string | null
+  created_at?: Date | string | null
+  tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutUsersInput
+  user_company_access?: Prisma.user_company_accessCreateNestedManyWithoutUsersInput
+}
+
+export type usersUncheckedCreateWithoutApplicationsInput = {
+  id?: string
+  email: string
+  password_hash?: string | null
+  firebase_uid?: string | null
+  full_name: string
+  avatar_url?: string | null
+  is_super_admin?: boolean | null
+  last_login?: Date | string | null
+  created_at?: Date | string | null
+  tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutUsersInput
+  user_company_access?: Prisma.user_company_accessUncheckedCreateNestedManyWithoutUsersInput
+}
+
+export type usersCreateOrConnectWithoutApplicationsInput = {
+  where: Prisma.usersWhereUniqueInput
+  create: Prisma.XOR<Prisma.usersCreateWithoutApplicationsInput, Prisma.usersUncheckedCreateWithoutApplicationsInput>
+}
+
+export type usersUpsertWithoutApplicationsInput = {
+  update: Prisma.XOR<Prisma.usersUpdateWithoutApplicationsInput, Prisma.usersUncheckedUpdateWithoutApplicationsInput>
+  create: Prisma.XOR<Prisma.usersCreateWithoutApplicationsInput, Prisma.usersUncheckedCreateWithoutApplicationsInput>
+  where?: Prisma.usersWhereInput
+}
+
+export type usersUpdateToOneWithWhereWithoutApplicationsInput = {
+  where?: Prisma.usersWhereInput
+  data: Prisma.XOR<Prisma.usersUpdateWithoutApplicationsInput, Prisma.usersUncheckedUpdateWithoutApplicationsInput>
+}
+
+export type usersUpdateWithoutApplicationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  firebase_uid?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  avatar_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_super_admin?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  last_login?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tenant_users?: Prisma.tenant_usersUpdateManyWithoutUsersNestedInput
+  user_company_access?: Prisma.user_company_accessUpdateManyWithoutUsersNestedInput
+}
+
+export type usersUncheckedUpdateWithoutApplicationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  firebase_uid?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  avatar_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_super_admin?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  last_login?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutUsersNestedInput
+  user_company_access?: Prisma.user_company_accessUncheckedUpdateManyWithoutUsersNestedInput
+}
+
 export type usersCreateWithoutTenant_usersInput = {
   id?: string
   email: string
@@ -457,6 +552,7 @@ export type usersCreateWithoutTenant_usersInput = {
   is_super_admin?: boolean | null
   last_login?: Date | string | null
   created_at?: Date | string | null
+  applications?: Prisma.applicationsCreateNestedManyWithoutUsersInput
   user_company_access?: Prisma.user_company_accessCreateNestedManyWithoutUsersInput
 }
 
@@ -470,6 +566,7 @@ export type usersUncheckedCreateWithoutTenant_usersInput = {
   is_super_admin?: boolean | null
   last_login?: Date | string | null
   created_at?: Date | string | null
+  applications?: Prisma.applicationsUncheckedCreateNestedManyWithoutUsersInput
   user_company_access?: Prisma.user_company_accessUncheckedCreateNestedManyWithoutUsersInput
 }
 
@@ -499,6 +596,7 @@ export type usersUpdateWithoutTenant_usersInput = {
   is_super_admin?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   last_login?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  applications?: Prisma.applicationsUpdateManyWithoutUsersNestedInput
   user_company_access?: Prisma.user_company_accessUpdateManyWithoutUsersNestedInput
 }
 
@@ -512,6 +610,7 @@ export type usersUncheckedUpdateWithoutTenant_usersInput = {
   is_super_admin?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   last_login?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  applications?: Prisma.applicationsUncheckedUpdateManyWithoutUsersNestedInput
   user_company_access?: Prisma.user_company_accessUncheckedUpdateManyWithoutUsersNestedInput
 }
 
@@ -525,6 +624,7 @@ export type usersCreateWithoutUser_company_accessInput = {
   is_super_admin?: boolean | null
   last_login?: Date | string | null
   created_at?: Date | string | null
+  applications?: Prisma.applicationsCreateNestedManyWithoutUsersInput
   tenant_users?: Prisma.tenant_usersCreateNestedManyWithoutUsersInput
 }
 
@@ -538,6 +638,7 @@ export type usersUncheckedCreateWithoutUser_company_accessInput = {
   is_super_admin?: boolean | null
   last_login?: Date | string | null
   created_at?: Date | string | null
+  applications?: Prisma.applicationsUncheckedCreateNestedManyWithoutUsersInput
   tenant_users?: Prisma.tenant_usersUncheckedCreateNestedManyWithoutUsersInput
 }
 
@@ -567,6 +668,7 @@ export type usersUpdateWithoutUser_company_accessInput = {
   is_super_admin?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   last_login?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  applications?: Prisma.applicationsUpdateManyWithoutUsersNestedInput
   tenant_users?: Prisma.tenant_usersUpdateManyWithoutUsersNestedInput
 }
 
@@ -580,6 +682,7 @@ export type usersUncheckedUpdateWithoutUser_company_accessInput = {
   is_super_admin?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   last_login?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  applications?: Prisma.applicationsUncheckedUpdateManyWithoutUsersNestedInput
   tenant_users?: Prisma.tenant_usersUncheckedUpdateManyWithoutUsersNestedInput
 }
 
@@ -589,11 +692,13 @@ export type usersUncheckedUpdateWithoutUser_company_accessInput = {
  */
 
 export type UsersCountOutputType = {
+  applications: number
   tenant_users: number
   user_company_access: number
 }
 
 export type UsersCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  applications?: boolean | UsersCountOutputTypeCountApplicationsArgs
   tenant_users?: boolean | UsersCountOutputTypeCountTenant_usersArgs
   user_company_access?: boolean | UsersCountOutputTypeCountUser_company_accessArgs
 }
@@ -606,6 +711,13 @@ export type UsersCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extens
    * Select specific fields to fetch from the UsersCountOutputType
    */
   select?: Prisma.UsersCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * UsersCountOutputType without action
+ */
+export type UsersCountOutputTypeCountApplicationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.applicationsWhereInput
 }
 
 /**
@@ -633,6 +745,7 @@ export type usersSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   is_super_admin?: boolean
   last_login?: boolean
   created_at?: boolean
+  applications?: boolean | Prisma.users$applicationsArgs<ExtArgs>
   tenant_users?: boolean | Prisma.users$tenant_usersArgs<ExtArgs>
   user_company_access?: boolean | Prisma.users$user_company_accessArgs<ExtArgs>
   _count?: boolean | Prisma.UsersCountOutputTypeDefaultArgs<ExtArgs>
@@ -676,6 +789,7 @@ export type usersSelectScalar = {
 
 export type usersOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "password_hash" | "firebase_uid" | "full_name" | "avatar_url" | "is_super_admin" | "last_login" | "created_at", ExtArgs["result"]["users"]>
 export type usersInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  applications?: boolean | Prisma.users$applicationsArgs<ExtArgs>
   tenant_users?: boolean | Prisma.users$tenant_usersArgs<ExtArgs>
   user_company_access?: boolean | Prisma.users$user_company_accessArgs<ExtArgs>
   _count?: boolean | Prisma.UsersCountOutputTypeDefaultArgs<ExtArgs>
@@ -686,6 +800,7 @@ export type usersIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
 export type $usersPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "users"
   objects: {
+    applications: Prisma.$applicationsPayload<ExtArgs>[]
     tenant_users: Prisma.$tenant_usersPayload<ExtArgs>[]
     user_company_access: Prisma.$user_company_accessPayload<ExtArgs>[]
   }
@@ -1093,6 +1208,7 @@ readonly fields: usersFieldRefs;
  */
 export interface Prisma__usersClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  applications<T extends Prisma.users$applicationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$applicationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$applicationsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   tenant_users<T extends Prisma.users$tenant_usersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$tenant_usersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$tenant_usersPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   user_company_access<T extends Prisma.users$user_company_accessArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$user_company_accessArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$user_company_accessPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
@@ -1518,6 +1634,30 @@ export type usersDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
    * Limit how many users to delete.
    */
   limit?: number
+}
+
+/**
+ * users.applications
+ */
+export type users$applicationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the applications
+   */
+  select?: Prisma.applicationsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the applications
+   */
+  omit?: Prisma.applicationsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.applicationsInclude<ExtArgs> | null
+  where?: Prisma.applicationsWhereInput
+  orderBy?: Prisma.applicationsOrderByWithRelationInput | Prisma.applicationsOrderByWithRelationInput[]
+  cursor?: Prisma.applicationsWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ApplicationsScalarFieldEnum | Prisma.ApplicationsScalarFieldEnum[]
 }
 
 /**
