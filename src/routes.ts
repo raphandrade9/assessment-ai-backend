@@ -61,6 +61,7 @@ routes.delete('/api/sub-areas/:id', businessAreaController.deleteSubArea);
 routes.get('/api/references/archetypes', referenceController.getArchetypes);
 routes.get('/api/references/technical-levels', referenceController.getTechnicalLevels);
 routes.get('/api/references/business-levels', referenceController.getBusinessLevels);
+routes.get('/api/references/operational-status', referenceController.getOperationalStatus);
 
 // Application routes
 routes.get('/api/applications', applicationController.list);

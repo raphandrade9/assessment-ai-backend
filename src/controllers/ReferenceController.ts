@@ -37,4 +37,17 @@ export class ReferenceController {
             return res.status(500).json({ error: 'Internal server error' });
         }
     }
+
+    async getOperationalStatus(req: Request, res: Response) {
+        try {
+            const statuses = await prisma.ref_operational_status.findMany({
+                where: { is_active: true },
+                orderBy: { id: 'asc' }
+            });
+            return res.json(statuses);
+        } catch (error) {
+            console.error('Error fetching operational statuses:', error);
+            return res.status(500).json({ error: 'Internal server error' });
+        }
+    }
 }
