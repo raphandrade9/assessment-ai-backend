@@ -31,6 +31,10 @@ routes.get('/api/assessment/:id', assessmentController.getById);
 routes.post('/api/assessment/init', assessmentController.init);
 routes.put('/api/assessment/:id/answers', assessmentController.saveAnswer);
 routes.post('/api/assessment/:id/finalize', assessmentController.finalize);
+routes.post('/api/assessment/:id/conclude', assessmentController.conclude);
+routes.post('/api/assessment/:id/reopen', assessmentController.reopen);
+routes.post('/api/applications/:id/assessments/new-version', assessmentController.newVersion);
+routes.get('/api/applications/:id/assessments', assessmentController.listApplicationHistory);
 
 // Company routes
 routes.get('/api/companies', companyController.list);
@@ -62,6 +66,9 @@ routes.get('/api/references/archetypes', referenceController.getArchetypes);
 routes.get('/api/references/technical-levels', referenceController.getTechnicalLevels);
 routes.get('/api/references/business-levels', referenceController.getBusinessLevels);
 routes.get('/api/references/operational-status', referenceController.getOperationalStatus);
+routes.get('/api/references/data-sensitivities', referenceController.getDataSensitivities);
+routes.get('/api/references/criticalities', referenceController.getCriticalities);
+routes.get('/api/references/risk-status', referenceController.getRiskStatus);
 
 // Application routes
 routes.get('/api/applications', applicationController.list);

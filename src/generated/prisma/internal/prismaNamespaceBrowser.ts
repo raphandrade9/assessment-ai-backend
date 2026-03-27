@@ -185,6 +185,8 @@ export const AssessmentsScalarFieldEnum = {
   template_id: 'template_id',
   respondent_person_id: 'respondent_person_id',
   status: 'status',
+  version_number: 'version_number',
+  is_locked: 'is_locked',
   calculated_score: 'calculated_score',
   started_at: 'started_at',
   finished_at: 'finished_at'

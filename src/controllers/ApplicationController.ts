@@ -43,7 +43,6 @@ export class ApplicationController {
                     people_applications_tech_owner_idTopeople: { select: { id: true, name: true } },
                     assessments: {
                         orderBy: { started_at: 'desc' },
-                        take: 1,
                         include: {
                             _count: {
                                 select: { assessment_answers: true }
@@ -56,6 +55,7 @@ export class ApplicationController {
             // Format response to match required structure
             const formattedApps = (applications as any[]).map(app => {
                 const latestAssessment = app.assessments[0];
+                const latestCompletedAssessment = app.assessments.find((a: any) => a.status === 'COMPLETED') || latestAssessment;
 
                 const answersCount = latestAssessment?._count?.assessment_answers || 0;
                 const progress = Math.min(Math.round((answersCount / 20) * 100), 100);
@@ -90,8 +90,10 @@ export class ApplicationController {
                         id: latestAssessment.id,
                         status: latestAssessment.status,
                         progress: progress,
-                        maturity_score: calculateMaturityPercentage(Number(latestAssessment.calculated_score || 0)),
-                        completed_at: latestAssessment.finished_at
+                        maturity_score: calculateMaturityPercentage(Number(latestCompletedAssessment?.calculated_score || 0)),
+                        completed_at: latestCompletedAssessment?.finished_at || latestAssessment.finished_at,
+                        is_locked: latestAssessment.is_locked,
+                        version_number: latestAssessment.version_number
                     } : null
                 };
             });
@@ -122,7 +124,6 @@ export class ApplicationController {
                     people_applications_tech_owner_idTopeople: { select: { id: true, name: true } },
                     assessments: {
                         orderBy: { started_at: 'desc' },
-                        take: 1,
                         include: {
                             _count: {
                                 select: { assessment_answers: true }
@@ -151,6 +152,8 @@ export class ApplicationController {
             }
 
             const latestAssessment = app.assessments[0];
+            const latestCompletedAssessment = app.assessments.find((a: any) => a.status === 'COMPLETED') || latestAssessment;
+            
             const answersCount = latestAssessment?._count?.assessment_answers || 0;
             const progress = Math.min(Math.round((answersCount / 20) * 100), 100);
 
@@ -184,8 +187,10 @@ export class ApplicationController {
                     id: latestAssessment.id,
                     status: latestAssessment.status,
                     progress: progress,
-                    maturity_score: calculateMaturityPercentage(Number(latestAssessment.calculated_score || 0)),
-                    completed_at: latestAssessment.finished_at
+                    maturity_score: calculateMaturityPercentage(Number(latestCompletedAssessment?.calculated_score || 0)),
+                    completed_at: latestCompletedAssessment?.finished_at || latestAssessment.finished_at,
+                    is_locked: latestAssessment.is_locked,
+                    version_number: latestAssessment.version_number
                 } : null
             };
 

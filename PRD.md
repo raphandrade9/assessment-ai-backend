@@ -42,9 +42,12 @@ Para atender às rigorosas exigências do front de visualização em painéis in
 Rotas de dados auxiliares (`/api/references/...`) fornecem dicionários dinâmicos de dados para preenchimento de formulários UI (Pickers, Selects, Dropdowns).
 Destaque para a Gestão do Ciclo de Vida real (`operational_status`) povoado nativamente na inicialização via Banco de Dados (Seed upsert resiliente), filtrando no endpoint aqueles valores inativos.
 
-### 4.6. Assessments (Avaliações Computadas)
+### 4.6. Assessments (Avaliações Computadas) e Versionamento
 Avaliações lançadas para as Aplicações e respondidas por Indivíduos. O backend cuida de interações como Init, Save Answers e Finalize. Todo assessment carrega status e pontuações calculadas localmente antes do Dispatch.
 - Em relacionamentos aninhados expostos na requisição, ele insere ativamente o valor `completed_at` originado das triggers de `finished_at`.
+- **Versionamento Dinâmico:** Aplicações maduras passam por múltiplas rodadas de avaliação ao longo do tempo. O sistema oferece suporte à criação de **Novas Versões** de um assessment para a mesma aplicação (`/api/applications/:id/assessments/new-version`). Cada assessment mapeia sequencialmente o seu número (`version_number` - Inteiro no DB).
+- **Encerramento Definitivo:** Para proteger a integridade histórica de assessments anteriores, há o estado Trancado/Travado de Conclusão (`is_locked: true`). Quando neste estado, **ninguém** pode editar respostas de um Assessment a não ser efetuando uma "Reabertura" explicitamente através de API (`/api/assessment/:id/reopen`) que exige **Privilégio Exclusivo (OWNER/ADMIN)**.
+- **Gráficos Comparativos Históricos e Lifecycle Dinâmico:** O frontend obtém no mesmo payload o progresso (das versões em andamento, `IN_PROGRESS`) mesclado com a Pontuação de Maturidade do último *Assessment Concluído*. Dessa forma, se permite comparar graficamente resultados iterativos sem perder o senso de continuidade ativa de uma nova transição.
 
 ---
 

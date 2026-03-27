@@ -142,6 +142,7 @@ export class AssessmentController {
     async saveAnswer(req: Request, res: Response) {
         const assessmentId = req.params.id as string;
         const { question_id, selected_option_id } = req.body;
+        const userId = req.user.id;
 
         try {
             if (!question_id || !selected_option_id) {
@@ -153,6 +154,23 @@ export class AssessmentController {
 
             if (isNaN(qId) || isNaN(optId)) {
                 return res.status(400).json({ error: 'Invalid question_id or selected_option_id format' });
+            }
+
+            // Validação de RBAC e Lock
+            const assessment = await prisma.assessments.findUnique({
+                where: { id: assessmentId },
+                include: { applications: { include: { companies: { include: { user_company_access: { where: { user_id: userId } } } } } } }
+            });
+
+            if (!assessment || !assessment.applications?.companies?.user_company_access.length) {
+                return res.status(403).json({ error: 'Unauthorized access' });
+            }
+
+            if (assessment.is_locked) {
+                const role = assessment.applications.companies.user_company_access[0].role;
+                if (role === 'EDITOR') {
+                    return res.status(403).json({ error: 'Assessment is locked. Editors cannot modify answers.' });
+                }
             }
 
             // Snapshot de pontuação: Buscamos o valor da opção antes de salvar
@@ -201,8 +219,26 @@ export class AssessmentController {
     async finalize(req: Request, res: Response) {
         const assessmentId = req.params.id as string;
         const { answers } = req.body;
+        const userId = req.user.id;
 
         try {
+            // Validação de RBAC e Lock
+            const assessmentCheck = await prisma.assessments.findUnique({
+                where: { id: assessmentId },
+                include: { applications: { include: { companies: { include: { user_company_access: { where: { user_id: userId } } } } } } }
+            });
+
+            if (!assessmentCheck || !assessmentCheck.applications?.companies?.user_company_access.length) {
+                return res.status(403).json({ error: 'Unauthorized access' });
+            }
+
+            if (assessmentCheck.is_locked) {
+                const role = assessmentCheck.applications.companies.user_company_access[0].role;
+                if (role === 'EDITOR') {
+                    return res.status(403).json({ error: 'Assessment is locked. Editors cannot finalize.' });
+                }
+            }
+
             const result = await prisma.$transaction(async (tx) => {
                 // a) Upsert em massa se vierem respostas no payload (backup do auto-save)
                 if (answers && Array.isArray(answers)) {
@@ -341,6 +377,9 @@ export class AssessmentController {
                     axis_analysis: axisAnalysis,
                     action_plan: diagnosis.action_plan
                 };
+            }, {
+                maxWait: 10000, 
+                timeout: 30000 
             });
 
             return res.json(result);
@@ -351,6 +390,183 @@ export class AssessmentController {
                 stack: error.stack
             });
             return res.status(500).json({ error: 'Failed to finalize assessment', details: error.message });
+        }
+    }
+
+    // 4. POST /api/assessment/:id/conclude
+    async conclude(req: Request, res: Response) {
+        const assessmentId = req.params.id as string;
+        const userId = req.user.id;
+
+        try {
+            const assessment = await prisma.assessments.findUnique({
+                where: { id: assessmentId },
+                include: { applications: { include: { companies: { include: { user_company_access: { where: { user_id: userId } } } } } } }
+            });
+
+            if (!assessment || !assessment.applications?.companies?.user_company_access.length) {
+                return res.status(403).json({ error: 'Unauthorized access' });
+            }
+
+            const role = assessment.applications.companies.user_company_access[0].role;
+            if (role === 'EDITOR') {
+                return res.status(403).json({ error: 'Editors cannot conclude assessments' });
+            }
+
+            const updated = await prisma.assessments.update({
+                where: { id: assessmentId },
+                data: {
+                    is_locked: true,
+                    status: 'COMPLETED',
+                    ...( !assessment.finished_at ? { finished_at: new Date() } : {} )
+                }
+            });
+
+            return res.json(updated);
+        } catch (error) {
+            console.error('Conclude Assessment Error:', error);
+            return res.status(500).json({ error: 'Internal server error' });
+        }
+    }
+
+    // 4.1 POST /api/assessment/:id/reopen
+    reopen = async (req: any, res: any) => {
+        try {
+            const { id } = req.params;
+            const userId = req.user.id;
+
+            const assessment = await prisma.assessments.findUnique({
+                where: { id },
+                include: { applications: true }
+            });
+
+            if (!assessment || !assessment.applications?.company_id) {
+                return res.status(404).json({ error: 'Assessment not found' });
+            }
+
+            const access = await prisma.user_company_access.findUnique({
+                where: {
+                    user_id_company_id: {
+                        user_id: userId,
+                        company_id: String(assessment.applications.company_id),
+                    },
+                },
+            });
+
+            if (!access || (access.role !== 'OWNER' && access.role !== 'ADMIN')) {
+                return res.status(403).json({ error: 'Unauthorized: Only Admins or Owners can reopen an assessment' });
+            }
+
+            const updatedAssessment = await prisma.assessments.update({
+                where: { id },
+                data: {
+                    is_locked: false
+                }
+            });
+
+            return res.json(updatedAssessment);
+        } catch (error) {
+            console.error('Reopen Assessment Error:', error);
+            return res.status(500).json({ error: 'Internal server error' });
+        }
+    }
+
+    // 5. POST /api/applications/:id/assessments/new-version
+    async newVersion(req: Request, res: Response) {
+        const applicationId = req.params.id as string;
+        const userId = req.user.id;
+
+        try {
+            const application = await prisma.applications.findUnique({
+                where: { id: applicationId },
+                include: { companies: { include: { user_company_access: { where: { user_id: userId } } } } }
+            });
+
+            if (!application || !application.companies?.user_company_access.length) {
+                return res.status(403).json({ error: 'Unauthorized access to application' });
+            }
+
+            // Permissão para nova versão (Opcional: Editores podem? Sim, geralmente)
+
+            const lastAssessment = await prisma.assessments.findFirst({
+                where: { application_id: applicationId },
+                orderBy: { version_number: 'desc' },
+                include: { assessment_answers: true }
+            });
+
+            if (!lastAssessment) {
+                return res.status(404).json({ error: 'No previous assessment found to version' });
+            }
+
+            let nextVersion = (lastAssessment.version_number || 1) + 1;
+
+            const newAssessment = await prisma.assessments.create({
+                data: {
+                    application_id: applicationId,
+                    template_id: lastAssessment.template_id,
+                    respondent_person_id: lastAssessment.respondent_person_id,
+                    status: assessment_status_enum.IN_PROGRESS,
+                    started_at: new Date(),
+                    version_number: nextVersion,
+                    is_locked: false,
+                }
+            });
+
+            if (lastAssessment.assessment_answers && lastAssessment.assessment_answers.length > 0) {
+                const newAnswers = lastAssessment.assessment_answers.map(ans => ({
+                    assessment_id: newAssessment.id,
+                    question_id: ans.question_id,
+                    selected_option_id: ans.selected_option_id,
+                    score_awarded: ans.score_awarded,
+                    open_text_answer: ans.open_text_answer,
+                    comment: ans.comment
+                }));
+                
+                await prisma.assessment_answers.createMany({
+                    data: newAnswers
+                });
+            }
+
+            const freshAssessment = await prisma.assessments.findUnique({
+                where: { id: newAssessment.id },
+                include: { assessment_answers: true }
+            });
+
+            return res.status(201).json(freshAssessment);
+        } catch (error) {
+            console.error('New Version Assessment Error:', error);
+            return res.status(500).json({ error: 'Internal server error' });
+        }
+    }
+
+    // 6. GET /api/applications/:id/assessments
+    async listApplicationHistory(req: Request, res: Response) {
+        const applicationId = req.params.id as string;
+        const userId = req.user.id;
+
+        try {
+            // Validar RBAC para a aplicação
+            const application = await prisma.applications.findUnique({
+                where: { id: applicationId },
+                include: { companies: { include: { user_company_access: { where: { user_id: userId } } } } }
+            });
+
+            if (!application || !application.companies?.user_company_access.length) {
+                return res.status(403).json({ error: 'Unauthorized access to application' });
+            }
+
+            const historicalAssessments = await prisma.assessments.findMany({
+                where: { application_id: applicationId },
+                orderBy: { version_number: 'desc' },
+                include: {
+                    assessment_diagnosis: true,
+                }
+            });
+
+            return res.json(historicalAssessments);
+        } catch (error) {
+            console.error('List Application History Error:', error);
+            return res.status(500).json({ error: 'Internal server error' });
         }
     }
 }

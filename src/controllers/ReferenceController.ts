@@ -50,4 +50,34 @@ export class ReferenceController {
             return res.status(500).json({ error: 'Internal server error' });
         }
     }
+
+    async getDataSensitivities(req: Request, res: Response) {
+        try {
+            const items = await prisma.ref_sensitivity_levels.findMany({ orderBy: { id: 'asc' } });
+            return res.json(items);
+        } catch (error) {
+            console.error('Error fetching data sensitivities:', error);
+            return res.status(500).json({ error: 'Internal server error' });
+        }
+    }
+
+    async getCriticalities(req: Request, res: Response) {
+        try {
+            const items = await prisma.ref_business_criticality.findMany({ orderBy: { id: 'asc' } });
+            return res.json(items);
+        } catch (error) {
+            console.error('Error fetching criticalities:', error);
+            return res.status(500).json({ error: 'Internal server error' });
+        }
+    }
+
+    async getRiskStatus(req: Request, res: Response) {
+        try {
+            const items = await prisma.ref_risk_status.findMany({ orderBy: { id: 'asc' } });
+            return res.json(items);
+        } catch (error) {
+            console.error('Error fetching risk status:', error);
+            return res.status(500).json({ error: 'Internal server error' });
+        }
+    }
 }
